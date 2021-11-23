@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import events.Result;
+
 /**
  * A class to represent a football team in a league
  */
@@ -12,7 +14,7 @@ public class Team implements Serializable {
 	// Attributes
 	private String teamName;
 	private Stadium homeGround;
-	private LinkedList results;
+	private LinkedList<Result> results = new LinkedList<Result>();
 	private int gamesWon;
 	private int gamesLost;
 	private int gamesDrew;
@@ -47,6 +49,10 @@ public class Team implements Serializable {
 		// unimplemented
 	}
 	
+	public void addResult(Result r) {
+		results.add(r);
+	}
+	
 	// Getters
 	
 	public String getTeamName() {
@@ -57,7 +63,7 @@ public class Team implements Serializable {
 		return homeGround;
 	}
 
-	public LinkedList getResults() {
+	public LinkedList<Result> getResults() {
 		return results;
 	}
 
