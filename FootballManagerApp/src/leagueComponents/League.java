@@ -5,24 +5,28 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;import java.io.OutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.nio.CharBuffer;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
+import events.Result;
+import interfaces.HasResults;
 import interfaces.Reader;
 import interfaces.Saveable;
+import interfaces.StatisticsCalculator;
 
 /**
  * A class to represent a football league, consisting of teams and their results
  * @author Jack
  *
  */
-public class League implements Serializable, Saveable, Reader {
+public class League implements Serializable, Saveable, Reader, StatisticsCalculator, HasResults {
 
 	// Attributes
 	private String name; // Name of the football league
 	private ArrayList<Team> teams = new ArrayList<Team>(); // Initialised as an empty array by default so teams can be added
+	private LinkedList<Result> results = new LinkedList<Result>();
 	
 	// Constructors
 	/**
@@ -46,6 +50,14 @@ public class League implements Serializable, Saveable, Reader {
 	 */
 	public void addTeam(Team team) {
 		teams.add(team);
+	}
+	
+	/**
+	 * Adds a result to the ArrayList of results in the league
+	 * @param team : The result to be added to the league
+	 */
+	public void addResult(Result result) {
+		results.add(result);
 	}
 	
 	@Override
@@ -81,6 +93,61 @@ public class League implements Serializable, Saveable, Reader {
 	 */
 	public ArrayList<Team> getTeams() {
 		return teams;
+	}
+	
+	/**
+	 * @return An ArrayList of results in the league
+	 */
+	public LinkedList<Result> getResults() {
+		return results;
+	}
+
+	@Override
+	public Player topGoalScorer() {
+		if(getTeams().size() == 0) {			
+			return null;
+		} else {
+			Player topGoalScorer = teams.get(0).topGoalScorer();
+			for(Team team: teams) {
+				if (team.topGoalScorer().getGoalsScored() > topGoalScorer.getGoalsScored()) {
+					topGoalScorer = team.topGoalScorer();
+				}
+			}
+			return topGoalScorer;
+		}
+	}
+
+	@Override
+	public Player topAssister() {
+		if(getTeams().size() == 0) {			
+			return null;
+		} else {
+			Player topAssister = teams.get(0).topAssister();
+			for(Team team: teams) {
+				if (team.topAssister().getAssistsMade() > topAssister.getAssistsMade()) {
+					topAssister = team.topAssister();
+				}
+			}
+			return topAssister;
+		}
+	}
+
+	@Override
+	public int totalGoalsScored() {
+		int totalGoalsScored = 0;
+		for(Team team : teams) {
+			totalGoalsScored += team.totalGoalsScored();
+		}
+		return totalGoalsScored;
+	}
+
+	@Override
+	public int totalCardsGiven() {
+		int totalCardsGiven = 0;
+		for(Team team : teams) {
+			totalCardsGiven += team.totalCardsGiven();
+		}
+		return totalCardsGiven;
 	}
 	
 }

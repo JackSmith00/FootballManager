@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import events.Result;
+import interfaces.HasResults;
+import interfaces.StatisticsCalculator;
 
 /**
  * A class to represent a football team in a league
  * 
  * @author Jack
  */
-public class Team implements Serializable {
+public class Team implements Serializable, StatisticsCalculator, HasResults {
 	
 	// Attributes
 	private String teamName;
@@ -160,6 +162,54 @@ public class Team implements Serializable {
 	 */
 	public ArrayList<Referee> getReferees() {
 		return referees;
+	}
+
+	@Override
+	public Player topGoalScorer() {
+		if(getPlayers().size() == 0) {			
+			return null;
+		} else {
+			Player topGoalScorer = players.get(0);
+			for(Player player: players) {
+				if (player.getGoalsScored() > topGoalScorer.getGoalsScored()) {
+					topGoalScorer = player;
+				}
+			}
+			return topGoalScorer;
+		}
+	}
+
+	@Override
+	public Player topAssister() {
+		if(getPlayers().size() == 0) {			
+			return null;
+		} else {
+			Player topAssister = players.get(0);
+			for(Player player: players) {
+				if (player.getAssistsMade() > topAssister.getAssistsMade()) {
+					topAssister = player;
+				}
+			}
+			return topAssister;
+		}
+	}
+
+	@Override
+	public int totalGoalsScored() {
+		int totalGoalsScored = 0;
+		for(Player player : players) {
+			totalGoalsScored += player.getGoalsScored();
+		}
+		return totalGoalsScored;
+	}
+
+	@Override
+	public int totalCardsGiven() {
+		int totalCardsGiven = 0;
+		for(Player player : players) {
+			totalCardsGiven += player.getCardsGiven();
+		}
+		return totalCardsGiven;
 	}
 	
 }

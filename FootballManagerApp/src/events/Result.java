@@ -48,6 +48,14 @@ public class Result implements Serializable {
 	}
 	
 	// Methods
+	/**
+	 * Gets a string representation of the score of the game
+	 * @return The home team in the game
+	 */
+	public String scoreString() {
+		return homeScore + "-" + awayScore;
+	}
+	
 	// Getters
 	/**
 	 * @return The home team in the game
