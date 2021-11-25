@@ -2,10 +2,13 @@ package gui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -20,7 +23,7 @@ import leagueComponents.Player;
 import leagueComponents.Referee;
 import leagueComponents.Team;
 
-public class FootballManagerGUI implements MouseListener {
+public class FootballManagerGUI implements MouseListener, ActionListener {
 	
 	// Attributes
 	private JFrame frame;
@@ -134,21 +137,53 @@ public class FootballManagerGUI implements MouseListener {
 		
 	}
 	
+	public void addNewTeam(League league) {
+		
+	}
+	
 	public void setUpTeamPage(Team team) {
 		GridBagLayout layout = new GridBagLayout();
 		layout.rowHeights = new int[] {120, 150, 150};
-		layout.columnWeights = new double[]{2.0, 3.0, 2.0};
+		layout.columnWidths = new int[] {200, 360, 260};
 		teamPage = new JPanel(layout); // create a panel with a gridbag layout
 		GridBagConstraints constraints = new GridBagConstraints(); // Constraints will be used for all items but with updated values
 		
 		updateTeamInfoTable(team);
-		JScrollPane teamInfoPane = new JScrollPane(teamInfoTable);
+		teamInfoTable.setTableHeader(null); // https://stackoverflow.com/questions/2528643/jtable-without-a-header
+		JLabel teamName = new JLabel(team.getTeamName());
+		JScrollPane teamInfoScrollPane = new JScrollPane(teamInfoTable);
+		
+		JPanel teamInfoPanel = new JPanel(new GridLayout(2, 1)); // https://stackoverflow.com/questions/60122088/java-swing-13-gridlayout-does-not-exist
+		teamInfoPanel.add(teamName);
+		teamName.setHorizontalAlignment(JLabel.CENTER); // https://www.youtube.com/watch?v=Kmgo00avvEw&t=1698s
+		teamInfoPanel.add(teamInfoScrollPane);
+		
 		
 		updateCoachingStaffTable(team);
-		JScrollPane coachPane = new JScrollPane(coachingStaffTable);
+		JLabel coachTableTitle = new JLabel("Coaching Staff");
+		JScrollPane coachScrollPane = new JScrollPane(coachingStaffTable);
+		JButton addCoachStaffButton = new JButton("Add Coaching Staff");
+		addCoachStaffButton.addActionListener(this);
+		
+		JPanel coachPanel = new JPanel(new GridLayout(3, 1));
+		coachPanel.add(coachTableTitle);
+		coachTableTitle.setHorizontalAlignment(JLabel.CENTER); // https://www.youtube.com/watch?v=Kmgo00avvEw&t=1698s
+		coachPanel.add(coachScrollPane);
+		coachPanel.add(addCoachStaffButton);
+		
 		
 		updateRefereeTable(team);
-		JScrollPane refereePane = new JScrollPane(refereeTable);
+		JLabel refereeTableTitle = new JLabel("Referees");
+		JScrollPane refereeScrollPane = new JScrollPane(refereeTable);
+		JButton addRefereeButton = new JButton("Add Referee");
+		addRefereeButton.addActionListener(this);
+		
+		JPanel refereePanel = new JPanel(new GridLayout(3, 1));
+		refereePanel.add(refereeTableTitle);
+		refereeTableTitle.setHorizontalAlignment(JLabel.CENTER); // https://www.youtube.com/watch?v=Kmgo00avvEw&t=1698s
+		refereePanel.add(refereeScrollPane);
+		refereePanel.add(addRefereeButton);
+		
 		
 		updatePlayerTable(team);
 		playerTable.addMouseListener(this);
@@ -169,13 +204,13 @@ public class FootballManagerGUI implements MouseListener {
 		 * has a higher x/y value
 		 */
 		constraints.fill = GridBagConstraints.BOTH; // Allows the component to resize to fill the required space for its cells
-		teamPage.add(teamInfoPane, constraints);
+		teamPage.add(teamInfoPanel, constraints);
 		
 		constraints.gridy = 1;
-		teamPage.add(coachPane, constraints);
+		teamPage.add(coachPanel, constraints);
 		
 		constraints.gridy = 2;
-		teamPage.add(refereePane, constraints);
+		teamPage.add(refereePanel, constraints);
 		
 		constraints.gridx = 1;
 		constraints.gridy = 0;
@@ -270,6 +305,12 @@ public class FootballManagerGUI implements MouseListener {
 	}
 	
 	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		JTable table = (JTable) e.getSource();
 		Point point = e.getPoint();
@@ -301,5 +342,6 @@ public class FootballManagerGUI implements MouseListener {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }
