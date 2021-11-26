@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -9,10 +8,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import javax.swing.*;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import events.Result;
 import interfaces.HasResults;
@@ -64,7 +64,7 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		setUpLeaguePage(); // Separate method to set up all components for the GUI
 		setUpTeamPage(currentLeague.getTeams().get(0));
 		frame.getContentPane().add(teamPage); // Adds all components to the frame
-		frame.setBounds(100, 100, 960, 600);
+		frame.setBounds(100, 100, 900, 600);
 		/*
 		 * The line below makes the frame appear in the centre of the
 		 * screen rather than in the top left, for a nicer user experience
@@ -143,69 +143,111 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 	
 	public void setUpTeamPage(Team team) {
 		GridBagLayout layout = new GridBagLayout();
-		layout.rowHeights = new int[] {120, 150, 150};
+		layout.rowHeights = new int[] {25, 120, 45, 130, 25, 45, 130, 25};
 		layout.columnWidths = new int[] {200, 360, 260};
 		teamPage = new JPanel(layout); // create a panel with a gridbag layout
 		GridBagConstraints constraints = new GridBagConstraints(); // Constraints will be used for all items but with updated values
 		
 		updateTeamInfoTable(team);
 		teamInfoTable.setTableHeader(null); // https://stackoverflow.com/questions/2528643/jtable-without-a-header
-		//teamInfoTable.setPreferredScrollableViewportSize(new Dimension(200, 100)); // https://coderanch.com/t/336316/java/JScrollPane-packed-content
-		TablePaneWithTitle teamInfoPanel = new TablePaneWithTitle(teamInfoTable, team.getTeamName());
+		JLabel teamName = new JLabel(team.getTeamName());
+		teamName.setHorizontalAlignment(JLabel.CENTER); // https://www.youtube.com/watch?v=Kmgo00avvEw&t=1698
+		JScrollPane teamInfoScrollPane = new JScrollPane(teamInfoTable);
 		
 		updateCoachingStaffTable(team);
-		//coachingStaffTable.setPreferredScrollableViewportSize(new Dimension(176, 50));
-		TablePaneWithTitle coachPanel = new TablePaneWithTitle(coachingStaffTable, "Coaching Staff", "Add Coaching Staff", this);		
+		coachingStaffTable.addMouseListener(this);
+		JLabel coachTableTitle = new JLabel("Coaching Staff");
+		coachTableTitle.setHorizontalAlignment(JLabel.CENTER); // https://www.youtube.com/watch?v=Kmgo00avvEw&t=1698s
+		JScrollPane coachScrollPane = new JScrollPane(coachingStaffTable);
+		JButton addCoachStaffButton = new JButton("Add Coaching Staff");
+		addCoachStaffButton.addActionListener(this);
 		
 		updateRefereeTable(team);
-		//refereeTable.setPreferredScrollableViewportSize(new Dimension(176, 50));
-		TablePaneWithTitle refereePanel = new TablePaneWithTitle(refereeTable, "Referees", "Add Referee", this);
-		
+		JLabel refereeTableTitle = new JLabel("Referees");
+		refereeTableTitle.setHorizontalAlignment(JLabel.CENTER); // https://www.youtube.com/watch?v=Kmgo00avvEw&t=1698s
+		JScrollPane refereeScrollPane = new JScrollPane(refereeTable);
+		JButton addRefereeButton = new JButton("Add Referee");
+		addRefereeButton.addActionListener(this);
 		
 		updatePlayerTable(team);
-		//playerTable.setPreferredScrollableViewportSize(new Dimension(176, 50));
 		playerTable.addMouseListener(this);
-		TablePaneWithTitle playerPanel = new TablePaneWithTitle(playerTable, "Players", "Add Player", this);
+		JLabel playerTableTitle = new JLabel("Players");
+		playerTableTitle.setHorizontalAlignment(JLabel.CENTER); // https://www.youtube.com/watch?v=Kmgo00avvEw&t=1698s
+		JScrollPane playerScrollPane = new JScrollPane(playerTable);
+		JButton addPlayerButton = new JButton("Add Player");
+		addPlayerButton.addActionListener(this);
 		
 		updateStatsTableFor(team);
-		//statsTable.setPreferredScrollableViewportSize(new Dimension(176, 50));
-		statsTable.setTableHeader(null);
-		TablePaneWithTitle statsPanel = new TablePaneWithTitle(statsTable, "Statistics");
+		JLabel statsTableTitle = new JLabel("Statistics");
+		statsTableTitle.setHorizontalAlignment(JLabel.CENTER); // https://www.youtube.com/watch?v=Kmgo00avvEw&t=1698s
+		JScrollPane statsPane = new JScrollPane(statsTable);
 		
 		updateResultsTableFor(team);
-		//resultsTable.setPreferredScrollableViewportSize(new Dimension(176, 50));
-		TablePaneWithTitle resultsPanel = new TablePaneWithTitle(resultsTable, "Results");
-		
+		resultsTable.addMouseListener(this);
+		JLabel resultsTableTitle = new JLabel("Results");
+		resultsTableTitle.setHorizontalAlignment(JLabel.CENTER); // https://www.youtube.com/watch?v=Kmgo00avvEw&t=1698s
+		JScrollPane resultsPane = new JScrollPane(resultsTable);
 		
 		constraints.gridx = 0; // Sets the column for the grid space
+		constraints.insets = new Insets(0, 0, 0, 5);
 		constraints.gridy = 0; // Sets the row for the grid space
-		constraints.insets = new Insets(10, 10, 10, 10); // code found at https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html
+		//constraints.insets = new Insets(10, 10, 10, 10); // code found at https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html
 		/*
 		 * Spaces are numbered starting at 0 for the top, leftmost
 		 * cell in the grid and each column to the right and row below
 		 * has a higher x/y value
 		 */
 		constraints.fill = GridBagConstraints.BOTH; // Allows the component to resize to fill the required space for its cells
-		teamPage.add(teamInfoPanel, constraints);
+		teamPage.add(teamName, constraints);
 		
 		constraints.gridy = 1;
-		teamPage.add(coachPanel, constraints);
+		teamPage.add(teamInfoScrollPane, constraints);
 		
 		constraints.gridy = 2;
-		teamPage.add(refereePanel, constraints);
+		teamPage.add(coachTableTitle, constraints);
+		
+		constraints.gridy = 3;
+		teamPage.add(coachScrollPane, constraints);
+		
+		constraints.gridy = 4;
+		teamPage.add(addCoachStaffButton, constraints);
+		
+		constraints.gridy = 5;
+		teamPage.add(refereeTableTitle, constraints);
+		
+		constraints.gridy = 6;
+		teamPage.add(refereeScrollPane, constraints);
+		
+		constraints.gridy = 7;
+		teamPage.add(addRefereeButton, constraints);
 		
 		constraints.gridx = 1;
+		constraints.insets = new Insets(0, 5, 0, 5);
 		constraints.gridy = 0;
-		constraints.gridheight = 3;
-		teamPage.add(playerPanel, constraints); // reference https://stackoverflow.com/questions/2320812/jtable-wont-show-column-headers
+		teamPage.add(playerTableTitle);
+		
+		constraints.gridheight = 6;
+		constraints.gridy = 1;
+		teamPage.add(playerScrollPane, constraints); // reference https://stackoverflow.com/questions/2320812/jtable-wont-show-column-headers
 		
 		constraints.gridheight = 1;
-		constraints.gridx = 2;
-		teamPage.add(statsPanel, constraints);
+		constraints.gridy = 7;
+		teamPage.add(addPlayerButton, constraints);
 		
-		constraints.gridheight = 2;
+		constraints.gridx = 2;
+		constraints.insets = new Insets(0, 5, 0, 0);
+		constraints.gridy = 0;
+		teamPage.add(statsTableTitle, constraints);
+		
 		constraints.gridy = 1;
-		teamPage.add(resultsPanel, constraints);
+		teamPage.add(statsPane, constraints);
+		
+		constraints.gridy = 2;
+		teamPage.add(resultsTableTitle, constraints);
+		
+		constraints.gridy = 3;
+		constraints.gridheight = 4;
+		teamPage.add(resultsPane, constraints);
 	}
 
 	public void updateTeamInfoTable(Team team) {
@@ -215,7 +257,6 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 				{"Capacity", team.getHomeGround().getCapacity()}
 				};
 		teamInfoTable = new UneditableTable(data, columnNames);
-
 	}
 	
 	public void updatePlayerTable(Team team) {
@@ -233,6 +274,7 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		
 		playerTable = new UneditableTableWithRowObjectReturn(data, columnNames, players);
 	}
+	
 	
 	public void updateCoachingStaffTable(Team team) {
 		String[] columnNames = {"Name", "Role"};
@@ -276,6 +318,8 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 	public void updateResultsTableFor(HasResults e) {
 		String[] columnNames = {"Home Team", "Score", "Away Team"};
 		Object[][] data = new Object[e.getResults().size()][3];
+		Result[] results = new Result[e.getResults().size()];
+		e.getResults().toArray(results);
 		
 		for(int i = 0; i < e.getResults().size(); i++) {
 			Result currentResult = e.getResults().get(0);
@@ -284,9 +328,10 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 			data[e.getResults().size() - (1 + i)][2] = currentResult.getAwayTeam().getTeamName();
 		}
 		
-		resultsTable = new UneditableTable(data, columnNames);
+		resultsTable = new UneditableTableWithRowObjectReturn(data, columnNames, results);
 	}
 	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -303,6 +348,7 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 			System.out.println(model.getRowObject(row).getClass());
 		}		
 	}
+	
 
 	@Override
 	public void mousePressed(MouseEvent e) {
