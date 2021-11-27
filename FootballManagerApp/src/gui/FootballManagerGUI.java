@@ -63,7 +63,7 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		  
 		setUpLeaguePage(); // Separate method to set up all components for the GUI
 		setUpTeamPage(currentLeague.getTeams().get(0));
-		frame.getContentPane().add(teamPage); // Adds all components to the frame
+		frame.getContentPane().add(leaguePage); // Adds all components to the frame
 		frame.setBounds(100, 100, 900, 600);
 		/*
 		 * The line below makes the frame appear in the centre of the
@@ -80,38 +80,67 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 	public void setUpLeaguePage() {
 		
 		GridBagLayout layout = new GridBagLayout();
-		layout.rowHeights = new int[] {120, 280};
-		layout.columnWeights = new double[]{3.0, 2.0};
+		layout.rowHeights = new int[] {25, 120, 45, 225, 25};
+		layout.columnWidths = new int[]{473, 312};
 		leaguePage = new JPanel(layout); // create a panel with a gridbag layout
 		GridBagConstraints constraints = new GridBagConstraints(); // Constraints will be used for all items but with updated values
 		
 		updateLeagueTable(currentLeague);
 		leagueTable.addMouseListener(this);
+		JLabel leagueName = new JLabel(currentLeague.getName());
+		leagueName.setHorizontalAlignment(JLabel.CENTER);
+		JScrollPane leagueScrollPane = new JScrollPane(leagueTable);
+		JButton addTeamButton = new JButton("Add Team");
+		addTeamButton.addActionListener(this);
 		
 		updateStatsTableFor(currentLeague);
+		JLabel statsTableTitle = new JLabel("Stats");
+		statsTableTitle.setHorizontalAlignment(JLabel.CENTER);
+		JScrollPane statsScrollPane = new JScrollPane(statsTable);
+		
 		updateResultsTableFor(currentLeague);
-		JScrollPane resultsPane = new JScrollPane(resultsTable);
+		JLabel resultsTableTitle = new JLabel("Results"	);
+		resultsTableTitle.setHorizontalAlignment(JLabel.CENTER);
+		JScrollPane resultsScrollPane = new JScrollPane(resultsTable);
+		JButton addResultsButton = new JButton("Add Results");
 		
 		
 		constraints.gridx = 0; // Sets the column for the grid space
 		constraints.gridy = 0; // Sets the row for the grid space
-		constraints.insets = new Insets(10, 10, 10, 10); // code found at https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html
+		constraints.insets = new Insets(0, 0, 0, 5); // code found at https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html
 		/*
 		 * Spaces are numbered starting at 0 for the top, leftmost
 		 * cell in the grid and each column to the right and row below
 		 * has a higher x/y value
 		 */
-		constraints.gridheight = 2; // Sets the item to span 4 grid spaces
+		//constraints.gridheight = 1; // Sets the item to span 4 grid spaces
 		constraints.fill = GridBagConstraints.BOTH; // Allows the component to resize to fill the required space for its cells
-		JScrollPane leagueScrollPane = new JScrollPane(leagueTable);
+		leaguePage.add(leagueName, constraints);
+		
+		constraints.gridy = 1;
+		constraints.gridheight = 3;
 		leaguePage.add(leagueScrollPane, constraints); // reference https://stackoverflow.com/questions/2320812/jtable-wont-show-column-headers
 		
 		constraints.gridheight = 1;
+		constraints.gridy = 4;
+		leaguePage.add(addTeamButton, constraints);
+		
+		constraints.gridy = 0;
 		constraints.gridx = 1;
-		leaguePage.add(statsTable, constraints);
+		constraints.insets = new Insets(0, 5, 0, 0);
+		leaguePage.add(statsTableTitle, constraints);
 		
 		constraints.gridy = 1;
-		leaguePage.add(resultsPane, constraints);		
+		leaguePage.add(statsScrollPane, constraints);
+		
+		constraints.gridy = 2;
+		leaguePage.add(resultsTableTitle, constraints);		
+		
+		constraints.gridy = 3;
+		leaguePage.add(resultsScrollPane, constraints);
+		
+		constraints.gridy = 4;
+		leaguePage.add(addResultsButton, constraints);
 		
 	}
 	
