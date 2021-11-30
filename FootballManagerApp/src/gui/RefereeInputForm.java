@@ -13,6 +13,9 @@ public class RefereeInputForm extends PersonInputForm {
 
 	public RefereeInputForm(JFrame owner) {
 		super(owner, "Add Referee");
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
 	}
 	
 	public Referee getNewReferee() {
@@ -21,12 +24,10 @@ public class RefereeInputForm extends PersonInputForm {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		switch(e.getActionCommand()) {
-		case "Submit":
+		if(e.getActionCommand() == "Submit") {
 			newReferee = new Referee(nameInput.getText(), (EmploymentStatus) employmentStatusInput.getSelectedItem(), (int) payPerYearInput.getValue());
-		default :
-			dispose();
 		}
+		dispose();
 	}
 
 }

@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 
 import java.awt.GridBagLayout;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
 
@@ -20,7 +21,7 @@ import enums.EmploymentStatus;
 
 public abstract class PersonInputForm extends JDialog implements ActionListener {
 
-	private JPanel form;
+	protected JPanel form;
 	private JLabel name;
 	private JLabel employmentStatus;
 	private JLabel payPerYear;
@@ -40,6 +41,9 @@ public abstract class PersonInputForm extends JDialog implements ActionListener 
 		nameInput = new JTextField(15);
 		employmentStatusInput = new JComboBox<>(EmploymentStatus.values());
 		payPerYearInput = new JSpinner(new SpinnerNumberModel(10_000, 0, null, 1000));
+		Dimension spinnerSize = payPerYearInput.getPreferredSize(); // https://www.coderanch.com/t/339225/java/JSpinner-Size
+		spinnerSize.width = 185;
+		payPerYearInput.setPreferredSize(spinnerSize);
 		
 		constraints.anchor = GridBagConstraints.LINE_END; // https://www.youtube.com/watch?v=YKaea4ezQQE&t=385s
 		form.add(name, constraints);
@@ -75,11 +79,11 @@ public abstract class PersonInputForm extends JDialog implements ActionListener 
 		buttons.setBorder(new EmptyBorder(10, 10, 10, 10));
 		getContentPane().add(form, BorderLayout.CENTER);
 		getContentPane().add(buttons, BorderLayout.SOUTH);
-		pack();
 		
-		setLocationRelativeTo(null);
 		setResizable(false);
 		
-		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
+		//pack();
+		// setLocationRelativeTo(null);
+		//setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
 	}
 }

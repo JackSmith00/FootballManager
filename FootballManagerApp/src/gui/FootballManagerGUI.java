@@ -176,34 +176,6 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		
 	}
 	
-	public void addNewPlayer(Team team) {
-		
-		JDialog addTeamDialog = new JDialog(frame, "Add Team", true);
-		JPanel inputForm = new JPanel(new GridBagLayout());
-		GridBagConstraints constraints = new GridBagConstraints();
-		
-		JLabel name = new JLabel("Name:");
-		JTextField nameInput = new JTextField(15);
-		
-		JLabel position = new JLabel("Position:");
-		JTextField positionInput = new JTextField(2);
-		
-		
-		constraints.insets = new Insets(0, 0, 5, 0);
-		inputForm.add(name, constraints);
-		
-		constraints.gridx = 1;
-		inputForm.add(nameInput, constraints);
-		
-		
-		inputForm.setBorder(new EmptyBorder(10, 10, 10, 10));
-		addTeamDialog.getContentPane().add(inputForm);
-		addTeamDialog.pack();
-		addTeamDialog.setLocationRelativeTo(null);
-		addTeamDialog.setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
-		
-	}
-	
 	public void setUpTeamPage(Team team) {
 		if(teamPage == null) {
 			GridBagLayout layout = new GridBagLayout();
@@ -342,6 +314,14 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		playerTable = new UneditableTableWithRowObjectReturn(data, columnNames, players);
 	}
 	
+	public void addNewPlayer(Team team) {
+		PlayerInputForm inputForm = new PlayerInputForm(frame);
+		if(inputForm.getNewPlayer() != null) {
+			team.addPlayer(inputForm.getNewPlayer());
+		}
+		setUpTeamPage(team);
+		frame.getContentPane().revalidate();	
+	}
 	
 	public void updateCoachingStaffTable(Team team) {
 		String[] columnNames = {"Name", "Role"};
@@ -357,6 +337,15 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		}
 		
 		coachingStaffTable = new UneditableTableWithRowObjectReturn(data, columnNames, coachingStaff);
+	}
+	
+	public void addNewCoachingStaffMember(Team team) {
+		CoachingStaffInputForm inputForm = new CoachingStaffInputForm(frame);
+		if(inputForm.getNewCoachingStaffMember() != null) {
+			team.addCoachingStaffMember(inputForm.getNewCoachingStaffMember());
+		}
+		setUpTeamPage(team);
+		frame.getContentPane().revalidate();
 	}
 	
 	public void updateRefereeTable(Team team) {
@@ -413,8 +402,15 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		switch(e.getActionCommand()) {
 		case "Add Team":
 			break;
+		case "Add Player":
+			addNewPlayer(currentTeam);
+			break;
+		case "Add Coaching Staff":
+			addNewCoachingStaffMember(currentTeam);
+			break;
 		case "Add Referee":
 			addNewReferee(currentTeam);
+			break;
 		}
 	}
 	
