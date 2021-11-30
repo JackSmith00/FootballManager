@@ -66,13 +66,12 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 				e.printStackTrace();
 			}
 		} else {
-			JOptionPane newLeaguePane = new JOptionPane("League Name:", JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION);
+			String leagueName = JOptionPane.showInputDialog(frame, "League Name:");
+			currentLeague = new League(leagueName);
 		}
 		  
 		setUpLeaguePage(); // Separate method to set up all components for the GUI
-		currentTeam = currentLeague.getTeams().get(0);
-		setUpTeamPage(currentTeam);
-		frame.add(teamPage);
+		frame.add(leaguePage);
 		frame.setBounds(100, 100, 900, 600);
 		/*
 		 * The line below makes the frame appear in the centre of the
@@ -371,11 +370,18 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 	
 	public void updateStatsTableFor(StatisticsCalculator e) {
 		String[] columnNames = {"Stat", "Result"};
+		Object[] statResults = new Object[4]; // makes stats null initially
+		if(e.topGoalScorer() != null) { // only find stats if there are stats to be found, otherwise an error occurs
+			statResults[0] = e.topGoalScorer().getName();
+			statResults[1] = e.topAssister().getName();
+			statResults[2] = e.totalGoalsScored();
+			statResults[3] = e.totalCardsGiven();
+		}
 		Object[][] data = {
-				{"Top Goal Scorer", e.topGoalScorer().getName()},
-				{"Top Assister", e.topAssister().getName()},
-				{"Total Goals Scored", e.totalGoalsScored()},
-				{"Total Cards Given", e.totalCardsGiven()}
+				{"Top Goal Scorer", statResults[0]},
+				{"Top Assister", statResults[1]},
+				{"Total Goals Scored", statResults[2]},
+				{"Total Cards Given", statResults[3]}
 				};
 		statsTable = new UneditableTable(data, columnNames);
 	}
