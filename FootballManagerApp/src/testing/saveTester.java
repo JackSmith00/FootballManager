@@ -20,11 +20,11 @@ public class saveTester {
 		
 		
 		
-		  Player p1 = new Player("John", "GK", EmploymentStatus.FULL_TIME, 10_000);
-		  Player p2 = new Player("Ben", "RW", EmploymentStatus.FULL_TIME, 20_000);
+		  Player p1 = new Player("John", "GK", null, EmploymentStatus.FULL_TIME, 10_000);
+		  Player p2 = new Player("Ben", "RW", null, EmploymentStatus.FULL_TIME, 20_000);
 		  
-		  Player p3 = new Player("Paul", "LW", EmploymentStatus.PART_TIME, 10_000);
-		  Player p4 = new Player("Roger", "ST", EmploymentStatus.PART_TIME, 20_000);
+		  Player p3 = new Player("Paul", "LW", null, EmploymentStatus.PART_TIME, 10_000);
+		  Player p4 = new Player("Roger", "ST", null, EmploymentStatus.PART_TIME, 20_000);
 		  
 		  Team t1 = new Team("Liverpool", new Stadium("Anfield", 100));
 		  

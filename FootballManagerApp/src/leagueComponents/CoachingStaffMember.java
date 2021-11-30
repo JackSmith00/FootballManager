@@ -21,10 +21,10 @@ public class CoachingStaffMember extends PersonWithFormationPreference {
 	 * @param employmentStatus : Employment status of the coaching staff member, either full or part time
 	 * @param payPerYear : An int representing how much the staff member is payed per year in GBP
 	 */
-	public CoachingStaffMember(String name, String role, EmploymentStatus employmentStatus, int payPerYear) {
-		super(name, employmentStatus, payPerYear);
+	public CoachingStaffMember(String name, String role, Formation preferredFormation, EmploymentStatus employmentStatus, int payPerYear) {
+		super(name, preferredFormation, employmentStatus, payPerYear);
 		this.role = role;
-	}	
+	}
 	
 	// Methods
 	// Getters

@@ -23,8 +23,8 @@ public class Player extends PersonWithFormationPreference {
 	 * @param employmentStatus : Employment status of the player
 	 * @param payPerYear : How much the player gets payed per year in GBP
 	 */
-	public Player(String name, String position, EmploymentStatus employmentStatus, int payPerYear) {
-		super(name, employmentStatus, payPerYear);
+	public Player(String name, String position, Formation preferredFormation, EmploymentStatus employmentStatus, int payPerYear) {
+		super(name, preferredFormation, employmentStatus, payPerYear);
 		this.position = position;
 	}
 	

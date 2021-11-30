@@ -21,8 +21,9 @@ public abstract class PersonWithFormationPreference extends Person {
 	 * @param employmentStatus : Employment status of the person within the team
 	 * @param payPerYear : How much the person gets payed in a year in GBP
 	 */
-	public PersonWithFormationPreference(String name, EmploymentStatus employmentStatus, int payPerYear) {
+	public PersonWithFormationPreference(String name, Formation preferredFormation, EmploymentStatus employmentStatus, int payPerYear) {
 		super(name, employmentStatus, payPerYear);
+		this.preferredFormation = preferredFormation;
 	}
 
 	// Methods
