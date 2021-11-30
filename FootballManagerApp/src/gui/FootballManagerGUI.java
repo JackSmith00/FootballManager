@@ -10,7 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -38,9 +40,9 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 	private JTable refereeTable;
 	
 	private League currentLeague;
+	private Team currentTeam;
 
 	public static void main(String[] args) {
-		
 		new FootballManagerGUI();
 	}
 	
@@ -50,20 +52,27 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Makes the app quit when frame is closed
 		
 		currentLeague = new League();
-		  
-		try {
-			currentLeague.load("./data/saveData");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		
+		File data = new File("./data/saveData");
+		
+		if(data.exists()) {	  
+			try {
+				currentLeague.load("./data/saveData");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			JOptionPane newLeaguePane = new JOptionPane("League Name:", JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION);
 		}
 		  
 		setUpLeaguePage(); // Separate method to set up all components for the GUI
-		setUpTeamPage(currentLeague.getTeams().get(0));
-		frame.getContentPane().add(leaguePage); // Adds all components to the frame
+		currentTeam = currentLeague.getTeams().get(0);
+		setUpTeamPage(currentTeam);
+		frame.add(teamPage);
 		frame.setBounds(100, 100, 900, 600);
 		/*
 		 * The line below makes the frame appear in the centre of the
@@ -103,6 +112,7 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		resultsTableTitle.setHorizontalAlignment(JLabel.CENTER);
 		JScrollPane resultsScrollPane = new JScrollPane(resultsTable);
 		JButton addResultsButton = new JButton("Add Results");
+		addResultsButton.addActionListener(this);
 		
 		
 		constraints.gridx = 0; // Sets the column for the grid space
@@ -166,15 +176,43 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		
 	}
 	
-	public void addNewTeam(League league) {
+	public void addNewPlayer(Team team) {
+		
+		JDialog addTeamDialog = new JDialog(frame, "Add Team", true);
+		JPanel inputForm = new JPanel(new GridBagLayout());
+		GridBagConstraints constraints = new GridBagConstraints();
+		
+		JLabel name = new JLabel("Name:");
+		JTextField nameInput = new JTextField(15);
+		
+		JLabel position = new JLabel("Position:");
+		JTextField positionInput = new JTextField(2);
+		
+		
+		constraints.insets = new Insets(0, 0, 5, 0);
+		inputForm.add(name, constraints);
+		
+		constraints.gridx = 1;
+		inputForm.add(nameInput, constraints);
+		
+		
+		inputForm.setBorder(new EmptyBorder(10, 10, 10, 10));
+		addTeamDialog.getContentPane().add(inputForm);
+		addTeamDialog.pack();
+		addTeamDialog.setLocationRelativeTo(null);
+		addTeamDialog.setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
 		
 	}
 	
 	public void setUpTeamPage(Team team) {
-		GridBagLayout layout = new GridBagLayout();
-		layout.rowHeights = new int[] {25, 120, 45, 130, 25, 45, 130, 25};
-		layout.columnWidths = new int[] {200, 360, 260};
-		teamPage = new JPanel(layout); // create a panel with a gridbag layout
+		if(teamPage == null) {
+			GridBagLayout layout = new GridBagLayout();
+			layout.rowHeights = new int[] {25, 120, 45, 130, 25, 45, 130, 25};
+			layout.columnWidths = new int[] {200, 360, 260};
+			teamPage = new JPanel(layout); // create a panel with a gridbag layout
+		} else {
+			teamPage.removeAll();
+		}
 		GridBagConstraints constraints = new GridBagConstraints(); // Constraints will be used for all items but with updated values
 		
 		updateTeamInfoTable(team);
@@ -330,7 +368,16 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 			data[i][0] = currentRef.getName();
 		}
 		
-		coachingStaffTable = new UneditableTable(data, columnNames);
+		refereeTable = new UneditableTable(data, columnNames);
+	}
+	
+	public void addNewReferee(Team team) {
+		RefereeInputForm inputForm = new RefereeInputForm(frame);
+		if(inputForm.getNewReferee() != null) {
+			team.addReferee(inputForm.getNewReferee());
+		}
+		setUpTeamPage(team);
+		frame.getContentPane().revalidate();
 	}
 	
 	public void updateStatsTableFor(StatisticsCalculator e) {
@@ -363,8 +410,12 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		switch(e.getActionCommand()) {
+		case "Add Team":
+			break;
+		case "Add Referee":
+			addNewReferee(currentTeam);
+		}
 	}
 	
 	@Override
