@@ -1,4 +1,4 @@
-package gui;
+package guiInputForms;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;

@@ -9,7 +9,7 @@ import enums.EmploymentStatus;
 import enums.EventType;
 import events.GameEvent;
 import events.Result;
-import events.Substitution;
+import events.TwoPlayerGameEvent;
 import leagueComponents.*;
 
 public class saveTester {
@@ -38,8 +38,7 @@ public class saveTester {
 		  
 		  l.addTeam(t1); l.addTeam(t2);
 		  
-		  GameEvent[] events = {new GameEvent(EventType.GOAL, p1, 15), new
-		  Substitution(p3, p4, 40)};
+		  GameEvent[] events = {new GameEvent(EventType.GOAL, p1, 15), new TwoPlayerGameEvent(EventType.SUBSTITUTION, p3, p4, 40)};
 		  
 		  Player[] team1Players = {p1, p2}; Player[] team2Players = {p3, p4};
 		  

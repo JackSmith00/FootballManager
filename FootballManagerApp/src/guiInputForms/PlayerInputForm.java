@@ -1,4 +1,4 @@
-package gui;
+package guiInputForms;
 
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;

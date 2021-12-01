@@ -1,4 +1,4 @@
-package gui;
+package guiInputForms;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
