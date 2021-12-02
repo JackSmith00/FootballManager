@@ -104,12 +104,15 @@ public class League implements Serializable, Saveable, Reader, StatisticsCalcula
 
 	@Override
 	public Player topGoalScorer() {
-		if(getTeams().size() == 0) {			
+		if(getTeams().size() == 0) { // check that there are teams before accessing their players		
 			return null;
-		} else {
-			Player topGoalScorer = teams.get(0).topGoalScorer();
+		} else { // there are teams in the league
+			Player topGoalScorer = new Player("", "", null, null, 0); // initial blank Player
 			for(Team team: teams) {
-				if (team.topGoalScorer().getGoalsScored() > topGoalScorer.getGoalsScored()) {
+				if(team.getPlayers().isEmpty()) {
+					continue; // skip any teams that have no players yet
+				}
+				if(team.topGoalScorer().getGoalsScored() >= topGoalScorer.getGoalsScored()) {
 					topGoalScorer = team.topGoalScorer();
 				}
 			}
@@ -124,6 +127,9 @@ public class League implements Serializable, Saveable, Reader, StatisticsCalcula
 		} else {
 			Player topAssister = teams.get(0).topAssister();
 			for(Team team: teams) {
+				if(team.getPlayers().isEmpty()) {
+					continue; // skip any teams that have no players yet
+				}
 				if (team.topAssister().getAssistsMade() > topAssister.getAssistsMade()) {
 					topAssister = team.topAssister();
 				}
