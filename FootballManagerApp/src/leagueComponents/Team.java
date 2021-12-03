@@ -212,4 +212,9 @@ public class Team implements Serializable, StatisticsCalculator, HasResults {
 		return totalCardsGiven;
 	}
 	
+	@Override
+	public String toString() {
+		return teamName;
+	}
+	
 }

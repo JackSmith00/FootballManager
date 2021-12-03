@@ -71,4 +71,9 @@ public abstract class Person implements Serializable {
 	public void setTeam(Team team) {
 		this.team = team;
 	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 }

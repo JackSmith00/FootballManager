@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +25,7 @@ import events.Result;
 import guiInputForms.CoachingStaffInputForm;
 import guiInputForms.PlayerInputForm;
 import guiInputForms.RefereeInputForm;
+import guiInputForms.ResultInputForm;
 import guiInputForms.TeamInputForm;
 import interfaces.HasResults;
 import interfaces.StatisticsCalculator;
@@ -94,11 +96,14 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 	}
 	
 	public void setUpLeaguePage(League league) {
-		
-		GridBagLayout layout = new GridBagLayout();
-		layout.rowHeights = new int[] {25, 120, 45, 225, 25};
-		layout.columnWidths = new int[]{473, 312};
-		leaguePage = new JPanel(layout); // create a panel with a gridbag layout
+		if(leaguePage == null) {
+			GridBagLayout layout = new GridBagLayout();
+			layout.rowHeights = new int[] {25, 120, 45, 225, 25};
+			layout.columnWidths = new int[]{473, 312};
+			leaguePage = new JPanel(layout); // create a panel with a gridbag layout
+		} else {
+			leaguePage.removeAll();
+		}
 		GridBagConstraints constraints = new GridBagConstraints(); // Constraints will be used for all items but with updated values
 		
 		updateLeagueTable(league);
@@ -424,12 +429,24 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		resultsTable = new UneditableTableWithRowObjectReturn(data, columnNames, results);
 	}
 	
+	public void addNewResult(League league) {
+		ResultInputForm inputForm = new ResultInputForm(frame, league);
+		if(inputForm.getNewResult() != null) {
+			league.addResult(inputForm.getNewResult());
+		}
+		setUpLeaguePage(league);
+		frame.getContentPane().revalidate();
+	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()) {
 		case "Add Team":
 			addNewTeam(currentLeague);
+			break;
+		case "Add Results":
+			addNewResult(currentLeague);
 			break;
 		case "Add Player":
 			addNewPlayer(currentTeam);
