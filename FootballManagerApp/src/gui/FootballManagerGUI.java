@@ -120,7 +120,7 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		JScrollPane statsScrollPane = new JScrollPane(statsTable);
 		
 		updateResultsTableFor(league);
-		JLabel resultsTableTitle = new JLabel("Results"	);
+		JLabel resultsTableTitle = new JLabel("Results");
 		resultsTableTitle.setHorizontalAlignment(JLabel.CENTER);
 		JScrollPane resultsScrollPane = new JScrollPane(resultsTable);
 		JButton addResultsButton = new JButton("Add Results");
@@ -420,7 +420,7 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		e.getResults().toArray(results);
 		
 		for(int i = 0; i < e.getResults().size(); i++) {
-			Result currentResult = e.getResults().get(0);
+			Result currentResult = e.getResults().get(i);
 			data[e.getResults().size() - (1 + i)][0] = currentResult.getHomeTeam().getTeamName();
 			data[e.getResults().size() - (1 + i)][1] = currentResult.scoreString();
 			data[e.getResults().size() - (1 + i)][2] = currentResult.getAwayTeam().getTeamName();

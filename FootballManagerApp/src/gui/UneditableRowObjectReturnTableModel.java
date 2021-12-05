@@ -1,5 +1,7 @@
 package gui;
 
+import leagueComponents.Player;
+
 public class UneditableRowObjectReturnTableModel extends UneditableTableModel {
 	
 	private Object[] rowObjects;
@@ -12,6 +14,25 @@ public class UneditableRowObjectReturnTableModel extends UneditableTableModel {
 	
 	public Object getRowObject(int rowIndex) {
 		return rowObjects[rowIndex];
+	}
+	
+	
+	public Object[] getRowObjects() {
+		return rowObjects;
+	}
+	
+	public void setRowObjects(Object[] rowObjects) {
+		this.rowObjects = rowObjects;
+	}
+	
+	@Override
+	public Object[][] getData() {
+		return super.getData();
+	}
+	
+	@Override
+	public void setData(Object[][] data) {
+		super.setData(data);
 	}
 	
 }

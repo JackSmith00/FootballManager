@@ -2,6 +2,8 @@ package gui;
 
 import javax.swing.table.AbstractTableModel;
 
+import leagueComponents.Player;
+
 public class UneditableTableModel extends AbstractTableModel {
 	
 	private Object[][] data;
@@ -42,6 +44,12 @@ public class UneditableTableModel extends AbstractTableModel {
 		return columnNames[column];
 	}
 	
+	public Object[][] getData() {
+		return data;
+	}
 	
+	public void setData(Object[][] data) {
+		this.data = data;
+	}
 
 }
