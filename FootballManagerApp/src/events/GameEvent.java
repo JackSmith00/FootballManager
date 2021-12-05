@@ -10,7 +10,7 @@ import leagueComponents.Player;
  * @author Jack
  *
  */
-public class GameEvent implements Serializable {
+public class GameEvent implements Serializable, Comparable<GameEvent> {
 
 	// Attributes
 	private EventType type; // Type of event that occurred
@@ -50,6 +50,12 @@ public class GameEvent implements Serializable {
 	 */
 	public int getGameMinute() {
 		return gameMinute;
+	}
+
+	@Override
+	public int compareTo(GameEvent o) { // https://howtodoinjava.com/java/sort/collections-sort/
+		// TODO Auto-generated method stub
+		return gameMinute - o.gameMinute;
 	}
 	
 }
