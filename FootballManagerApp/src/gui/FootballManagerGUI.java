@@ -457,6 +457,12 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		case "Add Referee":
 			addNewReferee(currentTeam);
 			break;
+		case "< Back to league view":
+			setUpLeaguePage(currentLeague);
+			frame.getContentPane().removeAll();
+			frame.getContentPane().add(leaguePage);
+			frame.revalidate();
+			frame.repaint();
 		}
 	}
 	
@@ -465,9 +471,17 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		JTable table = (JTable) e.getSource();
 		Point point = e.getPoint();
 		int row = table.rowAtPoint(point);
-		if (e.getClickCount() == 2 && row != -1) {
+		if (e.getClickCount() == 2 && row != -1) { // if double clicked on an actual row
 			UneditableRowObjectReturnTableModel model = (UneditableRowObjectReturnTableModel) table.getModel();
-			System.out.println(model.getRowObject(row).getClass());
+			Object rowObject = model.getRowObject(row);
+			if(rowObject.getClass() == Team.class) { // If the selected row is a team
+				currentTeam = (Team) rowObject;
+				setUpTeamPage(currentTeam);
+				frame.getContentPane().removeAll();
+				frame.getContentPane().add(teamPage);
+				frame.revalidate();
+				frame.repaint();
+			}
 		}		
 	}
 	
