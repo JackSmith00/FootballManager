@@ -78,6 +78,7 @@ public class League implements Serializable, Saveable, Reader, StatisticsCalcula
 		// Copy attributes
 		this.name = tempLeague.getName();
 		this.teams = tempLeague.getTeams();
+		this.results = tempLeague.getResults();
 	}
 	
 	// Getters
