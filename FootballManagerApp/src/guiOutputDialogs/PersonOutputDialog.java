@@ -21,10 +21,12 @@ public abstract class PersonOutputDialog extends JDialog {
 	
 	private Person person;
 
-	public PersonOutputDialog(JFrame owner, Person person) {
+	public PersonOutputDialog(JFrame owner, Person person, int width, int height) {
 		super(owner, person.getName());
 		this.person = person;
 		
+		setBounds(0, 0, width, height);
+		setLocationRelativeTo(null);
 		setResizable(false);
 	}
 	
@@ -51,6 +53,10 @@ public abstract class PersonOutputDialog extends JDialog {
 		secondaryAttributes.add(new LeftPaddedLabel(moneyFormatter.format(person.getPayPerYear()), padding));
 		
 		frame.add(secondaryAttributes);
+	}
+	
+	public Person getPerson() {
+		return person;
 	}
 	
 	public int getPadding() {

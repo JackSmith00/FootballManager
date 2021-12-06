@@ -27,6 +27,8 @@ import guiInputForms.PlayerInputForm;
 import guiInputForms.RefereeInputForm;
 import guiInputForms.ResultInputForm;
 import guiInputForms.TeamInputForm;
+import guiOutputDialogs.CoachingStaffMemberOutputDialog;
+import guiOutputDialogs.PlayerOutputDialog;
 import guiOutputDialogs.RefereeOutputDialog;
 import interfaces.HasResults;
 import interfaces.StatisticsCalculator;
@@ -503,6 +505,13 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 			if(rowObject.getClass() == Referee.class) {
 				new RefereeOutputDialog(frame, (Referee) rowObject);
 			}
+			if(rowObject.getClass() == CoachingStaffMember.class) {
+				new CoachingStaffMemberOutputDialog(frame, (CoachingStaffMember) rowObject);
+			}
+			if(rowObject.getClass() == Player.class) {
+				new PlayerOutputDialog(frame, (Player) rowObject);
+			}
+			
 		}
 	}
 	
