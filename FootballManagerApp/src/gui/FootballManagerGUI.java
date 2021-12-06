@@ -30,6 +30,7 @@ import guiInputForms.TeamInputForm;
 import guiOutputDialogs.CoachingStaffMemberOutputDialog;
 import guiOutputDialogs.PlayerOutputDialog;
 import guiOutputDialogs.RefereeOutputDialog;
+import guiOutputDialogs.ResultOutputDialog;
 import interfaces.HasResults;
 import interfaces.StatisticsCalculator;
 import leagueComponents.CoachingStaffMember;
@@ -447,6 +448,7 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		}
 		
 		resultsTable = new UneditableTableWithRowObjectReturn(data, columnNames, results);
+		resultsTable.addMouseListener(this);
 	}
 	
 	public void addNewResult(League league) {
@@ -510,6 +512,9 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 			}
 			if(rowObject.getClass() == Player.class) {
 				new PlayerOutputDialog(frame, (Player) rowObject);
+			}
+			if(rowObject.getClass() == Result.class) {
+				new ResultOutputDialog(frame, (Result) rowObject);
 			}
 			
 		}
