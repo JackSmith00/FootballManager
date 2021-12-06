@@ -10,4 +10,15 @@ public enum EmploymentStatus {
 	
 	FULL_TIME,
 	PART_TIME;
+	
+	@Override
+	public String toString() {
+		switch(this) {
+		case FULL_TIME:
+			return "Full-Time";
+		case PART_TIME:
+			return "Part-Time";
+		}
+		return "";
+	}
 }

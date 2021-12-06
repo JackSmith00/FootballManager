@@ -27,6 +27,7 @@ import guiInputForms.PlayerInputForm;
 import guiInputForms.RefereeInputForm;
 import guiInputForms.ResultInputForm;
 import guiInputForms.TeamInputForm;
+import guiOutputDialogs.RefereeOutputDialog;
 import interfaces.HasResults;
 import interfaces.StatisticsCalculator;
 import leagueComponents.CoachingStaffMember;
@@ -391,13 +392,16 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 	public void updateRefereeTable(Team team) {
 		String[] columnNames = {"Name"};
 		Object[][] data = new Object[team.getReferees().size()][columnNames.length];
+		Referee[] referees = new Referee[team.getReferees().size()];
+		team.getReferees().toArray(referees);
 		for(int i = 0; i < team.getReferees().size(); i++) {
 			Referee currentRef = team.getReferees().get(i);
 			
 			data[i][0] = currentRef.getName();
 		}
 		
-		refereeTable = new UneditableTable(data, columnNames);
+		refereeTable = new UneditableTableWithRowObjectReturn(data, columnNames, referees);
+		refereeTable.addMouseListener(this);
 	}
 	
 	public void addNewReferee(Team team) {
@@ -485,7 +489,7 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		JTable table = (JTable) e.getSource();
 		Point point = e.getPoint();
 		int row = table.rowAtPoint(point);
-		if (e.getClickCount() == 2 && row != -1) { // if double clicked on an actual row
+		if(e.getClickCount() == 2 && row != -1) { // if double clicked on an actual row
 			UneditableRowObjectReturnTableModel model = (UneditableRowObjectReturnTableModel) table.getModel();
 			Object rowObject = model.getRowObject(row);
 			if(rowObject.getClass() == Team.class) { // If the selected row is a team
@@ -496,7 +500,10 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 				frame.revalidate();
 				frame.repaint();
 			}
-		}		
+			if(rowObject.getClass() == Referee.class) {
+				new RefereeOutputDialog(frame, (Referee) rowObject);
+			}
+		}
 	}
 	
 
