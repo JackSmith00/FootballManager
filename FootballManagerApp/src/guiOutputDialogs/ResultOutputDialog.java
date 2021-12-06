@@ -35,7 +35,7 @@ public class ResultOutputDialog extends JDialog {
 		setUpComponents();
 		getContentPane().add(frame);
 		setBounds(0, 0, 500, 450);
-		setResizable(false);
+		//setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
@@ -43,8 +43,8 @@ public class ResultOutputDialog extends JDialog {
 	protected void setUpComponents() {
 		frame = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
-		layout.columnWidths = new int[] {200, 50, 200};
-		layout.rowHeights = new int[] {25, 25, 25, 150, 25, 150};
+		layout.columnWeights = new double[] {200, 50, 200};
+		layout.rowWeights = new double[] {25, 25, 25, 150, 25, 150};
 		frame.setLayout(layout);
 		
 		GridBagConstraints constraints = new GridBagConstraints();

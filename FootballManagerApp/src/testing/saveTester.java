@@ -42,7 +42,7 @@ public class saveTester {
 		  
 		  Player[] team1Players = {p1, p2}; Player[] team2Players = {p3, p4};
 		  
-		  Result game1 = new Result(t1, 3, t2, 2, new Date(2021, 11, 23), events,
+		  Result game1 = new Result(t1, 3, t2, 2, new Date(2021 - 1900, 11, 23), events,
 		  team1Players, team2Players);
 		  
 		  l.addResult(game1);
@@ -70,6 +70,7 @@ public class saveTester {
 		  System.out.println(f.getTeams().get(0).getPlayers().get(0).getName());
 		  System.out.println(f.getTeams().get(1).getPlayers().get(0).getTeam().
 		  getHomeGround());
+		  System.out.println(f.getResults().get(0).getDatePlayed());
 
 		 
 		 
