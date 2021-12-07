@@ -14,17 +14,18 @@ import leagueComponents.Person;
 
 public abstract class PersonOutputDialog extends JDialog {
 	
-	protected JPanel frame;
-	protected JPanel mainAttributes;
-	protected JPanel secondaryAttributes;
+	protected JPanel frame, mainAttributes, secondaryAttributes;
 	private int padding = 10;
 	
 	private Person person;
+	private JPanel buttons;
 
 	public PersonOutputDialog(JFrame owner, Person person, int width, int height) {
 		super(owner, person.getName());
 		this.person = person;
 		
+		setUpButtons();
+		getContentPane().add(buttons, BorderLayout.SOUTH);
 		setBounds(0, 0, width, height);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -53,6 +54,17 @@ public abstract class PersonOutputDialog extends JDialog {
 		secondaryAttributes.add(new LeftPaddedLabel(moneyFormatter.format(person.getPayPerYear()), padding));
 		
 		frame.add(secondaryAttributes);
+	}
+
+	private void setUpButtons() {
+		buttons = new JPanel();
+		JButton editButton = new JButton("Edit");
+		editButton.addActionListener(this);
+		JButton transferButton = new JButton("Transfer Team");
+		transferButton.addActionListener(this);
+
+		buttons.add(editButton);
+		buttons.add(transferButton);
 	}
 	
 	public Person getPerson() {
