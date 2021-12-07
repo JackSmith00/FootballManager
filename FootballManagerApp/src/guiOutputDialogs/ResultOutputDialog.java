@@ -31,7 +31,6 @@ public class ResultOutputDialog extends JDialog {
 		super(owner, result.getHomeTeam().getTeamName() + " v " + result.getAwayTeam().getTeamName());
 		this.result = result;
 		
-		System.out.println(result.getDatePlayed());
 		setUpComponents();
 		getContentPane().add(frame);
 		setBounds(0, 0, 500, 450);

@@ -20,6 +20,7 @@ import javax.swing.JTable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 
 import events.Result;
 import guiInputForms.CoachingStaffInputForm;
@@ -438,13 +439,14 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 		String[] columnNames = {"Home Team", "Score", "Away Team"};
 		Object[][] data = new Object[e.getResults().size()][3];
 		Result[] results = new Result[e.getResults().size()];
-		e.getResults().toArray(results);
 		
 		for(int i = 0; i < e.getResults().size(); i++) {
 			Result currentResult = e.getResults().get(i);
 			data[e.getResults().size() - (1 + i)][0] = currentResult.getHomeTeam().getTeamName();
 			data[e.getResults().size() - (1 + i)][1] = currentResult.scoreString();
 			data[e.getResults().size() - (1 + i)][2] = currentResult.getAwayTeam().getTeamName();
+			
+			results[e.getResults().size() - (1 + i)] = currentResult; // allows the rowObject to match the reversed row display
 		}
 		
 		resultsTable = new UneditableTableWithRowObjectReturn(data, columnNames, results);
