@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import leagueComponents.Formation;
+import leagueComponents.FormationManager;
 
 import java.awt.GridBagConstraints;
 
@@ -21,7 +22,9 @@ public class PersonWithFormationPreferenceInputForm extends PersonInputForm {
 		
 		formation = new JLabel("Prefered Formation:");
 		
-		formationInput = new JComboBox<Formation>();
+		Formation[] storedFormations = new Formation[FormationManager.getFormations().size()];
+		FormationManager.getFormations().toArray(storedFormations);
+		formationInput = new JComboBox<Formation>(storedFormations);
 		
 		constraints.anchor = GridBagConstraints.LINE_END; // https://www.youtube.com/watch?v=YKaea4ezQQE&t=385s
 		constraints.gridy = 3;

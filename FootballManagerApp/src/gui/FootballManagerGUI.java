@@ -37,6 +37,7 @@ import guiOutputDialogs.ResultOutputDialog;
 import interfaces.HasResults;
 import interfaces.StatisticsCalculator;
 import leagueComponents.CoachingStaffMember;
+import leagueComponents.FormationManager;
 import leagueComponents.League;
 import leagueComponents.Player;
 import leagueComponents.Referee;
@@ -560,6 +561,7 @@ public class FootballManagerGUI implements MouseListener, ActionListener, Window
 		try {
 			currentLeague.save("./data/saveData");
 			System.out.println("League saved");
+			FormationManager.save();
 			System.exit(0);
 		} catch (FileNotFoundException e1) {
 			System.out.println("File was not found");

@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author Jack
  *
  */
-public class Formation implements Serializable {
+public class Formation implements Serializable, Comparable<Formation> {
 
 	// Attributes
 	private int defenders; // Number of defenders in given formation
@@ -57,5 +57,17 @@ public class Formation implements Serializable {
 	 */
 	public int getStrikers() {
 		return strikers;
+	}
+
+	@Override
+	public int compareTo(Formation o) {
+		// TODO Auto-generated method stub
+		if(this.defenders != o.defenders) { // if formations have different number of defenders, sort on this first
+			return this.defenders - o.defenders;	
+		} else if(this.midfielders != o.midfielders) { // formations have same number of defenders, sort on midfielders if they are different
+			return this.midfielders - o.midfielders;
+		} else { // formations have same number of defenders and midfielders, sort on strikers
+			return this.strikers - o.strikers;
+		}
 	}
 }
