@@ -34,7 +34,7 @@ public class ResultOutputDialog extends JDialog {
 		setUpComponents();
 		getContentPane().add(frame);
 		setBounds(0, 0, 500, 450);
-		//setResizable(false);
+		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

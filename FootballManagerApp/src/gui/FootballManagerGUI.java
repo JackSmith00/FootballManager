@@ -6,6 +6,8 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -40,7 +42,7 @@ import leagueComponents.Player;
 import leagueComponents.Referee;
 import leagueComponents.Team;
 
-public class FootballManagerGUI implements MouseListener, ActionListener {
+public class FootballManagerGUI implements MouseListener, ActionListener, WindowListener {
 	
 	// Attributes
 	private JFrame frame;
@@ -64,7 +66,8 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 	// Constructor
 	public FootballManagerGUI() {
 		frame = new JFrame("League Manager");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Makes the app quit when frame is closed
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Makes the app quit when frame is closed
+		frame.addWindowListener(this); // https://docs.oracle.com/javase/tutorial/uiswing/events/windowlistener.html
 		
 		currentLeague = new League();
 		
@@ -541,6 +544,80 @@ public class FootballManagerGUI implements MouseListener, ActionListener {
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		try {
+			currentLeague.save("./data/saveData");
+			System.out.println("League saved");
+			System.exit(0);
+		} catch (FileNotFoundException e1) {
+			System.out.println("File was not found");
+			e1.printStackTrace();
+			int input = JOptionPane.showConfirmDialog(frame, "Saving failed, are you sure you want to exit?", "Save failure", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			// https://mkyong.com/swing/java-swing-how-to-make-a-confirmation-dialog/
+			switch(input) {
+			case JOptionPane.YES_OPTION:
+				System.exit(0);
+				break;
+			case JOptionPane.NO_OPTION:
+				break;
+			default:
+				break;
+			}
+		} catch (IOException e1) {
+			System.out.println("An I/O Error has occured");
+			e1.printStackTrace();
+			int input = JOptionPane.showConfirmDialog(frame, "Saving failed, are you sure you want to exit?", "Save failure", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			// https://mkyong.com/swing/java-swing-how-to-make-a-confirmation-dialog/
+			switch(input) {
+			case JOptionPane.YES_OPTION:
+				System.exit(0);
+				break;
+			case JOptionPane.NO_OPTION:
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

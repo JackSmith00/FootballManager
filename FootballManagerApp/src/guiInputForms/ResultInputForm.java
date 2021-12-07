@@ -647,7 +647,6 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		outputBuilder.addAll(substitutions);
 		outputBuilder.addAll(cards);
 		Collections.sort(outputBuilder);
-		System.out.println(outputBuilder);
 		GameEvent[] output = new GameEvent[outputBuilder.size()];
 		outputBuilder.toArray(output);
 		return output;
