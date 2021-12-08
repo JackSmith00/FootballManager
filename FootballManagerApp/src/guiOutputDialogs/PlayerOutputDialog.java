@@ -1,5 +1,7 @@
 package guiOutputDialogs;
 
+import java.awt.event.ActionEvent;
+
 import javax.swing.JFrame;
 
 import leagueComponents.Player;
@@ -7,7 +9,7 @@ import leagueComponents.Player;
 public class PlayerOutputDialog extends PersonWithFormationPreferenceOutputDialog {
 
 	public PlayerOutputDialog(JFrame owner, Player person) {
-		super(owner, person, 300, 210);
+		super(owner, person, 300, 240);
 		getContentPane().add(frame);
 		setVisible(true);
 	}
@@ -26,6 +28,12 @@ public class PlayerOutputDialog extends PersonWithFormationPreferenceOutputDialo
 		mainAttributes.add(new LeftPaddedLabel(String.valueOf(((Player) getPerson()).getCardsGiven()), getPadding()), 9);
 		
 		frame.revalidate();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

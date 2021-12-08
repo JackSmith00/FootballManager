@@ -1,28 +1,31 @@
 package guiOutputDialogs;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 
 import leagueComponents.Person;
 
-public abstract class PersonOutputDialog extends JDialog {
+public abstract class PersonOutputDialog extends JDialog implements ActionListener {
 	
 	protected JPanel frame, mainAttributes, secondaryAttributes;
 	private int padding = 10;
 	
-	private Person person;
+	protected Person person;
+	protected JFrame owner;
+	
 	private JPanel buttons;
 
 	public PersonOutputDialog(JFrame owner, Person person, int width, int height) {
 		super(owner, person.getName());
 		this.person = person;
+		this.owner = owner;
 		
 		setUpButtons();
 		getContentPane().add(buttons, BorderLayout.SOUTH);
