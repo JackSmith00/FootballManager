@@ -22,7 +22,7 @@ public class CoachingStaffInputForm extends PersonWithFormationPreferenceInputFo
 	public CoachingStaffInputForm(JFrame owner) {
 		super(owner, "Add Coaching Staff");
 		
-		setUpComponents();
+		setUpCoachStaffComponents();
 		
 		getContentPane().add(form, BorderLayout.CENTER);
 		setBounds(0, 0, 350, 250);
@@ -33,18 +33,16 @@ public class CoachingStaffInputForm extends PersonWithFormationPreferenceInputFo
 	public CoachingStaffInputForm(JFrame owner, CoachingStaffMember coachingStaffMember) {
 		super(owner, "Add Coaching Staff", coachingStaffMember);
 		
-		setUpComponents();
+		setUpCoachStaffComponents();
 		
-		form.revalidate();
-		pack();
+		getContentPane().add(form, BorderLayout.CENTER);
+		setBounds(0, 0, 350, 250);
 		setLocationRelativeTo(null);
 		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
 	}
 	
-	@Override
-	protected void setUpComponents() {
+	protected void setUpCoachStaffComponents() {
 		// TODO Auto-generated method stub
-		super.setUpComponents();
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		

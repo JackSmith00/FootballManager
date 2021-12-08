@@ -34,6 +34,12 @@ public abstract class Person implements Serializable {
 	
 	// Methods
 	// Getters
+	/**
+	 * @return The team the person is a member of
+	 */
+	public Team getTeam() {
+		return team;
+	}
 	
 	/**
 	 * @return The name of the person
@@ -56,12 +62,6 @@ public abstract class Person implements Serializable {
 		return payPerYear;
 	}
 	
-	/**
-	 * @return The team the person is a member of
-	 */
-	public Team getTeam() {
-		return team;
-	}
 	
 	// Setters
 	/**
@@ -72,6 +72,18 @@ public abstract class Person implements Serializable {
 		this.team = team;
 	}
 	
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setEmploymentStatus(EmploymentStatus employmentStatus) {
+		this.employmentStatus = employmentStatus;
+	}
+
+	public void setPayPerYear(int payPerYear) {
+		this.payPerYear = payPerYear;
+	}
+
 	@Override
 	public String toString() {
 		return name;

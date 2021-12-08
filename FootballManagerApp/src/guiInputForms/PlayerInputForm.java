@@ -22,7 +22,7 @@ public class PlayerInputForm extends PersonWithFormationPreferenceInputForm {
 	public PlayerInputForm(JFrame owner) {
 		super(owner, "Add Player");
 		
-		setUpComponents();
+		setUpPlayerComponents();
 		
 		getContentPane().add(form, BorderLayout.CENTER);
 		setBounds(0, 0, 350, 250);
@@ -33,7 +33,7 @@ public class PlayerInputForm extends PersonWithFormationPreferenceInputForm {
 	public PlayerInputForm(JFrame owner, Player player) {
 		super(owner, "Add Player", player);
 
-		setUpComponents();
+		setUpPlayerComponents();
 		
 		getContentPane().add(form, BorderLayout.CENTER);
 		setBounds(0, 0, 350, 250);
@@ -42,10 +42,7 @@ public class PlayerInputForm extends PersonWithFormationPreferenceInputForm {
 		
 	}
 	
-	@Override
-	protected void setUpComponents() {
-		
-		super.setUpComponents();
+	protected void setUpPlayerComponents() {
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		

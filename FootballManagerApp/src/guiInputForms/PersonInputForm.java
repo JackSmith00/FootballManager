@@ -33,6 +33,7 @@ public abstract class PersonInputForm extends JDialog implements ActionListener 
 	public PersonInputForm(JFrame owner, String title) {
 		super(owner, title, true);
 		
+		setUpComponents();
 		setUpSubmitButtons();
 		
 		getContentPane().add(buttons, BorderLayout.SOUTH);

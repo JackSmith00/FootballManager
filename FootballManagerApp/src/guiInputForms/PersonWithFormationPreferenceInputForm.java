@@ -16,17 +16,16 @@ public abstract class PersonWithFormationPreferenceInputForm extends PersonInput
 
 	public PersonWithFormationPreferenceInputForm(JFrame owner, String title) {
 		super(owner, title);
+		setUpFormationComponents();
 	}
 	
 	public PersonWithFormationPreferenceInputForm(JFrame owner, String title, PersonWithFormationPreference person) {
 		super(owner, title, person);
+		setUpFormationComponents();
 		formationInput.setSelectedItem(person.getPreferredFormation());
 	}
 	
-	@Override
-	protected void setUpComponents() {
-		
-		super.setUpComponents();
+	protected void setUpFormationComponents() {
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		
