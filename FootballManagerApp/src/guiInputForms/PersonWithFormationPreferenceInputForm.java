@@ -1,6 +1,6 @@
 package guiInputForms;
 
-import java.awt.event.ActionEvent;
+import java.awt.GridBagConstraints;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -8,37 +8,39 @@ import javax.swing.JLabel;
 
 import leagueComponents.Formation;
 import leagueComponents.FormationManager;
+import leagueComponents.PersonWithFormationPreference;
 
-import java.awt.GridBagConstraints;
-
-public class PersonWithFormationPreferenceInputForm extends PersonInputForm {
+public abstract class PersonWithFormationPreferenceInputForm extends PersonInputForm {
 	
-	private JLabel formation;
 	protected JComboBox<Formation> formationInput;
 
 	public PersonWithFormationPreferenceInputForm(JFrame owner, String title) {
 		super(owner, title);
+	}
+	
+	public PersonWithFormationPreferenceInputForm(JFrame owner, String title, PersonWithFormationPreference person) {
+		super(owner, title, person);
+		formationInput.setSelectedItem(person.getPreferredFormation());
+	}
+	
+	@Override
+	protected void setUpComponents() {
+		
+		super.setUpComponents();
+		
 		GridBagConstraints constraints = new GridBagConstraints();
 		
-		formation = new JLabel("Prefered Formation:");
+		constraints.anchor = GridBagConstraints.LINE_END;
+		constraints.gridy = 2;
+		mainAttributes.add(new JLabel("Prefered Formation:"), constraints);
 		
 		Formation[] storedFormations = new Formation[FormationManager.getFormations().size()];
 		FormationManager.getFormations().toArray(storedFormations);
 		formationInput = new JComboBox<Formation>(storedFormations);
 		
-		constraints.anchor = GridBagConstraints.LINE_END; // https://www.youtube.com/watch?v=YKaea4ezQQE&t=385s
-		constraints.gridy = 3;
-		form.add(formation, constraints);
-		
 		constraints.anchor = GridBagConstraints.LINE_START;
 		constraints.gridx = 1;
-		form.add(formationInput, constraints);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		mainAttributes.add(formationInput, constraints);
 	}
 
 }

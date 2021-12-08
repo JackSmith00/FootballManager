@@ -1,5 +1,6 @@
 package guiInputForms;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 
@@ -14,30 +15,50 @@ import leagueComponents.Player;
 
 public class PlayerInputForm extends PersonWithFormationPreferenceInputForm {
 	
-	private JLabel position;
 	protected JTextField positionInput;
 	
 	private Player newPlayer;
 
 	public PlayerInputForm(JFrame owner) {
 		super(owner, "Add Player");
+		
+		setUpComponents();
+		
+		getContentPane().add(form, BorderLayout.CENTER);
+		setBounds(0, 0, 350, 250);
+		setLocationRelativeTo(null);
+		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
+	}
+	
+	public PlayerInputForm(JFrame owner, Player player) {
+		super(owner, "Add Player", player);
+
+		setUpComponents();
+		
+		getContentPane().add(form, BorderLayout.CENTER);
+		setBounds(0, 0, 350, 250);
+		setLocationRelativeTo(null);
+		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
+		
+	}
+	
+	@Override
+	protected void setUpComponents() {
+		
+		super.setUpComponents();
+		
 		GridBagConstraints constraints = new GridBagConstraints();
 		
-		position = new JLabel("Position:");
+		constraints.anchor = GridBagConstraints.LINE_END; // https://www.youtube.com/watch?v=YKaea4ezQQE&t=385s
+		constraints.gridy = 1;
+		mainAttributes.add(new JLabel("Position:"), constraints);
 		
 		positionInput = new JTextField(15);
 		
-		constraints.anchor = GridBagConstraints.LINE_END; // https://www.youtube.com/watch?v=YKaea4ezQQE&t=385s
-		constraints.gridy = 4;
-		form.add(position, constraints);
-		
 		constraints.anchor = GridBagConstraints.LINE_START; // https://www.youtube.com/watch?v=YKaea4ezQQE&t=385s
 		constraints.gridx = 1;
-		form.add(positionInput, constraints);
+		mainAttributes.add(positionInput, constraints);
 		
-		pack();
-		setLocationRelativeTo(null);
-		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959	}
 	}
 	
 	public void actionPerformed(ActionEvent e) {

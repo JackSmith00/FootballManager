@@ -6,16 +6,15 @@ import javax.swing.JTextField;
 
 import enums.EmploymentStatus;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 
 import leagueComponents.CoachingStaffMember;
 import leagueComponents.Formation;
-import leagueComponents.Referee;
 
 public class CoachingStaffInputForm extends PersonWithFormationPreferenceInputForm {
 
-	private JLabel role;
 	protected JTextField roleInput;
 	
 	private CoachingStaffMember newCoachingStaffMember;
@@ -23,23 +22,41 @@ public class CoachingStaffInputForm extends PersonWithFormationPreferenceInputFo
 	public CoachingStaffInputForm(JFrame owner) {
 		super(owner, "Add Coaching Staff");
 		
-		GridBagConstraints constraints = new GridBagConstraints();
+		setUpComponents();
 		
-		role = new JLabel("Role:");
+		getContentPane().add(form, BorderLayout.CENTER);
+		setBounds(0, 0, 350, 250);
+		setLocationRelativeTo(null);
+		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
+	}
+	
+	public CoachingStaffInputForm(JFrame owner, CoachingStaffMember coachingStaffMember) {
+		super(owner, "Add Coaching Staff", coachingStaffMember);
 		
-		roleInput = new JTextField(15);
+		setUpComponents();
 		
-		constraints.anchor = GridBagConstraints.LINE_END; // https://www.youtube.com/watch?v=YKaea4ezQQE&t=385s
-		constraints.gridy = 4;
-		form.add(role, constraints);
-		
-		constraints.anchor = GridBagConstraints.LINE_START; // https://www.youtube.com/watch?v=YKaea4ezQQE&t=385s
-		constraints.gridx = 1;
-		form.add(roleInput, constraints);
-		
+		form.revalidate();
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
+	}
+	
+	@Override
+	protected void setUpComponents() {
+		// TODO Auto-generated method stub
+		super.setUpComponents();
+		
+		GridBagConstraints constraints = new GridBagConstraints();
+		
+		constraints.anchor = GridBagConstraints.LINE_END;
+		constraints.gridy = 1;
+		mainAttributes.add(new JLabel("Role:"), constraints);
+		
+		roleInput = new JTextField(15);
+		
+		constraints.anchor = GridBagConstraints.LINE_START;
+		constraints.gridx = 1;
+		mainAttributes.add(roleInput, constraints);
 	}
 	
 	public CoachingStaffMember getNewCoachingStaffMember() {

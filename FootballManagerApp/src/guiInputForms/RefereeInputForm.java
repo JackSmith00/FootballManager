@@ -1,5 +1,6 @@
 package guiInputForms;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
@@ -13,6 +14,15 @@ public class RefereeInputForm extends PersonInputForm {
 
 	public RefereeInputForm(JFrame owner) {
 		super(owner, "Add Referee");
+		setUpComponents();
+		getContentPane().add(form, BorderLayout.CENTER);
+		setBounds(0, 0, 350, 200);
+		setLocationRelativeTo(null);
+		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
+	}
+	
+	public RefereeInputForm(JFrame owner, Referee referee) {
+		super(owner, "Add Referee", referee);
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
