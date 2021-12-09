@@ -4,6 +4,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -16,14 +17,17 @@ public abstract class PersonOutputDialog extends JDialog implements ActionListen
 	
 	protected JPanel frame, mainAttributes, secondaryAttributes;
 	private int padding = 10;
+	private LeftPaddedLabel name = new LeftPaddedLabel("", padding);
+	private LeftPaddedLabel employmentStatus = new LeftPaddedLabel("", padding);
+	private LeftPaddedLabel payPerYear = new LeftPaddedLabel("", padding);
 	
-	protected Person person;
-	protected JFrame owner;
+	private Person person;
+	private JFrame owner;
 	
 	private JPanel buttons;
 
 	public PersonOutputDialog(JFrame owner, Person person, int width, int height) {
-		super(owner, person.getName());
+		super(owner);
 		this.person = person;
 		this.owner = owner;
 		
@@ -41,20 +45,20 @@ public abstract class PersonOutputDialog extends JDialog implements ActionListen
 		GridLayout layout = new GridLayout(0, 2);
 		layout.setVgap(5);
 		
+		setAllLabelText(person);
+		
 		mainAttributes = new JPanel(layout);
 		mainAttributes.add(new RightAlignedLabel("Name:"));
-		mainAttributes.add(new LeftPaddedLabel(person.getName(), padding));
+		mainAttributes.add(name);
 		
 		frame.add(mainAttributes);
 		
-		NumberFormat moneyFormatter = NumberFormat.getCurrencyInstance(); // https://stackoverflow.com/questions/2379221/java-currency-number-format
-		moneyFormatter.setMaximumFractionDigits(0);
 
 		secondaryAttributes = new JPanel(layout);
 		secondaryAttributes.add(new RightAlignedLabel("Employment Status:"));
-		secondaryAttributes.add(new LeftPaddedLabel(person.getEmploymentStatus().toString(), padding));
+		secondaryAttributes.add(employmentStatus);
 		secondaryAttributes.add(new RightAlignedLabel("Pay per year:"));
-		secondaryAttributes.add(new LeftPaddedLabel(moneyFormatter.format(person.getPayPerYear()), padding));
+		secondaryAttributes.add(payPerYear);
 		
 		frame.add(secondaryAttributes);
 	}
@@ -70,8 +74,23 @@ public abstract class PersonOutputDialog extends JDialog implements ActionListen
 		buttons.add(transferButton);
 	}
 	
+	public void setAllLabelText(Person person) {
+		setTitle(person.getName());
+		name.setText(person.getName());
+		employmentStatus.setText(person.getEmploymentStatus().toString());
+		
+		NumberFormat moneyFormatter = NumberFormat.getCurrencyInstance(); // https://stackoverflow.com/questions/2379221/java-currency-number-format
+		moneyFormatter.setMaximumFractionDigits(0);
+		
+		payPerYear.setText(moneyFormatter.format(person.getPayPerYear()));
+	}
+	
 	public Person getPerson() {
 		return person;
+	}
+	
+	public JFrame getOwner() {
+		return owner;
 	}
 	
 	public int getPadding() {

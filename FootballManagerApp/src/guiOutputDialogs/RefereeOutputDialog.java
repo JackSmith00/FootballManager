@@ -2,14 +2,13 @@ package guiOutputDialogs;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.JFrame;
-
+import gui.FootballManagerGUI;
 import guiInputForms.RefereeInputForm;
 import leagueComponents.Referee;
 
 public class RefereeOutputDialog extends PersonOutputDialog {
 
-	public RefereeOutputDialog(JFrame owner, Referee person) {
+	public RefereeOutputDialog(FootballManagerGUI owner, Referee person) {
 		super(owner, person, 300, 140);
 		setUpComponents();
 		getContentPane().add(frame);
@@ -20,19 +19,23 @@ public class RefereeOutputDialog extends PersonOutputDialog {
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()) {
 		case "Edit":
-			RefereeInputForm updatedRefForm = new RefereeInputForm(owner, (Referee) person);
+			Referee originalReferee = (Referee) getPerson();
+			RefereeInputForm updatedRefForm = new RefereeInputForm(getOwner(), originalReferee);
 			Referee updatedReferee = updatedRefForm.getNewReferee();
-			person.setName(updatedReferee.getName());
-			person.setTeam(updatedReferee.getTeam());
-			person.setEmploymentStatus(updatedReferee.getEmploymentStatus());
-			person.setPayPerYear(updatedReferee.getPayPerYear());
-			
-			
-			// need to update
-			revalidate();
-			repaint();
-			owner.revalidate();
-			owner.repaint();
+			if(updatedReferee != null) {
+				originalReferee.setName(updatedReferee.getName());
+				originalReferee.setTeam(updatedReferee.getTeam());
+				originalReferee.setEmploymentStatus(updatedReferee.getEmploymentStatus());
+				originalReferee.setPayPerYear(updatedReferee.getPayPerYear());
+
+				// need to update
+
+				setAllLabelText(updatedReferee);
+				((FootballManagerGUI) getOwner()).setUpTeamPage(((FootballManagerGUI) getOwner()).getCurrentTeam());
+
+				revalidate();
+				getOwner().getContentPane().revalidate();
+			}
 		}
 	}
 

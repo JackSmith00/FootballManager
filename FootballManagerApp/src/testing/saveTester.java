@@ -17,14 +17,20 @@ public class saveTester {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
+		Formation form1 = new Formation(4, 4, 2); // https://www.myactivesg.com/sports/football/training-methods/tactics/understanding-football-formations
+		Formation form2 = new Formation(4, 3, 3);
+		Formation form3 = new Formation(4, 5, 1);
+		
+		
+		FormationManager.add(form1);
+		FormationManager.add(form2);
+		FormationManager.add(form3);
 
+		Player p1 = new Player("John", "GK", form1, EmploymentStatus.FULL_TIME, 10_000);
+		Player p2 = new Player("Ben", "RW", form1, EmploymentStatus.FULL_TIME, 20_000);
 
-
-		Player p1 = new Player("John", "GK", null, EmploymentStatus.FULL_TIME, 10_000);
-		Player p2 = new Player("Ben", "RW", null, EmploymentStatus.FULL_TIME, 20_000);
-
-		Player p3 = new Player("Paul", "LW", null, EmploymentStatus.PART_TIME, 10_000);
-		Player p4 = new Player("Roger", "ST", null, EmploymentStatus.PART_TIME, 20_000);
+		Player p3 = new Player("Paul", "LW", form2, EmploymentStatus.PART_TIME, 10_000);
+		Player p4 = new Player("Roger", "ST", form3, EmploymentStatus.PART_TIME, 20_000);
 
 		Team t1 = new Team("Liverpool", new Stadium("Anfield", 100));
 
@@ -49,13 +55,6 @@ public class saveTester {
 
 		System.out.println(t1.getPlayers()); System.out.println(l.getTeams());
 		
-		Formation form1 = new Formation(4, 4, 2); // https://www.myactivesg.com/sports/football/training-methods/tactics/understanding-football-formations
-		Formation form2 = new Formation(4, 3, 3);
-		Formation form3 = new Formation(4, 5, 1);
-		
-		FormationManager.add(form1);
-		FormationManager.add(form2);
-		FormationManager.add(form3);
 		
 
 		try {
