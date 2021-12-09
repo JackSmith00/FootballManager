@@ -34,6 +34,7 @@ public class CoachingStaffInputForm extends PersonWithFormationPreferenceInputFo
 		super(owner, "Add Coaching Staff", coachingStaffMember);
 		
 		setUpCoachStaffComponents();
+		roleInput.setText(coachingStaffMember.getRole());
 		
 		getContentPane().add(form, BorderLayout.CENTER);
 		setBounds(0, 0, 350, 250);

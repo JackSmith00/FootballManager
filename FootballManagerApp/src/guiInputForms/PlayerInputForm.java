@@ -34,6 +34,7 @@ public class PlayerInputForm extends PersonWithFormationPreferenceInputForm {
 		super(owner, "Add Player", player);
 
 		setUpPlayerComponents();
+		positionInput.setText(player.getPosition());
 		
 		getContentPane().add(form, BorderLayout.CENTER);
 		setBounds(0, 0, 350, 250);
