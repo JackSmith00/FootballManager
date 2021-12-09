@@ -43,10 +43,9 @@ import leagueComponents.Player;
 import leagueComponents.Referee;
 import leagueComponents.Team;
 
-public class FootballManagerGUI implements MouseListener, ActionListener, WindowListener {
+public class FootballManagerGUI extends JFrame implements MouseListener, ActionListener, WindowListener {
 	
 	// Attributes
-	private JFrame frame;
 	private JPanel leaguePage;
 	private JTable leagueTable;
 	private JTable statsTable;
@@ -66,9 +65,9 @@ public class FootballManagerGUI implements MouseListener, ActionListener, Window
 	
 	// Constructor
 	public FootballManagerGUI() {
-		frame = new JFrame("League Manager");
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Makes the app quit when frame is closed
-		frame.addWindowListener(this); // https://docs.oracle.com/javase/tutorial/uiswing/events/windowlistener.html
+		setTitle("League Manager");
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Makes the app quit when frame is closed
+		addWindowListener(this); // https://docs.oracle.com/javase/tutorial/uiswing/events/windowlistener.html
 		
 		currentLeague = new League();
 		
@@ -85,13 +84,13 @@ public class FootballManagerGUI implements MouseListener, ActionListener, Window
 				e.printStackTrace();
 			}
 		} else {
-			String leagueName = JOptionPane.showInputDialog(frame, "League Name:"); // https://docs.oracle.com/javase/7/docs/api/javax/swing/JOptionPane.html
+			String leagueName = JOptionPane.showInputDialog(this, "League Name:"); // https://docs.oracle.com/javase/7/docs/api/javax/swing/JOptionPane.html
 			currentLeague = new League(leagueName);
 		}
 		  
 		setUpLeaguePage(currentLeague); // Separate method to set up all components for the GUI
-		frame.add(leaguePage);
-		frame.setBounds(100, 100, 900, 650);
+		add(leaguePage);
+		setBounds(100, 100, 900, 650);
 		/*
 		 * The line below makes the frame appear in the centre of the
 		 * screen rather than in the top left, for a nicer user experience
@@ -99,9 +98,9 @@ public class FootballManagerGUI implements MouseListener, ActionListener, Window
 		 * I found how to do this at the following site:
 		 * http://www.fredosaurus.com/notes-java/GUI/containers/10windows/15framesize.html
 		 */
-		frame.setLocationRelativeTo(null);
-		frame.setResizable(false); // Stops the user from resizing the app, ruining the appearance
-		frame.setVisible(true); // Allows the user to see the frame and interact with it
+		setLocationRelativeTo(null);
+		setResizable(false); // Stops the user from resizing the app, ruining the appearance
+		setVisible(true); // Allows the user to see the frame and interact with it
 	}
 	
 	public void setUpLeaguePage(League league) {
@@ -206,12 +205,12 @@ public class FootballManagerGUI implements MouseListener, ActionListener, Window
 	}
 	
 	public void addNewTeam(League league) {
-		TeamInputForm inputForm = new TeamInputForm(frame);
+		TeamInputForm inputForm = new TeamInputForm(this);
 		if(inputForm.getNewTeam() != null) {
 			league.addTeam(inputForm.getNewTeam());
 		}
 		setUpLeaguePage(league);
-		frame.getContentPane().revalidate();
+		getContentPane().revalidate();
 	}
 	
 	public void setUpTeamPage(Team team) {
@@ -364,12 +363,12 @@ public class FootballManagerGUI implements MouseListener, ActionListener, Window
 	}
 	
 	public void addNewPlayer(Team team) {
-		PlayerInputForm inputForm = new PlayerInputForm(frame);
+		PlayerInputForm inputForm = new PlayerInputForm(this);
 		if(inputForm.getNewPlayer() != null) {
 			team.addPlayer(inputForm.getNewPlayer());
 		}
 		setUpTeamPage(team);
-		frame.getContentPane().revalidate();	
+		getContentPane().revalidate();	
 	}
 	
 	public void updateCoachingStaffTable(Team team) {
@@ -389,12 +388,12 @@ public class FootballManagerGUI implements MouseListener, ActionListener, Window
 	}
 	
 	public void addNewCoachingStaffMember(Team team) {
-		CoachingStaffInputForm inputForm = new CoachingStaffInputForm(frame);
+		CoachingStaffInputForm inputForm = new CoachingStaffInputForm(this);
 		if(inputForm.getNewCoachingStaffMember() != null) {
 			team.addCoachingStaffMember(inputForm.getNewCoachingStaffMember());
 		}
 		setUpTeamPage(team);
-		frame.getContentPane().revalidate();
+		getContentPane().revalidate();
 	}
 	
 	public void updateRefereeTable(Team team) {
@@ -413,12 +412,12 @@ public class FootballManagerGUI implements MouseListener, ActionListener, Window
 	}
 	
 	public void addNewReferee(Team team) {
-		RefereeInputForm inputForm = new RefereeInputForm(frame);
+		RefereeInputForm inputForm = new RefereeInputForm(this);
 		if(inputForm.getNewReferee() != null) {
 			team.addReferee(inputForm.getNewReferee());
 		}
 		setUpTeamPage(team);
-		frame.getContentPane().revalidate();
+		getContentPane().revalidate();
 	}
 	
 	public void updateStatsTableFor(StatisticsCalculator e) {
@@ -458,12 +457,12 @@ public class FootballManagerGUI implements MouseListener, ActionListener, Window
 	}
 	
 	public void addNewResult(League league) {
-		ResultInputForm inputForm = new ResultInputForm(frame, league);
+		ResultInputForm inputForm = new ResultInputForm(this, league);
 		if(inputForm.getNewResult() != null) {
 			league.addResult(inputForm.getNewResult());
 		}
 		setUpLeaguePage(league);
-		frame.getContentPane().revalidate();
+		getContentPane().revalidate();
 	}
 	
 
@@ -487,10 +486,10 @@ public class FootballManagerGUI implements MouseListener, ActionListener, Window
 			break;
 		case "< Back to league view":
 			setUpLeaguePage(currentLeague);
-			frame.getContentPane().removeAll();
-			frame.getContentPane().add(leaguePage);
-			frame.revalidate();
-			frame.repaint();
+			getContentPane().removeAll();
+			getContentPane().add(leaguePage);
+			revalidate();
+			repaint();
 		}
 	}
 	
@@ -505,22 +504,22 @@ public class FootballManagerGUI implements MouseListener, ActionListener, Window
 			if(rowObject.getClass() == Team.class) { // If the selected row is a team
 				currentTeam = (Team) rowObject;
 				setUpTeamPage(currentTeam);
-				frame.getContentPane().removeAll();
-				frame.getContentPane().add(teamPage);
-				frame.revalidate();
-				frame.repaint();
+				getContentPane().removeAll();
+				getContentPane().add(teamPage);
+				revalidate();
+				repaint();
 			}
 			if(rowObject.getClass() == Referee.class) {
-				new RefereeOutputDialog(frame, (Referee) rowObject);
+				new RefereeOutputDialog(this, (Referee) rowObject);
 			}
 			if(rowObject.getClass() == CoachingStaffMember.class) {
-				new CoachingStaffMemberOutputDialog(frame, (CoachingStaffMember) rowObject);
+				new CoachingStaffMemberOutputDialog(this, (CoachingStaffMember) rowObject);
 			}
 			if(rowObject.getClass() == Player.class) {
-				new PlayerOutputDialog(frame, (Player) rowObject);
+				new PlayerOutputDialog(this, (Player) rowObject);
 			}
 			if(rowObject.getClass() == Result.class) {
-				new ResultOutputDialog(frame, (Result) rowObject);
+				new ResultOutputDialog(this, (Result) rowObject);
 			}
 			
 		}
@@ -566,7 +565,7 @@ public class FootballManagerGUI implements MouseListener, ActionListener, Window
 		} catch (FileNotFoundException e1) {
 			System.out.println("File was not found");
 			e1.printStackTrace();
-			int input = JOptionPane.showConfirmDialog(frame, "Saving failed, are you sure you want to exit?", "Save failure", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			int input = JOptionPane.showConfirmDialog(this, "Saving failed, are you sure you want to exit?", "Save failure", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			// https://mkyong.com/swing/java-swing-how-to-make-a-confirmation-dialog/
 			switch(input) {
 			case JOptionPane.YES_OPTION:
@@ -580,7 +579,7 @@ public class FootballManagerGUI implements MouseListener, ActionListener, Window
 		} catch (IOException e1) {
 			System.out.println("An I/O Error has occured");
 			e1.printStackTrace();
-			int input = JOptionPane.showConfirmDialog(frame, "Saving failed, are you sure you want to exit?", "Save failure", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			int input = JOptionPane.showConfirmDialog(this, "Saving failed, are you sure you want to exit?", "Save failure", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			// https://mkyong.com/swing/java-swing-how-to-make-a-confirmation-dialog/
 			switch(input) {
 			case JOptionPane.YES_OPTION:
@@ -624,5 +623,12 @@ public class FootballManagerGUI implements MouseListener, ActionListener, Window
 		
 	}
 
+	public League getCurrentLeague() {
+		return currentLeague;
+	}
+	
+	public Team getCurrentTeam() {
+		return currentTeam;
+	}
 
 }
