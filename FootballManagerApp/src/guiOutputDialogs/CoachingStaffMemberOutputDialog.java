@@ -2,14 +2,11 @@ package guiOutputDialogs;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.JFrame;
-
 import gui.FootballManagerGUI;
 import gui.LeftPaddedLabel;
 import gui.RightAlignedLabel;
 import guiInputForms.CoachingStaffInputForm;
 import leagueComponents.CoachingStaffMember;
-import leagueComponents.Referee;
 import leagueComponents.Team;
 
 
@@ -18,7 +15,7 @@ public class CoachingStaffMemberOutputDialog extends PersonWithFormationPreferen
 	private LeftPaddedLabel role = new LeftPaddedLabel("", getPadding());
 
 	public CoachingStaffMemberOutputDialog(FootballManagerGUI owner, CoachingStaffMember person) {
-		super(owner, person, 300, 190);
+		super(owner, person, 310, 190);
 		setUpComponents();
 		getContentPane().add(frame);
 		setVisible(true);
@@ -37,6 +34,7 @@ public class CoachingStaffMemberOutputDialog extends PersonWithFormationPreferen
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		FootballManagerGUI appGui = (FootballManagerGUI) getOwner();
 		switch(e.getActionCommand()) {
 		case "Edit":
 			CoachingStaffMember originalCoach = (CoachingStaffMember) getPerson();
@@ -53,18 +51,26 @@ public class CoachingStaffMemberOutputDialog extends PersonWithFormationPreferen
 				// need to update
 
 				setAllLabelText(updatedCoach);
-				((FootballManagerGUI) getOwner()).setUpTeamPage(((FootballManagerGUI) getOwner()).getCurrentTeam());
+				appGui.setUpTeamPage(appGui.getCurrentTeam());
 
 				revalidate();
-				getOwner().getContentPane().revalidate();
+				appGui.revalidate();
 			}
 			break;
 		case "Transfer Team":
 			Team newTeam = teamToTransferTo("Coaching Staff");
 			if(newTeam != null) {
-				FootballManagerGUI appGui = (FootballManagerGUI) getOwner();
 				appGui.getCurrentTeam().removeCoachingStaffMember((CoachingStaffMember)getPerson());
 				newTeam.addCoachingStaffMember((CoachingStaffMember)getPerson());
+				appGui.setUpTeamPage(appGui.getCurrentTeam());
+				appGui.revalidate();
+				dispose();
+			}
+			break;
+		case "Delete":
+			boolean shouldDelete = shouldDeleteThisPerson("Coaching Staff Member");
+			if(shouldDelete) {
+				appGui.getCurrentTeam().removeCoachingStaffMember((CoachingStaffMember)getPerson());
 				appGui.setUpTeamPage(appGui.getCurrentTeam());
 				appGui.revalidate();
 				dispose();

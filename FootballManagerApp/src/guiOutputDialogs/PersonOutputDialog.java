@@ -116,6 +116,15 @@ public abstract class PersonOutputDialog extends JDialog implements ActionListen
 		}
 	}
 	
+	public boolean shouldDeleteThisPerson(String personType) {
+		int input = JOptionPane.showConfirmDialog(getOwner(), "Are you sure you want to delete this " + personType + "?\nThis cannot be undone.", "Delete " + personType, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+		if(input == JOptionPane.YES_OPTION) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public Person getPerson() {
 		return person;
 	}

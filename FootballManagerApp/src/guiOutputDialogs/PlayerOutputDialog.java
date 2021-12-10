@@ -17,7 +17,7 @@ public class PlayerOutputDialog extends PersonWithFormationPreferenceOutputDialo
 	private LeftPaddedLabel goalsScored, assistsMade, cardsGiven;
 
 	public PlayerOutputDialog(JFrame owner, Player person) {
-		super(owner, person, 300, 240);
+		super(owner, person, 310, 240);
 		setUpComponents();
 		getContentPane().add(frame);
 		setVisible(true);
@@ -49,6 +49,7 @@ public class PlayerOutputDialog extends PersonWithFormationPreferenceOutputDialo
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		FootballManagerGUI appGui = (FootballManagerGUI) getOwner();		
 		switch(e.getActionCommand()) {
 		case "Edit":
 			Player originalPlayer = (Player) getPerson();
@@ -65,7 +66,7 @@ public class PlayerOutputDialog extends PersonWithFormationPreferenceOutputDialo
 				// need to update
 
 				setAllLabelText(updatedPlayer);
-				((FootballManagerGUI) getOwner()).setUpTeamPage(((FootballManagerGUI) getOwner()).getCurrentTeam());
+				appGui.setUpTeamPage(((FootballManagerGUI) getOwner()).getCurrentTeam());
 
 				revalidate();
 				getOwner().getContentPane().revalidate();
@@ -74,9 +75,17 @@ public class PlayerOutputDialog extends PersonWithFormationPreferenceOutputDialo
 		case "Transfer Team":
 			Team newTeam = teamToTransferTo("Player");
 			if(newTeam != null) {
-				FootballManagerGUI appGui = (FootballManagerGUI) getOwner();
 				appGui.getCurrentTeam().removePlayer((Player)getPerson());
 				newTeam.addPlayer((Player)getPerson());
+				appGui.setUpTeamPage(appGui.getCurrentTeam());
+				appGui.revalidate();
+				dispose();
+			}
+			break;
+		case "Delete":
+			boolean shouldDelete = shouldDeleteThisPerson("Player");
+			if(shouldDelete) {
+				appGui.getCurrentTeam().removePlayer((Player)getPerson());
 				appGui.setUpTeamPage(appGui.getCurrentTeam());
 				appGui.revalidate();
 				dispose();
