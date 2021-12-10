@@ -48,6 +48,10 @@ public class Team implements Serializable, StatisticsCalculator, HasResults {
 		p.setTeam(this); // set players team to this team
 	}
 	
+	public void removePlayer(Player p) {
+		players.remove(p);
+	}
+	
 	/**
 	 * Allows a member of coaching staff to be added to the team
 	 * @param p : The coaching staff member to add to the team
@@ -57,6 +61,10 @@ public class Team implements Serializable, StatisticsCalculator, HasResults {
 		cs.setTeam(this); // set players team to this team
 	}
 	
+	public void removeCoachingStaffMember(CoachingStaffMember cs) {
+		coachingStaff.remove(cs);
+	}
+	
 	/**
 	 * Allows a referee to be added to the team
 	 * @param p : The referee to add to the team
@@ -64,6 +72,10 @@ public class Team implements Serializable, StatisticsCalculator, HasResults {
 	public void addReferee(Referee r) {
 		referees.add(r); // add player to the team players list
 		r.setTeam(this); // set players team to this team
+	}
+	
+	public void removeReferee(Referee r) {
+		referees.remove(r);
 	}
 	
 	/**
