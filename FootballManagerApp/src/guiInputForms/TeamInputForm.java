@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
 
 public class TeamInputForm extends JDialog implements ActionListener {
 	
-	protected JPanel form;
+	protected JPanel form, buttons;
 	private JLabel teamName;
 	private JLabel stadiumName;
 	private JLabel stadiumCapacity;
@@ -35,6 +35,20 @@ public class TeamInputForm extends JDialog implements ActionListener {
 
 	public TeamInputForm(JFrame owner) {
 		super(owner, "Add Team", true);
+		
+		setUpComponents();
+		setUpButtons();
+		
+		getContentPane().add(form, BorderLayout.CENTER);
+		getContentPane().add(buttons, BorderLayout.SOUTH);
+		
+		setResizable(false);
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
+	}
+	
+	private void setUpComponents() {
 		form = new JPanel(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
 		
@@ -69,7 +83,11 @@ public class TeamInputForm extends JDialog implements ActionListener {
 		constraints.gridy = 2;
 		form.add(stadiumCapacityInput, constraints);
 		
-		JPanel buttons = new JPanel();
+		form.setBorder(new EmptyBorder(10, 10, 10, 10));
+	}
+	
+	private void setUpButtons() {
+		buttons = new JPanel();
 		JButton submitButton = new JButton("Submit");
 		submitButton.addActionListener(this);
 		JButton cancelButton = new JButton("Cancel");
@@ -78,16 +96,7 @@ public class TeamInputForm extends JDialog implements ActionListener {
 		buttons.add(submitButton);
 		buttons.add(cancelButton);
 		
-		
-		form.setBorder(new EmptyBorder(10, 10, 10, 10));
 		buttons.setBorder(new EmptyBorder(10, 10, 10, 10));
-		getContentPane().add(form, BorderLayout.CENTER);
-		getContentPane().add(buttons, BorderLayout.SOUTH);
-		
-		setResizable(false);
-		pack();
-		setLocationRelativeTo(null);
-		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
 	}
 
 	@Override

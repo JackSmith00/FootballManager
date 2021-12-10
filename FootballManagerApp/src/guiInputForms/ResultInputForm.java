@@ -37,43 +37,31 @@ public class ResultInputForm extends JDialog implements ActionListener {
 	protected JPanel form;
 
 	private String[] playerInputColumns;
-	protected JComboBox<Team> homeTeamInput;
-	protected JComboBox<Team> awayTeamInput;
-	protected JSpinner homeScoreInput;
-	protected JSpinner awayScoreInput;
-	protected JSpinner datePlayedInput;
-	protected PlayerSelectTable homePlayersInput;
-	protected PlayerSelectTable awayPlayersInput;
+	protected JComboBox<Team> homeTeamInput, awayTeamInput;
+	protected JSpinner homeScoreInput, awayScoreInput, datePlayedInput;
+	protected PlayerSelectTable homePlayersInput, awayPlayersInput;
 	protected UneditableTableWithRowObjectReturn goalsTable;
 	private JPanel goalInput;
-	protected JComboBox<Player> goalScorerInput;
-	protected JComboBox<Player> goalAssisterInput;
+	protected JComboBox<Player> goalScorerInput, goalAssisterInput;
 	protected JSpinner goalTime;
-	protected JButton addGoalButton;
-	protected JButton updateGoalButton;
-	protected JButton deleteGoalButton;
+	protected JButton addGoalButton, updateGoalButton, deleteGoalButton;
 	protected UneditableTableWithRowObjectReturn substitutionsTable;
 	private JPanel substitutionInput;
-	protected JComboBox<Player> subbedOnInput;
-	protected JComboBox<Player> subbedOffInput;
+	protected JComboBox<Player> subbedOnInput, subbedOffInput;
 	protected JSpinner substitutionTime;
-	protected JButton addSubstitutionButton;
-	protected JButton updateSubstitutionButton;
-	protected JButton deleteSubstitutionButton;
+	protected JButton addSubstitutionButton, updateSubstitutionButton, deleteSubstitutionButton;
 	protected UneditableTableWithRowObjectReturn cardsTable;
 	private JPanel cardInput;
 	protected JComboBox<Player> playerCardedInput;
 	protected JSpinner cardTime;
-	protected JButton addCardButton;
-	protected JButton updateCardButton;
-	protected JButton deleteCardButton;
-	protected JButton submitButton;
-	protected JButton cancelButton;
+	protected JButton addCardButton, updateCardButton, deleteCardButton;
+	protected JButton submitButton, cancelButton;
 	
-	private Result newResult;
 	private ArrayList<TwoPlayerGameEvent> goals = new ArrayList<TwoPlayerGameEvent>();
 	private ArrayList<TwoPlayerGameEvent> substitutions = new ArrayList<TwoPlayerGameEvent>();
 	private ArrayList<GameEvent> cards = new ArrayList<GameEvent>();
+	
+	private Result newResult;
 	
 	public ResultInputForm(JFrame owner, League league) {
 		super(owner, "Add Result", true);
@@ -321,7 +309,7 @@ public class ResultInputForm extends JDialog implements ActionListener {
 			}		
 		}
 	}
-	
+
 	private void updateGoalsTable() {
 		Object[][] data = new Object[goals.size()][3];
 		TwoPlayerGameEvent[] goalArray = new TwoPlayerGameEvent[goals.size()];
@@ -625,18 +613,6 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		cardInput.add(cardTime, constraints);
 	}
 	
-
-	/*
-	 * private void updateHomePlayerTable() { Team selectedTeam = (Team)
-	 * homeTeamInput.getSelectedItem(); Player[] allTeamPlayers = new
-	 * Player[selectedTeam.getPlayers().size()];
-	 * selectedTeam.getPlayers().toArray(allTeamPlayers); Object[][] data = new
-	 * Object[allTeamPlayers.length][2]; for(int i = 0; i < allTeamPlayers.length;
-	 * i++) { data[i][0] = allTeamPlayers[i].getName(); data[i][1] = true; }
-	 * homePlayersInput = new PlayerSelectTable(data, playerInputColumns,
-	 * allTeamPlayers); }
-	 */
-	
 	public Result getNewResult() {
 		return newResult;
 	}
@@ -652,8 +628,6 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		return output;
 	}
 
-
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == homeTeamInput) {
