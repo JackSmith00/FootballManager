@@ -1,4 +1,4 @@
-package guiOutputDialogs;
+package gui;
 
 import javax.swing.JLabel;
 
