@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 
 import leagueComponents.CoachingStaffMember;
 import leagueComponents.Formation;
+import leagueComponents.Person;
 
 public class CoachingStaffInputForm extends PersonWithFormationPreferenceInputForm {
 
@@ -22,7 +23,7 @@ public class CoachingStaffInputForm extends PersonWithFormationPreferenceInputFo
 	public CoachingStaffInputForm(JFrame owner) {
 		super(owner, "Add Coaching Staff");
 		
-		setUpCoachStaffComponents();
+		setUpComponents();
 		
 		getContentPane().add(form, BorderLayout.CENTER);
 		setBounds(0, 0, 350, 250);
@@ -31,10 +32,10 @@ public class CoachingStaffInputForm extends PersonWithFormationPreferenceInputFo
 	}
 	
 	public CoachingStaffInputForm(JFrame owner, CoachingStaffMember coachingStaffMember) {
-		super(owner, "Add Coaching Staff", coachingStaffMember);
+		super(owner, "Add Coaching Staff");
 		
-		setUpCoachStaffComponents();
-		roleInput.setText(coachingStaffMember.getRole());
+		setUpComponents();
+		setExistingValues(coachingStaffMember);
 		
 		getContentPane().add(form, BorderLayout.CENTER);
 		setBounds(0, 0, 350, 250);
@@ -42,8 +43,11 @@ public class CoachingStaffInputForm extends PersonWithFormationPreferenceInputFo
 		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
 	}
 	
-	protected void setUpCoachStaffComponents() {
+	@Override
+	protected void setUpComponents() {
 		// TODO Auto-generated method stub
+		
+		super.setUpComponents();
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		
@@ -56,6 +60,13 @@ public class CoachingStaffInputForm extends PersonWithFormationPreferenceInputFo
 		constraints.anchor = GridBagConstraints.LINE_START;
 		constraints.gridx = 1;
 		mainAttributes.add(roleInput, constraints);
+	}
+
+	@Override
+	public void setExistingValues(Person person) {
+		// TODO Auto-generated method stub
+		super.setExistingValues(person);
+		roleInput.setText(((CoachingStaffMember) person).getRole());
 	}
 	
 	public CoachingStaffMember getNewCoachingStaffMember() {

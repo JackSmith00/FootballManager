@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import enums.EmploymentStatus;
 import leagueComponents.CoachingStaffMember;
 import leagueComponents.Formation;
+import leagueComponents.Person;
 import leagueComponents.Player;
 
 public class PlayerInputForm extends PersonWithFormationPreferenceInputForm {
@@ -22,7 +23,7 @@ public class PlayerInputForm extends PersonWithFormationPreferenceInputForm {
 	public PlayerInputForm(JFrame owner) {
 		super(owner, "Add Player");
 		
-		setUpPlayerComponents();
+		setUpComponents();
 		
 		getContentPane().add(form, BorderLayout.CENTER);
 		setBounds(0, 0, 350, 250);
@@ -31,19 +32,23 @@ public class PlayerInputForm extends PersonWithFormationPreferenceInputForm {
 	}
 	
 	public PlayerInputForm(JFrame owner, Player player) {
-		super(owner, "Add Player", player);
+		super(owner, "Add Player");
 
-		setUpPlayerComponents();
-		positionInput.setText(player.getPosition());
+		setUpComponents();
+		setExistingValues(player);
 		
 		getContentPane().add(form, BorderLayout.CENTER);
 		setBounds(0, 0, 350, 250);
 		setLocationRelativeTo(null);
 		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
+		System.out.println(formationInput.getSelectedItem());
 		
 	}
 	
-	protected void setUpPlayerComponents() {
+	@Override
+	protected void setUpComponents() {
+		
+		super.setUpComponents();
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		
@@ -57,6 +62,15 @@ public class PlayerInputForm extends PersonWithFormationPreferenceInputForm {
 		constraints.gridx = 1;
 		mainAttributes.add(positionInput, constraints);
 		
+	}
+	
+	@Override
+	public void setExistingValues(Person person) {
+		// TODO Auto-generated method stub
+		super.setExistingValues(person);
+		//System.out.println(formationInput.getSelectedItem());
+		positionInput.setText(((Player) person).getPosition());
+
 	}
 	
 	public void actionPerformed(ActionEvent e) {

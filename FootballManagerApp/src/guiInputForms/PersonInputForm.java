@@ -33,7 +33,6 @@ public abstract class PersonInputForm extends JDialog implements ActionListener 
 	public PersonInputForm(JFrame owner, String title) {
 		super(owner, title, true);
 		
-		setUpComponents();
 		setUpSubmitButtons();
 		
 		getContentPane().add(buttons, BorderLayout.SOUTH);
@@ -43,20 +42,6 @@ public abstract class PersonInputForm extends JDialog implements ActionListener 
 		//pack();
 		// setLocationRelativeTo(null);
 		//setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
-	}
-	
-	/**
-	 * Constructor that allows an existing person to be passed in to have their attributes edited
-	 * 
-	 * @param owner
-	 * @param title
-	 * @param person
-	 */
-	public PersonInputForm(JFrame owner, String title, Person person) {
-		this(owner, title);
-		nameInput.setText(person.getName());
-		employmentStatusInput.setSelectedItem(person.getEmploymentStatus());
-		payPerYearInput.setValue(person.getPayPerYear());
 	}
 	
 	protected void setUpComponents() {
@@ -113,5 +98,11 @@ public abstract class PersonInputForm extends JDialog implements ActionListener 
 		buttons.add(cancelButton);
 		
 		buttons.setBorder(new EmptyBorder(10, 10, 10, 10));
+	}
+	
+	public void setExistingValues(Person person) {
+		nameInput.setText(person.getName());
+		employmentStatusInput.setSelectedItem(person.getEmploymentStatus());
+		payPerYearInput.setValue(person.getPayPerYear());
 	}
 }
