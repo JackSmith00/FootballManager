@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 
 import leagueComponents.CoachingStaffMember;
 import leagueComponents.Formation;
+import leagueComponents.FormationManager;
 import leagueComponents.Person;
 
 public class CoachingStaffInputForm extends PersonWithFormationPreferenceInputForm {
@@ -74,10 +75,22 @@ public class CoachingStaffInputForm extends PersonWithFormationPreferenceInputFo
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand() == "Submit") {
-			newCoachingStaffMember = new CoachingStaffMember(nameInput.getText(), roleInput.getText(), (Formation) formationInput.getSelectedItem(), (EmploymentStatus) employmentStatusInput.getSelectedItem(), (int) payPerYearInput.getValue());
+		switch(e.getActionCommand()) {
+		case "New":
+			newFormationInput();
+			break;
+		case "Submit":
+			Formation newFormation;
+			if(creatingNewFormation) {
+				newFormation = new Formation((int) defenderInput.getValue(),(int) midfielderInput.getValue(), (int) strikerInput.getValue());
+				FormationManager.add(newFormation);
+			} else {
+				newFormation = (Formation) formationInput.getSelectedItem();
+			}
+			newCoachingStaffMember = new CoachingStaffMember(nameInput.getText(), roleInput.getText(), newFormation, (EmploymentStatus) employmentStatusInput.getSelectedItem(), (int) payPerYearInput.getValue());
+		default:
+			dispose();			
 		}
-		dispose();
 	}
 
 }

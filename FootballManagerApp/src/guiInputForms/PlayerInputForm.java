@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import enums.EmploymentStatus;
 import leagueComponents.CoachingStaffMember;
 import leagueComponents.Formation;
+import leagueComponents.FormationManager;
 import leagueComponents.Person;
 import leagueComponents.Player;
 
@@ -41,7 +42,6 @@ public class PlayerInputForm extends PersonWithFormationPreferenceInputForm {
 		setBounds(0, 0, 350, 250);
 		setLocationRelativeTo(null);
 		setVisible(true); // https://stackoverflow.com/questions/49577917/displaying-jdialog-java/49579959
-		System.out.println(formationInput.getSelectedItem());
 		
 	}
 	
@@ -74,10 +74,21 @@ public class PlayerInputForm extends PersonWithFormationPreferenceInputForm {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand() == "Submit") {
-			newPlayer = new Player(nameInput.getText(), positionInput.getText(), (Formation) formationInput.getSelectedItem(), (EmploymentStatus) employmentStatusInput.getSelectedItem(), (int) payPerYearInput.getValue());
+		switch(e.getActionCommand()) {
+		case "New":
+			break;
+		case "Submit":
+			Formation newFormation;
+			if(creatingNewFormation) {
+				newFormation = new Formation((int) defenderInput.getValue(),(int) midfielderInput.getValue(), (int) strikerInput.getValue());
+				FormationManager.add(newFormation);
+			} else {
+				newFormation = (Formation) formationInput.getSelectedItem();
+			}
+			newPlayer = new Player(nameInput.getText(), positionInput.getText(), newFormation, (EmploymentStatus) employmentStatusInput.getSelectedItem(), (int) payPerYearInput.getValue());
+		default:
+			dispose();			
 		}
-		dispose();
 	}
 	
 	public Player getNewPlayer() {
