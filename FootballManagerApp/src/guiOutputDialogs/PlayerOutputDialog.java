@@ -5,8 +5,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 
 import gui.FootballManagerGUI;
+import gui.LeftPaddedLabel;
+import gui.RightAlignedLabel;
 import guiInputForms.PlayerInputForm;
 import leagueComponents.Player;
+import leagueComponents.Team;
 
 public class PlayerOutputDialog extends PersonWithFormationPreferenceOutputDialog {
 	
@@ -67,6 +70,18 @@ public class PlayerOutputDialog extends PersonWithFormationPreferenceOutputDialo
 				revalidate();
 				getOwner().getContentPane().revalidate();
 			}
+			break;
+		case "Transfer Team":
+			Team newTeam = teamToTransferTo("Player");
+			if(newTeam != null) {
+				FootballManagerGUI appGui = (FootballManagerGUI) getOwner();
+				appGui.getCurrentTeam().removePlayer((Player)getPerson());
+				newTeam.addPlayer((Player)getPerson());
+				appGui.setUpTeamPage(appGui.getCurrentTeam());
+				appGui.revalidate();
+				dispose();
+			}
+			break;
 		}
 	}
 	

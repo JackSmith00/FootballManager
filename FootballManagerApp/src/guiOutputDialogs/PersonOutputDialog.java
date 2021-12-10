@@ -2,16 +2,24 @@ package guiOutputDialogs;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import gui.FootballManagerGUI;
+import gui.LeftPaddedLabel;
+import gui.RightAlignedLabel;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 
 import leagueComponents.Person;
+import leagueComponents.Team;
 
 public abstract class PersonOutputDialog extends JDialog implements ActionListener {
 	
@@ -65,13 +73,18 @@ public abstract class PersonOutputDialog extends JDialog implements ActionListen
 
 	private void setUpButtons() {
 		buttons = new JPanel();
+		
 		JButton editButton = new JButton("Edit");
 		editButton.addActionListener(this);
 		JButton transferButton = new JButton("Transfer Team");
 		transferButton.addActionListener(this);
+		JButton deleteButton = new JButton("Delete");
+		deleteButton.addActionListener(this);
+		
 
 		buttons.add(editButton);
 		buttons.add(transferButton);
+		buttons.add(deleteButton);
 	}
 	
 	public void setAllLabelText(Person person) {
@@ -83,6 +96,24 @@ public abstract class PersonOutputDialog extends JDialog implements ActionListen
 		moneyFormatter.setMaximumFractionDigits(0);
 		
 		payPerYear.setText(moneyFormatter.format(person.getPayPerYear()));
+	}
+	
+	public Team teamToTransferTo(String personType) {
+		FootballManagerGUI appGui = (FootballManagerGUI) getOwner();
+		Team [] teams = new Team[appGui.getCurrentLeague().getTeams().size()];
+		appGui.getCurrentLeague().getTeams().toArray(teams);
+		JComboBox<Team> teamSelector = new JComboBox<Team>(teams); // https://www.youtube.com/watch?v=iXFplYFuqFE
+		
+		JPanel messagePanel = new JPanel();
+		messagePanel.add(new JLabel("Which team should the referee be moved to?"));
+		messagePanel.add(teamSelector);
+		
+		int input = JOptionPane.showConfirmDialog(getOwner(), messagePanel, "Transfer Team", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
+		if(input == JOptionPane.OK_OPTION) {
+			return (Team) teamSelector.getSelectedItem();
+		} else {
+			return null;
+		}
 	}
 	
 	public Person getPerson() {

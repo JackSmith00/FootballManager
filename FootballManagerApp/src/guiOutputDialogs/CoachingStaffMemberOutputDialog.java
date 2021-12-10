@@ -5,8 +5,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 
 import gui.FootballManagerGUI;
+import gui.LeftPaddedLabel;
+import gui.RightAlignedLabel;
 import guiInputForms.CoachingStaffInputForm;
 import leagueComponents.CoachingStaffMember;
+import leagueComponents.Referee;
+import leagueComponents.Team;
 
 
 public class CoachingStaffMemberOutputDialog extends PersonWithFormationPreferenceOutputDialog {
@@ -54,6 +58,18 @@ public class CoachingStaffMemberOutputDialog extends PersonWithFormationPreferen
 				revalidate();
 				getOwner().getContentPane().revalidate();
 			}
+			break;
+		case "Transfer Team":
+			Team newTeam = teamToTransferTo("Coaching Staff");
+			if(newTeam != null) {
+				FootballManagerGUI appGui = (FootballManagerGUI) getOwner();
+				appGui.getCurrentTeam().removeCoachingStaffMember((CoachingStaffMember)getPerson());
+				newTeam.addCoachingStaffMember((CoachingStaffMember)getPerson());
+				appGui.setUpTeamPage(appGui.getCurrentTeam());
+				appGui.revalidate();
+				dispose();
+			}
+			break;
 		}
 	}
 	

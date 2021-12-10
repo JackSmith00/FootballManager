@@ -2,6 +2,8 @@ package guiOutputDialogs;
 
 import javax.swing.JFrame;
 
+import gui.LeftPaddedLabel;
+import gui.RightAlignedLabel;
 import leagueComponents.PersonWithFormationPreference;
 
 public abstract class PersonWithFormationPreferenceOutputDialog extends PersonOutputDialog {

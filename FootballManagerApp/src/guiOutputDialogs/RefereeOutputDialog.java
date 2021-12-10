@@ -5,11 +5,12 @@ import java.awt.event.ActionEvent;
 import gui.FootballManagerGUI;
 import guiInputForms.RefereeInputForm;
 import leagueComponents.Referee;
+import leagueComponents.Team;
 
 public class RefereeOutputDialog extends PersonOutputDialog {
 
 	public RefereeOutputDialog(FootballManagerGUI owner, Referee person) {
-		super(owner, person, 300, 140);
+		super(owner, person, 310, 140);
 		setUpComponents();
 		getContentPane().add(frame);
 		setVisible(true);
@@ -36,6 +37,20 @@ public class RefereeOutputDialog extends PersonOutputDialog {
 				revalidate();
 				getOwner().getContentPane().revalidate();
 			}
+			break;
+		case "Transfer Team":
+			Team newTeam = teamToTransferTo("Referee");
+			if(newTeam != null) {
+				FootballManagerGUI appGui = (FootballManagerGUI) getOwner();
+				appGui.getCurrentTeam().removeReferee((Referee)getPerson());
+				newTeam.addReferee((Referee)getPerson());
+				appGui.setUpTeamPage(appGui.getCurrentTeam());
+				appGui.revalidate();
+				dispose();
+			}
+			break;
+		case "Delete":
+			break;
 		}
 	}
 
