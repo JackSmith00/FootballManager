@@ -34,21 +34,21 @@ public class Player extends PersonWithFormationPreference {
 	 * When a player scores a goal, increase their goalsScored value by 1
 	 */
 	
-	public void goalScored() {
+	public void addGoal() {
 		goalsScored += 1;
 	}
 	
 	/**
 	 * When a player makes an assist, increase their assitsMade value by 1
 	 */
-	public void assistMade() {
+	public void addAssist() {
 		assistsMade += 1;
 	}
 	
 	/**
 	 * When a player receives a card, increase their cardsGiven value by 1
 	 */
-	public void cardGiven() {
+	public void addCard() {
 		cardsGiven += 1;
 	}
 	
@@ -67,7 +67,7 @@ public class Player extends PersonWithFormationPreference {
 		return goalsScored;
 	}
 	
-	/**
+	/** 
 	 * @return The number of assists made by the player
 	 */
 	public int getAssistsMade() {
