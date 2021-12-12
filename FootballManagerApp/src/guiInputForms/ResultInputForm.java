@@ -38,7 +38,8 @@ public class ResultInputForm extends JDialog implements ActionListener {
 
 	private String[] playerInputColumns;
 	protected JComboBox<Team> homeTeamInput, awayTeamInput;
-	protected JSpinner homeScoreInput, awayScoreInput, datePlayedInput;
+	protected JLabel homeScoreLabel, awayScoreLabel;
+	protected JSpinner datePlayedInput;
 	protected PlayerSelectTable homePlayersInput, awayPlayersInput;
 	protected UneditableTableWithRowObjectReturn goalsTable;
 	private JPanel goalInput;
@@ -60,6 +61,8 @@ public class ResultInputForm extends JDialog implements ActionListener {
 	private ArrayList<TwoPlayerGameEvent> goals = new ArrayList<TwoPlayerGameEvent>();
 	private ArrayList<TwoPlayerGameEvent> substitutions = new ArrayList<TwoPlayerGameEvent>();
 	private ArrayList<GameEvent> cards = new ArrayList<GameEvent>();
+	private int homeScore = 0;
+	private int awayScore = 0;
 	
 	private Result newResult;
 	
@@ -101,12 +104,12 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		awayTeamInput = new JComboBox<Team>(teamsInLeague);
 		awayTeamInput.addActionListener(this);
 		
-		homeScoreInput = new JSpinner(new SpinnerNumberModel(0, 0, null, 1));
-		awayScoreInput = new JSpinner(new SpinnerNumberModel(0, 0, null, 1));
+		homeScoreLabel = new JLabel(String.valueOf(homeScore));
+		awayScoreLabel = new JLabel(String.valueOf(awayScore));
 		JPanel scorePanel = new JPanel();
-		scorePanel.add(homeScoreInput);
+		scorePanel.add(homeScoreLabel);
 		scorePanel.add(scoreDash);
-		scorePanel.add(awayScoreInput);
+		scorePanel.add(awayScoreLabel);
 		
 		playerInputColumns =  new String[] {"Player", "Played"};
 		homePlayersInput = new PlayerSelectTable(null, playerInputColumns, null);
@@ -120,15 +123,18 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		datePlayedInput = new JSpinner(new SpinnerDateModel());
 		datePlayedInput.setEditor(new JSpinner.DateEditor(datePlayedInput, "dd/MM/yy")); // https://docs.oracle.com/javase/tutorial/uiswing/components/spinner.html
 		
-		updateGoalsTable();
+		goalsTable = new UneditableTableWithRowObjectReturn(null, new String[] {"Scored by", "Assisted by", "Game Minute"}, null);
+		updateEventTable(goalsTable);
 		setUpGoalInput();
 		JScrollPane goalScrollPane = new JScrollPane(goalsTable);
 		
-		updateSubstitutionsTable();
+		substitutionsTable = new UneditableTableWithRowObjectReturn(null, new String[] {"Substituted on", "Substituted off", "Game Minute"}, null);
+		updateEventTable(substitutionsTable);
 		setUpSubstitutionInput();
 		JScrollPane substitutionScrollPane = new JScrollPane(substitutionsTable);
 		
-		updateCardsTable();
+		cardsTable = new UneditableTableWithRowObjectReturn(null, new String[] {"Player carded", "Game Minute"}, null);			
+		updateEventTable(cardsTable);
 		setUpCardInput();
 		JScrollPane cardScrollPane = new JScrollPane(cardsTable);
 		
@@ -240,7 +246,43 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		}
 	}
 	
-	
+	private void updateEventTable(UneditableTableWithRowObjectReturn table) {
+		ArrayList associatedArray;
+		short columns;
+		if(table.equals(goalsTable)) {
+			columns = 3;
+			associatedArray = goals;
+		} else if(table == substitutionsTable) {
+			columns = 3;
+			associatedArray = substitutions;
+		} else {
+			columns = 2;
+			associatedArray = cards;
+		}
+		Object[][] data = new Object[associatedArray.size()][columns];
+		GameEvent[] rowObjects = new GameEvent[associatedArray.size()];
+		associatedArray.toArray(rowObjects);
+		
+		if(table.equals(goalsTable) || table == substitutionsTable) {
+			for(int i = 0; i < associatedArray.size(); i++) {
+				TwoPlayerGameEvent event = (TwoPlayerGameEvent) associatedArray.get(i);
+				
+				data[i][0] = event.getPlayer();
+				data[i][1] = event.getSecondPlayer();
+				data[i][2] = event.getGameMinute();
+			}
+		} else {
+			for(int i = 0; i < associatedArray.size(); i++) {
+				GameEvent event = (GameEvent) associatedArray.get(i);
+				
+				data[i][0] = event.getPlayer();
+				data[i][1] = event.getGameMinute();
+			}
+		}
+		table.setData(data, rowObjects);
+		table.revalidate();
+	}
+
 	public Player[] playersWhoPlayedFor(PlayerSelectTable table) {
 		ArrayList<Player> outputBuilder = new ArrayList<Player>();
 		for(int i = 0; i < table.getRowCount(); i++) {
@@ -309,43 +351,44 @@ public class ResultInputForm extends JDialog implements ActionListener {
 			}		
 		}
 	}
-
-	private void updateGoalsTable() {
-		Object[][] data = new Object[goals.size()][3];
-		TwoPlayerGameEvent[] goalArray = new TwoPlayerGameEvent[goals.size()];
-		goals.toArray(goalArray);
-		
-		for(int i = 0; i < goals.size(); i++) {
-			TwoPlayerGameEvent goal = goals.get(i);
-			
-			data[i][0] = goal.getPlayer();
-			data[i][1] = goal.getSecondPlayer();
-			data[i][2] = goal.getGameMinute();
-		}
-		
-		if(goalsTable == null) {
-			String[] columnNames = {"Scored by", "Assisted by", "Game Minute"};
-			goalsTable = new UneditableTableWithRowObjectReturn(data, columnNames, goalArray);
-		} else {
-			goalsTable.setData(data, goalArray);
-			goalsTable.revalidate();
-		}
-	}
-	
 	
 	private void addGoal(TwoPlayerGameEvent goal) {
 		goals.add(goal);
+		/*
+		 * Below adds the goal to the relevant teams label, however it will not understand own goals
+		 */
+		if(goal.getPlayer().getTeam() == homeTeamInput.getSelectedItem()) { // if goal was scored by home team player
+			homeScoreLabel.setText(String.valueOf(++homeScore));
+		} else { // if not home player, then away
+			awayScoreLabel.setText(String.valueOf(++awayScore));
+		}
 		Collections.sort(goals); // https://howtodoinjava.com/java/sort/collections-sort/
 	}
 
 	private void deleteGoal(TwoPlayerGameEvent goal) {
 		goals.remove(goal);
+		if(goal.getPlayer().getTeam() == homeTeamInput.getSelectedItem()) { // if goal was scored by home team player
+			homeScoreLabel.setText(String.valueOf(--homeScore));
+		} else { // if not home player, then away
+			awayScoreLabel.setText(String.valueOf(--awayScore));
+		}
 	}
 	
 	private void updateGoal(TwoPlayerGameEvent oldGoalData, TwoPlayerGameEvent newGoalData) {
 		int index = goals.indexOf(oldGoalData);
 		goals.remove(index);
 		goals.add(index, newGoalData);
+		if(oldGoalData.getPlayer().getTeam() != newGoalData.getPlayer().getTeam()) { // if goal was not scored by same team, update scores, otherwise, no update needed
+			if(oldGoalData.getPlayer().getTeam() == homeTeamInput.getSelectedItem()) { // if old goal was home team, new goal is away team
+				// lower home score and increase away score
+				homeScoreLabel.setText(String.valueOf(--homeScore));
+				awayScoreLabel.setText(String.valueOf(++awayScore));
+			} else { // old goal was away team so new goal is home team
+				// increase home score and lower away score
+				homeScoreLabel.setText(String.valueOf(++homeScore));
+				awayScoreLabel.setText(String.valueOf(--awayScore));				
+			}
+		}
 		Collections.sort(goals);
 	}
 	
@@ -387,51 +430,6 @@ public class ResultInputForm extends JDialog implements ActionListener {
 			}	
 		}
 	}
-	
-	private void updateSubstitutionsTable() {
-		Object[][] data = new Object[substitutions.size()][3];
-		TwoPlayerGameEvent[] substitutionsArray = new TwoPlayerGameEvent[substitutions.size()];
-		substitutions.toArray(substitutionsArray);
-		
-		for(int i = 0; i < substitutions.size(); i++) {
-			TwoPlayerGameEvent substitution = substitutions.get(i);
-			
-			data[i][0] = substitution.getPlayer();
-			data[i][1] = substitution.getSecondPlayer();
-			data[i][2] = substitution.getGameMinute();
-		}
-		
-		if(substitutionsTable == null) {
-			String[] columnNames = {"Substituted on", "Substituted off", "Game Minute"};
-			substitutionsTable = new UneditableTableWithRowObjectReturn(data, columnNames, substitutionsArray);
-		} else {
-			substitutionsTable.setData(data, substitutionsArray);
-			substitutionsTable.revalidate();
-		}
-		
-	}
-	
-	private void updateCardsTable() {
-		Object[][] data = new Object[cards.size()][2];
-		GameEvent[] cardArray = new GameEvent[cards.size()];
-		cards.toArray(cardArray);
-		
-		for(int i = 0; i < cards.size(); i++) {
-			GameEvent card = cards.get(i);
-			
-			data[i][0] = card.getPlayer();
-			data[i][1] = card.getGameMinute();
-		}
-		
-		if(cardsTable == null) {
-			String[] columnNames = {"Player carded", "Game Minute"};
-			cardsTable = new UneditableTableWithRowObjectReturn(data, columnNames, cardArray);			
-		} else {
-			cardsTable.setData(data, cardArray);
-			cardsTable.revalidate();
-		}
-		
-	}
 
 	private void addSubstitution(TwoPlayerGameEvent substitution) {
 		substitutions.add(substitution);
@@ -460,7 +458,6 @@ public class ResultInputForm extends JDialog implements ActionListener {
 			}
 		}
 	}
-
 	
 	private void addCard(GameEvent card) {
 		cards.add(card);
@@ -479,8 +476,6 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		cards.add(index, newCardData);
 		Collections.sort(cards);
 	}
-	
-	
 
 	private void setUpGoalInput() {
 		goalInput = new JPanel(new GridBagLayout());
@@ -648,7 +643,7 @@ public class ResultInputForm extends JDialog implements ActionListener {
 			int time = (int) goalTime.getValue();
 			
 			addGoal(new TwoPlayerGameEvent(EventType.GOAL, scorer, assister, time));
-			updateGoalsTable();
+			updateEventTable(goalsTable);
 		}
 		if(e.getSource() == deleteGoalButton) {
 			int[] selectedRows = goalsTable.getSelectedRows();
@@ -656,7 +651,7 @@ public class ResultInputForm extends JDialog implements ActionListener {
 				TwoPlayerGameEvent goal = (TwoPlayerGameEvent) goalsTable.getRowObject(row);
 				deleteGoal(goal);
 			}
-			updateGoalsTable();
+			updateEventTable(goalsTable);
 		}
 		if(e.getSource() == updateGoalButton) {
 			Player scorer = (Player) goalScorerInput.getSelectedItem();
@@ -669,7 +664,7 @@ public class ResultInputForm extends JDialog implements ActionListener {
 				updateGoal(oldGoal, new TwoPlayerGameEvent(EventType.GOAL, scorer, assister, time));
 			}
 			
-			updateGoalsTable();
+			updateEventTable(goalsTable);
 		}
 		if(e.getSource() == addSubstitutionButton) {
 			Player subbedOn = (Player) subbedOnInput.getSelectedItem();
@@ -677,7 +672,7 @@ public class ResultInputForm extends JDialog implements ActionListener {
 			int time = (int) substitutionTime.getValue();
 			
 			addSubstitution(new TwoPlayerGameEvent(EventType.SUBSTITUTION, subbedOn, subbedOff, time));
-			updateSubstitutionsTable();
+			updateEventTable(substitutionsTable);
 		}
 		if(e.getSource() == deleteSubstitutionButton) {
 			int[] selectedRows = substitutionsTable.getSelectedRows();
@@ -685,7 +680,7 @@ public class ResultInputForm extends JDialog implements ActionListener {
 				TwoPlayerGameEvent substitution = (TwoPlayerGameEvent) substitutionsTable.getRowObject(row);
 				deleteSubstitution(substitution);
 			}
-			updateSubstitutionsTable();
+			updateEventTable(substitutionsTable);
 		}
 		if(e.getSource() == updateSubstitutionButton) {
 			Player subbedOn = (Player) subbedOnInput.getSelectedItem();
@@ -698,14 +693,14 @@ public class ResultInputForm extends JDialog implements ActionListener {
 				updateSubstitution(oldSubstitution, new TwoPlayerGameEvent(EventType.SUBSTITUTION, subbedOn, subbedOff, time));
 			}
 			
-			updateSubstitutionsTable();
+			updateEventTable(substitutionsTable);
 		}
 		if(e.getSource() == addCardButton) {
 			Player carded = (Player) playerCardedInput.getSelectedItem();
 			int time = (int) cardTime.getValue();
 			
 			addCard(new GameEvent(EventType.CARD, carded, time));
-			updateCardsTable();
+			updateEventTable(cardsTable);
 		}
 		if(e.getSource() == deleteCardButton) {
 			int[] selectedRows = cardsTable.getSelectedRows();
@@ -713,7 +708,7 @@ public class ResultInputForm extends JDialog implements ActionListener {
 				GameEvent card = (GameEvent) cardsTable.getRowObject(row);
 				deleteCard(card);
 			}
-			updateCardsTable();
+			updateEventTable(cardsTable);
 		}
 		if(e.getSource() == updateCardButton) {
 			Player carded = (Player) playerCardedInput.getSelectedItem();
@@ -725,7 +720,7 @@ public class ResultInputForm extends JDialog implements ActionListener {
 				updateCard(oldCard, new GameEvent(EventType.CARD, carded, time));
 			}
 			
-			updateCardsTable();
+			updateEventTable(cardsTable);
 		}
 		if(e.getSource() == homeTeamInput || e.getSource() == awayTeamInput) {			
 			updateGoalScorerInput();
@@ -734,9 +729,7 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		}
 		if(e.getSource() == submitButton) {
 			Team homeTeam = (Team) homeTeamInput.getSelectedItem();
-			int homeScore = (int) homeScoreInput.getValue();
 			Team awayTeam = (Team) awayTeamInput.getSelectedItem();
-			int awayScore = (int) awayScoreInput.getValue();
 			Date datePlayed = (Date) datePlayedInput.getValue();
 			GameEvent[] events = packedEvents();
 			Player[] homePlayers = playersWhoPlayedFor(homePlayersInput);
