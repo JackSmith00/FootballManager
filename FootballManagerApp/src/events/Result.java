@@ -113,4 +113,14 @@ public class Result implements Serializable {
 		return awayPlayers;
 	}
 	
+	public Team getWinner() {
+		if(homeScore > awayScore) { // home win
+			return homeTeam;
+		} else if(awayScore > homeScore) { // away win
+			return awayTeam;
+		} else { // draw
+			return null;
+		}
+	}
+	
 }
