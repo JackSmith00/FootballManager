@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 
 import events.Result;
 import guiInputForms.CoachingStaffInputForm;
@@ -183,10 +184,11 @@ public class FootballManagerGUI extends JFrame implements MouseListener, ActionL
 	}
 	
 	public void updateLeagueTable(League league) {
-		String[] columnNames = {"Team Name", "Wins", "Draws", "Losses", "Goal Difference"};
+		String[] columnNames = {"Team Name", "Wins", "Draws", "Losses", "Points", "Goal Difference"};
 		Object[][] data = new Object[league.getTeams().size()][columnNames.length];
 		Team[] teams = new Team[league.getTeams().size()];
 		league.getTeams().toArray(teams);
+		Arrays.sort(teams);
 		
 		for(int i = 0; i < league.getTeams().size(); i++) {
 			Team currentTeam = league.getTeams().get(i);
@@ -195,11 +197,12 @@ public class FootballManagerGUI extends JFrame implements MouseListener, ActionL
 			data[i][1] = currentTeam.getGamesWon();
 			data[i][2] = currentTeam.getGamesDrew();
 			data[i][3] = currentTeam.getGamesLost();
-			data[i][4] = currentTeam.getGoalDifference();
+			data[i][4] = currentTeam.getPoints();
+			data[i][5] = currentTeam.getGoalDifference();
 		}
 		
 		leagueTable = new UneditableTableWithRowObjectReturn(data, columnNames, teams);
-		leagueTable.getColumn("Team Name").setMinWidth(200);
+		leagueTable.getColumn("Team Name").setMinWidth(150);
 		leagueTable.getColumn("Goal Difference").setMinWidth(100);
 		
 	}

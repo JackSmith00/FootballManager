@@ -44,11 +44,11 @@ public class saveTester {
 
 		l.addTeam(t1); l.addTeam(t2);
 
-		GameEvent[] events = {new GameEvent(EventType.GOAL, p1, 15), new TwoPlayerGameEvent(EventType.SUBSTITUTION, p3, p4, 40)};
+		GameEvent[] events = {new TwoPlayerGameEvent(EventType.GOAL, p1, p2, 15), new TwoPlayerGameEvent(EventType.SUBSTITUTION, p3, p4, 40)};
 
 		Player[] team1Players = {p1, p2}; Player[] team2Players = {p3, p4};
 
-		Result game1 = new Result(t1, 3, t2, 2, new Date(2021 - 1900, 11, 23), events,
+		Result game1 = new Result(t1, 1, t2, 0, new Date(2021 - 1900, 11, 23), events,
 				team1Players, team2Players);
 
 		l.addResult(game1);
