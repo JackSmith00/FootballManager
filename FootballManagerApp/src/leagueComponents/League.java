@@ -10,7 +10,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import events.GameEvent;
 import events.Result;
+import events.TwoPlayerGameEvent;
 import interfaces.HasResults;
 import interfaces.Reader;
 import interfaces.Saveable;
@@ -58,6 +60,22 @@ public class League implements Serializable, Saveable, Reader, StatisticsCalcula
 	 */
 	public void addResult(Result result) {
 		results.add(result);
+		result.getHomeTeam().addResult(result);
+		result.getAwayTeam().addResult(result);
+		for(GameEvent event: result.getEvents()) {
+			switch(event.getType()) {
+			case GOAL:
+				event.getPlayer().addGoal();
+				((TwoPlayerGameEvent) event).getSecondPlayer().addAssist();
+				break;
+			case CARD:
+				event.getPlayer().addCard();
+				break;
+			default:
+				// do nothing, players keep no record of their substitutions
+				break;
+			}
+		}
 	}
 	
 	@Override
