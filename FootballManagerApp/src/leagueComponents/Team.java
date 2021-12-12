@@ -257,7 +257,11 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 
 	@Override
 	public int compareTo(Team o) {
-		return o.points - points;
+		if(o.points != points) { // if points are different, sort on points
+			return o.points - points;
+		} else { // if points are the same, sort on goal difference
+			return o.goalDifference = goalDifference;
+		}
 	}
 	
 }
