@@ -13,7 +13,7 @@ import interfaces.StatisticsCalculator;
  * 
  * @author Jack
  */
-public class Team implements Serializable, StatisticsCalculator, HasResults {
+public class Team implements Serializable, StatisticsCalculator, HasResults, Comparable<Team> {
 	
 	// Attributes
 	private String teamName;
@@ -22,6 +22,7 @@ public class Team implements Serializable, StatisticsCalculator, HasResults {
 	private int gamesWon = 0; // Initially no games won
 	private int gamesLost = 0; // Initially no games lost
 	private int gamesDrew = 0; // Initially no games drew
+	private int points = 0; // Initially no points
 	private int goalDifference = 0; // Initially no difference in goals scored/conceded
 	private int leaguePosition;
 	private ArrayList<Player> players = new ArrayList<Player>(16); // Initial empty ArrayList to hold players
@@ -92,6 +93,27 @@ public class Team implements Serializable, StatisticsCalculator, HasResults {
 	 */
 	public void addResult(Result r) {
 		results.add(r);
+		if(r.getWinner() == this) {
+			addWin();
+		} else if(r.getWinner() == null) {
+			addDraw();
+		} else {
+			addLoss();
+		}
+	}
+	
+	private void addWin() {
+		gamesWon++;
+		points += 3;
+	}
+	
+	private void addDraw() {
+		gamesDrew++;
+		points += 1;
+	}
+	
+	private void addLoss() {
+		gamesLost++;
 	}
 	
 	// Getters
@@ -136,6 +158,10 @@ public class Team implements Serializable, StatisticsCalculator, HasResults {
 	 */
 	public int getGamesDrew() {
 		return gamesDrew;
+	}
+	
+	public int getPoints() {
+		return points;
 	}
 	
 	/**
@@ -227,6 +253,11 @@ public class Team implements Serializable, StatisticsCalculator, HasResults {
 	@Override
 	public String toString() {
 		return teamName;
+	}
+
+	@Override
+	public int compareTo(Team o) {
+		return o.points - points;
 	}
 	
 }
