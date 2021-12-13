@@ -55,6 +55,10 @@ public class League implements Serializable, Saveable, Reader, StatisticsCalcula
 		teams.add(team);
 	}
 	
+	public void removeTeam(Team team) {
+		teams.remove(team);
+	}
+	
 	/**
 	 * Adds a result to the ArrayList of results in the league
 	 * @param team : The result to be added to the league

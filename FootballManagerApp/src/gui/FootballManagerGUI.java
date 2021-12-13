@@ -230,6 +230,9 @@ public class FootballManagerGUI extends JFrame implements MouseListener, ActionL
 
 		JLabel teamName = new JLabel(team.getTeamName());
 		teamName.setHorizontalAlignment(JLabel.CENTER); // https://www.youtube.com/watch?v=Kmgo00avvEw&t=1698
+
+		JButton deleteTeam = new JButton("Delete Team");
+		deleteTeam.addActionListener(this);
 		
 		updateTeamInfoTable(team);
 		JLabel teamInfoTableTitle = new JLabel("Info");
@@ -275,6 +278,9 @@ public class FootballManagerGUI extends JFrame implements MouseListener, ActionL
 		//constraints.insets = new Insets(10, 10, 10, 10); // code found at https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html
 		constraints.gridx = 1;
 		teamPage.add(teamName, constraints);
+		
+		constraints.gridx = 2;
+		teamPage.add(deleteTeam, constraints);
 		/*
 		 * Spaces are numbered starting at 0 for the top, leftmost
 		 * cell in the grid and each column to the right and row below
@@ -466,7 +472,6 @@ public class FootballManagerGUI extends JFrame implements MouseListener, ActionL
 		setUpLeaguePage(league);
 		getContentPane().revalidate();
 	}
-	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -486,12 +491,21 @@ public class FootballManagerGUI extends JFrame implements MouseListener, ActionL
 		case "Add Referee":
 			addNewReferee(currentTeam);
 			break;
-		case "< Back to league view":
+		//case "< Back to league view": no longer needed as this is performed in the default clause to save code reuse in case "Delete Team:
+		case "Delete Team":
+			int input = JOptionPane.showConfirmDialog(getOwner(), "Are you sure you want to delete this Team?\nThis cannot be undone.", "Delete Team", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			if(input == JOptionPane.YES_OPTION) {
+				currentLeague.removeTeam(currentTeam);
+			} else {
+				break;
+			}
+		default:
 			setUpLeaguePage(currentLeague);
 			getContentPane().removeAll();
 			getContentPane().add(leaguePage);
 			revalidate();
 			repaint();
+			break;
 		}
 	}
 	
@@ -526,7 +540,6 @@ public class FootballManagerGUI extends JFrame implements MouseListener, ActionL
 			
 		}
 	}
-	
 
 	@Override
 	public void mousePressed(MouseEvent e) {
