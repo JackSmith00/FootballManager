@@ -1,6 +1,5 @@
 package guiInputForms;
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.util.Arrays;
 
@@ -23,6 +22,7 @@ public abstract class PersonWithFormationPreferenceInputForm extends PersonInput
 	
 	protected JComboBox<Formation> formationInput;
 	
+	protected JButton newFormationButton;
 	protected boolean creatingNewFormation = false;
 	protected JSpinner defenderInput;
 	protected JSpinner midfielderInput;
@@ -47,7 +47,7 @@ public abstract class PersonWithFormationPreferenceInputForm extends PersonInput
 		FormationManager.getFormations().toArray(storedFormations);
 		formationInput = new JComboBox<Formation>(storedFormations);
 		
-		JButton newFormationButton = new JButton("New");
+		newFormationButton = new JButton("New");
 		newFormationButton.addActionListener(this);
 
 		formationInputPanel = new JPanel();

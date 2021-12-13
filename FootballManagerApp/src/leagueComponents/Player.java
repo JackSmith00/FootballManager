@@ -11,7 +11,7 @@ import enums.EmploymentStatus;
 public class Player extends PersonWithFormationPreference {
 
 	// Attributes
-	private String position;
+	private Position position;
 	private int goalsScored = 0; // How many goals have been scored by this player, initially 0
 	private int assistsMade = 0; // How many assists have been made by this player, initially 0
 	private int cardsGiven = 0; // How many cards have been given to this player, initially 0
@@ -23,7 +23,7 @@ public class Player extends PersonWithFormationPreference {
 	 * @param employmentStatus : Employment status of the player
 	 * @param payPerYear : How much the player gets payed per year in GBP
 	 */
-	public Player(String name, String position, Formation preferredFormation, EmploymentStatus employmentStatus, int payPerYear) {
+	public Player(String name, Position position, Formation preferredFormation, EmploymentStatus employmentStatus, int payPerYear) {
 		super(name, preferredFormation, employmentStatus, payPerYear);
 		this.position = position;
 	}
@@ -56,7 +56,7 @@ public class Player extends PersonWithFormationPreference {
 	/**
 	 * @return The position played by the player
 	 */
-	public String getPosition() {
+	public Position getPosition() {
 		return position;
 	}
 	
@@ -86,7 +86,7 @@ public class Player extends PersonWithFormationPreference {
 	 * Allows the player to change to a new position
 	 * @param position : The new position the player plays in
 	 */
-	public void setPosition(String position) {
+	public void setPosition(Position position) {
 		this.position = position;
 	}
 	

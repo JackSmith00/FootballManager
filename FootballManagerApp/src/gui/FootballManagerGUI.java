@@ -358,7 +358,7 @@ public class FootballManagerGUI extends JFrame implements MouseListener, ActionL
 			Player currentPlayer = team.getPlayers().get(i);
 			
 			data[i][0] = currentPlayer.getName();
-			data[i][1] = currentPlayer.getPosition();
+			data[i][1] = currentPlayer.getPosition().getPositionAbbreviation();
 		}
 		
 		playerTable = new UneditableTableWithRowObjectReturn(data, columnNames, players);

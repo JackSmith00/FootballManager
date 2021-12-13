@@ -127,7 +127,7 @@ public class League implements Serializable, Saveable, Reader, StatisticsCalcula
 		if(getTeams().size() == 0) { // check that there are teams before accessing their players		
 			return null;
 		} else { // there are teams in the league
-			Player topGoalScorer = new Player("", "", null, null, 0); // initial blank Player
+			Player topGoalScorer = new Player("", null, null, null, 0); // initial blank Player
 			for(Team team: teams) {
 				if(team.getPlayers().isEmpty()) {
 					continue; // skip any teams that have no players yet
@@ -145,7 +145,7 @@ public class League implements Serializable, Saveable, Reader, StatisticsCalcula
 		if(getTeams().size() == 0) {			
 			return null;
 		} else {
-			Player topAssister = new Player("", "", null, null, 0); // initial blank Player
+			Player topAssister = new Player("", null, null, null, 0); // initial blank Player
 			for(Team team: teams) {
 				if(team.getPlayers().isEmpty()) {
 					continue; // skip any teams that have no players yet

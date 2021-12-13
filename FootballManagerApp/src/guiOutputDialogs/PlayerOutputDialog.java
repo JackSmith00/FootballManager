@@ -97,7 +97,7 @@ public class PlayerOutputDialog extends PersonWithFormationPreferenceOutputDialo
 	public void setAllLabelText(Player person) {
 		// TODO Auto-generated method stub
 		super.setAllLabelText(person);
-		position.setText(person.getPosition());
+		position.setText(person.getPosition().getPositionTitle());
 		
 	}
 
