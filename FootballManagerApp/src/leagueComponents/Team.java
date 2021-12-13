@@ -24,6 +24,7 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 	private int gamesDrew = 0; // Initially no games drew
 	private int points = 0; // Initially no points
 	private int goalsConceded = 0;
+	private int cleanSheets = 0;
 	private int leaguePosition;
 	private ArrayList<Player> players = new ArrayList<Player>(16); // Initial empty ArrayList to hold players
 	private ArrayList<CoachingStaffMember> coachingStaff = new ArrayList<CoachingStaffMember>(6); // Initial empty ArrayList to hold coaching staff
@@ -122,7 +123,11 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 	}
 	
 	private void addGoalsConceded(int numberConceded) {
-		goalsConceded += numberConceded;
+		if(numberConceded > 0) {
+			goalsConceded += numberConceded;
+		} else {
+			cleanSheets++;
+		}
 	}
 	
 	// Getters
@@ -175,6 +180,10 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 	
 	public int getGoalsConceded() {
 		return goalsConceded;
+	}
+	
+	public int getCleanSheets() {
+		return cleanSheets;
 	}
 	
 	/**

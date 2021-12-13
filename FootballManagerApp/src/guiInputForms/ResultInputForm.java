@@ -35,6 +35,7 @@ import leagueComponents.Team;
 public class ResultInputForm extends JDialog implements ActionListener {
 
 	protected JPanel form;
+	protected JPanel buttons;
 
 	private String[] playerInputColumns;
 	protected JComboBox<Team> homeTeamInput, awayTeamInput;
@@ -69,19 +70,22 @@ public class ResultInputForm extends JDialog implements ActionListener {
 	public ResultInputForm(JFrame owner, League league) {
 		super(owner, "Add Result", true);
 		
-		setUpDisplay(league);
+		setUpComponents(league);
+		setUpButtons();
+		
 		getContentPane().add(form);
+		getContentPane().add(buttons, BorderLayout.SOUTH);
 	
 		setBounds(0, 0, 750, 780);
-		setResizable(false);
+		//setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 	
-	private void setUpDisplay(League league) {
+	private void setUpComponents(League league) {
 		GridBagLayout layout = new GridBagLayout();
 		layout.columnWidths = new int[] {300, 50, 300};
-		layout.rowHeights = new int[] {25, 25, 25, 150, 25, 25, 100, 25, 100, 25, 100};
+		layout.rowWeights = new double[] {25, 25, 25, 175, 15, 15, 100, 25, 100, 25, 100};
 		form = new JPanel(layout);
 		GridBagConstraints constraints = new GridBagConstraints();
 		
@@ -218,15 +222,19 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		
 		constraints.gridy = 10;
 		form.add(cardScrollPane, constraints);
+	}
+	
+	private void setUpButtons() {
+		buttons = new JPanel();
 		
-		JPanel buttons = new JPanel();
 		submitButton = new JButton("Submit");
 		submitButton.addActionListener(this);
+		
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(this);
+		
 		buttons.add(submitButton);
 		buttons.add(cancelButton);
-		getContentPane().add(buttons, BorderLayout.SOUTH);
 		
 	}
 	

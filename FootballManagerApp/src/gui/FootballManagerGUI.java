@@ -429,20 +429,28 @@ public class FootballManagerGUI extends JFrame implements MouseListener, ActionL
 	}
 	
 	public void updateStatsTableFor(StatisticsCalculator e) {
+		int rows;
+		if(e.getClass() == Team.class) {
+			rows = 5;
+		} else {
+			rows = 4;
+		}
 		String[] columnNames = {"Stat", "Result"};
-		Object[] statResults = new Object[4]; // makes stats null initially
+		Object[] statResults = new Object[rows]; // makes stats null initially
 		if(e.topGoalScorer() != null) { // only find stats if there are stats to be found, otherwise an error occurs
 			statResults[0] = e.topGoalScorer().getName();
 			statResults[1] = e.topAssister().getName();
 			statResults[2] = e.totalGoalsScored();
 			statResults[3] = e.totalCardsGiven();
 		}
-		Object[][] data = {
-				{"Top Goal Scorer", statResults[0]},
-				{"Top Assister", statResults[1]},
-				{"Total Goals Scored", statResults[2]},
-				{"Total Cards Given", statResults[3]}
-				};
+		Object[][] data = new Object[rows][2];
+		data[0] = new Object[] {"Top Goal Scorer", statResults[0]};
+		data[1] = new Object[] {"Top Assister", statResults[1]};
+		data[2] = new Object[] {"Total Goals Scored", statResults[2]};
+		data[3] = new Object[] {"Total Cards Given", statResults[3]};
+		if(e.getClass() == Team.class) {
+			data[4] = new Object[] {"Clean Sheets", ((Team) e).getCleanSheets()};
+		}
 		statsTable = new UneditableTable(data, columnNames);
 	}
 
