@@ -73,17 +73,6 @@ public class saveTester {
 		try { f.load("./data/saveData"); } catch (FileNotFoundException e) {
 			e.printStackTrace(); } catch (ClassNotFoundException e) {
 				e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
-
-		System.out.println(f.getName());
-		System.out.println(f.getTeams().get(0).getTeamName());
-		System.out.println(f.getTeams().get(0).getPlayers());
-		System.out.println(f.getTeams().get(0).getPlayers().get(0).getName());
-		System.out.println(f.getTeams().get(1).getPlayers().get(0).getTeam().
-				getHomeGround());
-		System.out.println(f.getResults().get(0).getDatePlayed());
-
-
-		 
 	}
 
 }

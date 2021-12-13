@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.TreeSet;
 
 import events.GameEvent;
 import events.Result;
@@ -27,7 +28,7 @@ public class League implements Serializable, Saveable, Reader, StatisticsCalcula
 
 	// Attributes
 	private String name; // Name of the football league
-	private ArrayList<Team> teams = new ArrayList<Team>(); // Initialised as an empty array by default so teams can be added
+	private TreeSet<Team> teams = new TreeSet<Team>(); // Initialised as an empty tree set by default so teams can be added
 	private LinkedList<Result> results = new LinkedList<Result>();
 	
 	// Constructors
@@ -110,7 +111,7 @@ public class League implements Serializable, Saveable, Reader, StatisticsCalcula
 	/**
 	 * @return An ArrayList of teams in the league
 	 */
-	public ArrayList<Team> getTeams() {
+	public TreeSet<Team> getTeams() {
 		return teams;
 	}
 	
@@ -144,12 +145,12 @@ public class League implements Serializable, Saveable, Reader, StatisticsCalcula
 		if(getTeams().size() == 0) {			
 			return null;
 		} else {
-			Player topAssister = teams.get(0).topAssister();
+			Player topAssister = new Player("", "", null, null, 0); // initial blank Player
 			for(Team team: teams) {
 				if(team.getPlayers().isEmpty()) {
 					continue; // skip any teams that have no players yet
 				}
-				if (team.topAssister().getAssistsMade() > topAssister.getAssistsMade()) {
+				if (team.topAssister().getAssistsMade() >= topAssister.getAssistsMade()) {
 					topAssister = team.topAssister();
 				}
 			}

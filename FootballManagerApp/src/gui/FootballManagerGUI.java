@@ -11,7 +11,6 @@ import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,8 +21,6 @@ import javax.swing.JTable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
 
 import events.Result;
 import guiInputForms.CoachingStaffInputForm;
@@ -188,10 +185,11 @@ public class FootballManagerGUI extends JFrame implements MouseListener, ActionL
 		Object[][] data = new Object[league.getTeams().size()][columnNames.length];
 		Team[] teams = new Team[league.getTeams().size()];
 		league.getTeams().toArray(teams);
-		Arrays.sort(teams);
 		
-		for(int i = 0; i < league.getTeams().size(); i++) {
-			Team currentTeam = league.getTeams().get(i);
+		for(int i = 0; i < teams.length; i++) {
+			Team currentTeam = teams[i];
+			
+			currentTeam.setLeaguePosition(i + 1);
 			
 			data[i][0] = currentTeam.getTeamName();
 			data[i][1] = currentTeam.getGamesWon();
@@ -234,7 +232,7 @@ public class FootballManagerGUI extends JFrame implements MouseListener, ActionL
 		teamName.setHorizontalAlignment(JLabel.CENTER); // https://www.youtube.com/watch?v=Kmgo00avvEw&t=1698
 		
 		updateTeamInfoTable(team);
-		JLabel teamInfoTableTitle = new JLabel("Stadium");
+		JLabel teamInfoTableTitle = new JLabel("Info");
 		teamInfoTableTitle.setHorizontalAlignment(JLabel.CENTER); // https://www.youtube.com/watch?v=Kmgo00avvEw&t=1698
 		teamInfoTable.setTableHeader(null); // https://stackoverflow.com/questions/2528643/jtable-without-a-header
 		JScrollPane teamInfoScrollPane = new JScrollPane(teamInfoTable);
@@ -344,7 +342,8 @@ public class FootballManagerGUI extends JFrame implements MouseListener, ActionL
 		String[] columnNames = {"Title", "Info"};
 		Object[][] data = {
 				{"Home Ground", team.getHomeGround().getName()},
-				{"Capacity", team.getHomeGround().getCapacity()}
+				{"Capacity", team.getHomeGround().getCapacity()}, 
+				{"League Position", team.getLeaguePosition()}
 				};
 		teamInfoTable = new UneditableTable(data, columnNames);
 	}

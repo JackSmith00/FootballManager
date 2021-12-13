@@ -23,7 +23,7 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 	private int gamesLost = 0; // Initially no games lost
 	private int gamesDrew = 0; // Initially no games drew
 	private int points = 0; // Initially no points
-	private int goalDifference = 0; // Initially no difference in goals scored/conceded
+	private int goalsConceded = 0;
 	private int leaguePosition;
 	private ArrayList<Player> players = new ArrayList<Player>(16); // Initial empty ArrayList to hold players
 	private ArrayList<CoachingStaffMember> coachingStaff = new ArrayList<CoachingStaffMember>(6); // Initial empty ArrayList to hold coaching staff
@@ -93,6 +93,11 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 	 */
 	public void addResult(Result r) {
 		results.add(r);
+		if(r.getHomeTeam() == this) { // if this team is the home team, add away goals to this teams conceded
+			addGoalsConceded(r.getAwayScore());
+		} else { // this team is the away team so add home goals to this teams conceded
+			addGoalsConceded(r.getHomeScore());
+		}
 		if(r.getWinner() == this) {
 			addWin();
 		} else if(r.getWinner() == null) {
@@ -114,6 +119,10 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 	
 	private void addLoss() {
 		gamesLost++;
+	}
+	
+	private void addGoalsConceded(int numberConceded) {
+		goalsConceded += numberConceded;
 	}
 	
 	// Getters
@@ -164,6 +173,10 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 		return points;
 	}
 	
+	public int getGoalsConceded() {
+		return goalsConceded;
+	}
+	
 	/**
 	 * The difference between goals scored and goals conceded, where a
 	 * negative number indicates more goals have been conceded than scored
@@ -171,7 +184,7 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 	 * @return Difference between goals scored and goals conceded
 	 */
 	public int getGoalDifference() {
-		return goalDifference;
+		return totalGoalsScored() - goalsConceded;
 	}
 
 	/**
@@ -200,6 +213,12 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 	 */
 	public ArrayList<Referee> getReferees() {
 		return referees;
+	}
+	
+	// Setters
+	
+	public void setLeaguePosition(int leaguePosition) {
+		this.leaguePosition = leaguePosition;
 	}
 
 	@Override
@@ -259,8 +278,10 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 	public int compareTo(Team o) {
 		if(o.points != points) { // if points are different, sort on points
 			return o.points - points;
-		} else { // if points are the same, sort on goal difference
-			return o.goalDifference = goalDifference;
+		} else if(o.getGoalDifference() != getGoalDifference()) { // if points are the same, sort on goal difference
+			return o.getGoalDifference() - getGoalDifference();
+		} else { // if points and goal difference are equal, sort alphabetically
+			return teamName.compareTo(o.teamName);
 		}
 	}
 	
