@@ -4,20 +4,25 @@ import enums.EventType;
 import leagueComponents.Player;
 
 /**
- * Represents a game event involving two players in a football game
+ * Represents a game event involving two players in a football game.
+ * 
+ * This could be a goal where the secondary player is the player who
+ * assisted in the goal, or a substitution where the secondary player
+ * is the player who is substituted off.
+ * 
  * @author Jack
  *
  */
 public class TwoPlayerGameEvent extends GameEvent {
 
 	// Attributes
-	private Player secondPlayer;
+	private Player secondPlayer; // the secondary player of the event
 	
 	/**
 	 * Allows a two player event to be created
-	 * @param player : Player involved in event, for a substitution the player substituted on, for a goal, the goal scorer
-	 * @param secondPlayer : Second player involved in event, for a substitution the player substituted off, for a goal the player who assisted
-	 * @param gameMinute : The number of minutes into the game that the substitution took place
+	 * @param player the main player involved in event (goal scorer/substituted on)
+	 * @param secondPlayer the secondary player involved in event (goal assister/substituted off)
+	 * @param gameMinute the number of minutes into the game that the event took place
 	 */
 	public TwoPlayerGameEvent(EventType type, Player player, Player secondPlayer, int gameMinute) {
 		super(type, player, gameMinute); 
@@ -27,7 +32,7 @@ public class TwoPlayerGameEvent extends GameEvent {
 	// Methods
 	// Getters
 	/**
-	 * @return The second player in the event
+	 * @return the secondary player in the event
 	 */
 	public Player getSecondPlayer() {
 		return secondPlayer;

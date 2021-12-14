@@ -2,7 +2,8 @@ package enums;
 
 /**
  * Represents different employment statuses held by a person.
- * Can either be full time or part time
+ * Can either be full time or part time.
+ * 
  * @author Jack
  *
  */
@@ -12,6 +13,9 @@ public enum EmploymentStatus {
 	PART_TIME;
 	
 	@Override
+	/**
+	 * Gives a string representation of a persons employment status
+	 */
 	public String toString() {
 		switch(this) {
 		case FULL_TIME:

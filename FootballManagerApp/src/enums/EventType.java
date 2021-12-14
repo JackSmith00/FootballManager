@@ -2,8 +2,10 @@ package enums;
 
 /**
  * Represents different types of events that occur in a football game.
+ * 
  * Currently, events include:
- * goal, card and substitution.
+ * Goal, Card and Substitution.
+ * 
  * @author Jack
  *
  */
