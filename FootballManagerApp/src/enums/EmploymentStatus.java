@@ -12,10 +12,10 @@ public enum EmploymentStatus {
 	FULL_TIME,
 	PART_TIME;
 	
-	@Override
 	/**
 	 * Gives a string representation of a persons employment status
 	 */
+	@Override
 	public String toString() {
 		switch(this) {
 		case FULL_TIME:

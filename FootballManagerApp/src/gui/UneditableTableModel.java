@@ -48,6 +48,12 @@ public class UneditableTableModel extends AbstractTableModel {
 		return data;
 	}
 	
+	@Override
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+		// TODO Auto-generated method stub
+		data[rowIndex][columnIndex] = aValue;;
+	}
+	
 	public void setData(Object[][] data) {
 		this.data = data;
 	}

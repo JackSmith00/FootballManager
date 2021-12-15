@@ -1,82 +1,51 @@
 package gui;
 
-import javax.swing.table.AbstractTableModel;
-
 import leagueComponents.Player;
 
-public class PlayerSelectTableModel extends AbstractTableModel {
+/**
+ * Model for a table that cannot be edited by the user,
+ * however they are able to toggle checkboxes to select
+ * players in the row.
+ * 
+ * @author Jack
+ *
+ */
+public class PlayerSelectTableModel extends UneditableRowObjectReturnTableModel {
 	
-	private Object[][] data;
-	private String[] columnNames;
-	private Player[] players;
-
+	/**
+	 * Constructs a PlayerSelectTableModel which is a table that
+	 * cannot be edited by the user, but they can toggle selection
+	 * boxes and retrieve players associated with the selected row
+	 * 
+	 * @param data row data for the table
+	 * @param columnNames column headings for the table
+	 * @param players players associated with each row in the table
+	 */
 	public PlayerSelectTableModel(Object[][] data, String[] columnNames, Player[] players) {
-		super();
-		this.data = data;
-		this.columnNames = columnNames;
-		this.players = players;
+		super(data, columnNames, players); // call super constructor
 	}
 	
+	/**
+	 * Will return true if the cell contains a boolean value.
+	 */
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		if(getColumnClass(columnIndex) == Boolean.class) {
+		if(getColumnClass(columnIndex) == Boolean.class) { // check if the column contains boolean values
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
+	/**
+	 * Returns the class of objects within this column.
+	 * 
+	 * Does so by finding only the class of the first
+	 * cell in this column.
+	 * 
+	 */
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		// TODO Auto-generated method stub
-		return data[0][columnIndex].getClass();
-	}
-	
-	public void setValueAt(Object aValue, int row, int column) {
-        data[row][column] = aValue;
-    }
-
-	@Override
-	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return data.length;
-	}
-
-	@Override
-	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return columnNames.length;
-	}
-
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return data[rowIndex][columnIndex];
-	}
-	
-	public Player getPlayerAt(int row) {
-		return players[row];
-	}
-	
-	@Override
-	public String getColumnName(int column) {
-		// TODO Auto-generated method stub
-		return columnNames[column];
-	}
-	
-	public Object[][] getData() {
-		return data;
-	}
-	
-	public void setData(Object[][] data) {
-		this.data = data;
-	}
-	
-	public Player[] getPlayers() {
-		return players;
-	}
-	
-	public void setPlayers(Player[] players) {
-		this.players = players;
+		return getData()[0][columnIndex].getClass();
 	}
 }

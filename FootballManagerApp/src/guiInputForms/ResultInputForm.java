@@ -295,7 +295,7 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		ArrayList<Player> outputBuilder = new ArrayList<Player>();
 		for(int i = 0; i < table.getRowCount(); i++) {
 			if((boolean) table.getValueAt(i, 1)) { // see if checkbox is ticked, meaning the player played
-				outputBuilder.add(((PlayerSelectTableModel) table.getModel()).getPlayerAt(i)); // add the player to the players who played
+				outputBuilder.add((Player) ((PlayerSelectTableModel) table.getModel()).getRowObject(i)); // add the player to the players who played
 			}
 		}
 		
