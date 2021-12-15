@@ -21,16 +21,16 @@ public class TablePaneWithTitle extends JPanel {
 	/**
 	 * Constructor for a table pane with a title
 	 * 
-	 * @param table : The table to add to the pane
-	 * @param title : The title of the table
+	 * @param table the table to add to the pane
+	 * @param title the title of the table
 	 */
 	public TablePaneWithTitle(JTable table, String title) {
-		super();
-		new BoxLayout(this, BoxLayout.Y_AXIS);
-		JLabel titleLabel = new JLabel(title);
-		add(titleLabel);
-		titleLabel.setHorizontalAlignment(JLabel.CENTER); // https://www.youtube.com/watch?v=Kmgo00avvEw&t=1698s
-		add(new JScrollPane(table));
+		super(); // creates a JPanel
+		new BoxLayout(this, BoxLayout.Y_AXIS); // gives the panel a box layout
+		JLabel titleLabel = new JLabel(title); // creates a JLabel for the title
+		add(titleLabel); // add the title to the panel
+		titleLabel.setHorizontalAlignment(JLabel.CENTER); // centre the title in the panel
+		add(new JScrollPane(table)); // add the table to the panel in a scroll pane
 		
 	}
 	
@@ -43,15 +43,10 @@ public class TablePaneWithTitle extends JPanel {
 	 * @param buttonActionListener : The action listener to be used with the button
 	 */
 	public TablePaneWithTitle(JTable table, String title, String buttonTitle, ActionListener buttonActionListener) {
-		super();
-		new BoxLayout(this, BoxLayout.Y_AXIS);
-		JLabel titleLabel = new JLabel(title);
-		add(titleLabel);
-		titleLabel.setHorizontalAlignment(JLabel.CENTER); // https://www.youtube.com/watch?v=Kmgo00avvEw&t=1698s
-		add(new JScrollPane(table));
-		JButton addButton = new JButton(buttonTitle);
-		addButton.addActionListener(buttonActionListener);
-		add(addButton);
+		this(table, title); // use existing constructor for other components
+		JButton addButton = new JButton(buttonTitle); // create a JButton for the table with the given text
+		addButton.addActionListener(buttonActionListener); // add an action listener to the button
+		add(addButton); // add the button to the panel
 		
 	}
 }

@@ -14,7 +14,9 @@ import leagueComponents.Player;
 public class PlayerSelectTable extends JTable {
 
 	/**
-	 * Allows a player selector table to be created
+	 * Creates a table that cannot be edited by user interaction,
+	 * can return players associated with each row of data, and
+	 * can make selections with checkbox columns.
 	 * 
 	 * @param data contents of the table rows
 	 * @param columnNames the headings for each column

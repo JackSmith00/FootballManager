@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import gui.FootballManagerGUI;
 import gui.LeftPaddedLabel;
 import gui.RightAlignedLabel;
+import interfaces.DialogWithButtons;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -21,18 +22,28 @@ import java.text.NumberFormat;
 import leagueComponents.Person;
 import leagueComponents.Team;
 
-public abstract class PersonOutputDialog extends JDialog implements ActionListener {
+/**
+ * Abstract dialog for displaying information
+ * on any Person.
+ * 
+ * The output appears as a JDialog.
+ * 
+ * @author Jack
+ *
+ */
+public abstract class PersonOutputDialog extends JDialog implements DialogWithButtons, ActionListener {
 	
-	protected JPanel frame, mainAttributes, secondaryAttributes;
-	private int padding = 10;
+	protected JPanel frame, mainAttributes, secondaryAttributes; // panels used to hold components
+	private int padding = 10; // base padding for labels
+	// labels for each attribute of a person,  with no text as default
 	private LeftPaddedLabel name = new LeftPaddedLabel("", padding);
 	private LeftPaddedLabel employmentStatus = new LeftPaddedLabel("", padding);
 	private LeftPaddedLabel payPerYear = new LeftPaddedLabel("", padding);
 	
-	private Person person;
-	private JFrame owner;
+	private Person person; // the person represented in the output
+	private JFrame owner; // the frame that controls the dialog
 	
-	private JPanel buttons;
+	private JPanel buttons; // holds the buttons
 
 	public PersonOutputDialog(JFrame owner, Person person, int width, int height) {
 		super(owner);
@@ -46,7 +57,8 @@ public abstract class PersonOutputDialog extends JDialog implements ActionListen
 		setResizable(false);
 	}
 	
-	protected void setUpComponents() {
+	@Override
+	public void setUpComponents() {
 		frame = new JPanel();
 		new BoxLayout(frame, BoxLayout.Y_AXIS);
 		
@@ -71,7 +83,8 @@ public abstract class PersonOutputDialog extends JDialog implements ActionListen
 		frame.add(secondaryAttributes);
 	}
 
-	private void setUpButtons() {
+	@Override
+	public void setUpButtons() {
 		buttons = new JPanel();
 		
 		JButton editButton = new JButton("Edit");
