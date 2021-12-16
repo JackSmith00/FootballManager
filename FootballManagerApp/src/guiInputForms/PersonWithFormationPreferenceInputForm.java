@@ -47,7 +47,7 @@ public abstract class PersonWithFormationPreferenceInputForm extends PersonInput
 	}
 	
 	@Override
-	public void setUpComponents() {
+	protected void setUpComponents() {
 		
 		super.setUpComponents(); // set up inherited components
 		

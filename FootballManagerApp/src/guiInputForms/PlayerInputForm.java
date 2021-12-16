@@ -99,7 +99,7 @@ public class PlayerInputForm extends PersonWithFormationPreferenceInputForm {
 	}
 	
 	@Override
-	public void setUpComponents() {
+	protected void setUpComponents() {
 		
 		super.setUpComponents(); // set up all inherited components
 		

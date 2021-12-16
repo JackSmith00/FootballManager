@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import gui.FootballManagerGUI;
 import gui.LeftPaddedLabel;
 import gui.RightAlignedLabel;
-import interfaces.DialogWithButtons;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -31,7 +30,7 @@ import leagueComponents.Team;
  * @author Jack
  *
  */
-public abstract class PersonOutputDialog extends JDialog implements DialogWithButtons, ActionListener {
+public abstract class PersonOutputDialog extends JDialog implements ActionListener {
 	
 	protected JPanel frame, mainAttributes, secondaryAttributes; // panels used to hold components
 	private int padding = 10; // base padding for labels
@@ -45,36 +44,47 @@ public abstract class PersonOutputDialog extends JDialog implements DialogWithBu
 	
 	private JPanel buttons; // holds the buttons
 
+	/**
+	 * Creates an output dialog containing information
+	 * on the given Person
+	 * 
+	 * @param owner the parent frame of the Dialog
+	 * @param person the Person whose information to display
+	 * @param width the width of the frame
+	 * @param height the height of the frame
+	 */
 	public PersonOutputDialog(JFrame owner, Person person, int width, int height) {
-		super(owner);
+		super(owner); // create a JDialog with the given owner
 		this.person = person;
 		this.owner = owner;
 		
-		setUpButtons();
-		getContentPane().add(buttons, BorderLayout.SOUTH);
-		setBounds(0, 0, width, height);
-		setLocationRelativeTo(null);
-		setResizable(false);
+		setUpButtons(); // set up the buttons
+		getContentPane().add(buttons, BorderLayout.SOUTH); // add the buttons to the bottom of the frame
+		setBounds(0, 0, width, height); // set the size of the frame
+		setLocationRelativeTo(null); // centre the frame on the screen
+		setResizable(false); // prevent the frame from being resized
 	}
 	
-	@Override
-	public void setUpComponents() {
-		frame = new JPanel();
-		new BoxLayout(frame, BoxLayout.Y_AXIS);
+	/**
+	 * Sets up all components for the output dialog
+	 */
+	protected void setUpComponents() {
+		frame = new JPanel(); // initialise
+		new BoxLayout(frame, BoxLayout.Y_AXIS); // create a box layout for the frame
 		
-		GridLayout layout = new GridLayout(0, 2);
-		layout.setVgap(5);
+		GridLayout layout = new GridLayout(0, 2); // create a GridLayout for the main/secondaryAttributes
+		layout.setVgap(5); // add vertical gap to the grid rows
 		
-		setAllLabelText(person);
+		setAllLabelText(person); // set the text for the output labels
 		
-		mainAttributes = new JPanel(layout);
-		mainAttributes.add(new RightAlignedLabel("Name:"));
-		mainAttributes.add(name);
+		mainAttributes = new JPanel(layout); // initialise with the GridLayout
+		mainAttributes.add(new RightAlignedLabel("Name:")); // add a label for the name output
+		mainAttributes.add(name); // add the name output
 		
-		frame.add(mainAttributes);
+		frame.add(mainAttributes); // add the main attributes to the frame content
 		
 
-		secondaryAttributes = new JPanel(layout);
+		secondaryAttributes = new JPanel(layout); 
 		secondaryAttributes.add(new RightAlignedLabel("Employment Status:"));
 		secondaryAttributes.add(employmentStatus);
 		secondaryAttributes.add(new RightAlignedLabel("Pay per year:"));
@@ -83,8 +93,11 @@ public abstract class PersonOutputDialog extends JDialog implements DialogWithBu
 		frame.add(secondaryAttributes);
 	}
 
-	@Override
-	public void setUpButtons() {
+	/**
+	 * Sets up the Edit, Transfer Team and Delete buttons for
+	 * the output dialog
+	 */
+	private void setUpButtons() {
 		buttons = new JPanel();
 		
 		JButton editButton = new JButton("Edit");

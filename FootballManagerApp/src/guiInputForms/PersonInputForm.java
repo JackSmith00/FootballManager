@@ -19,7 +19,6 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
 
 import enums.EmploymentStatus;
-import interfaces.DialogWithButtons;
 import leagueComponents.Person;
 
 /**
@@ -29,7 +28,7 @@ import leagueComponents.Person;
  * @author Jack
  *
  */
-public abstract class PersonInputForm extends JDialog implements DialogWithButtons, ActionListener {
+public abstract class PersonInputForm extends JDialog implements ActionListener {
 
 	/*
 	 * here, variables have been declared as protected instead of
@@ -75,8 +74,10 @@ public abstract class PersonInputForm extends JDialog implements DialogWithButto
 
 	}
 	
-	@Override
-	public void setUpComponents() {
+	/**
+	 * Sets up all components of the input dialog
+	 */
+	protected void setUpComponents() {
 		form = new JPanel(); // initialise the form JPanel
 		new BoxLayout(form, BoxLayout.Y_AXIS); // create a box layout for the form
 		mainAttributes = new JPanel(new GridBagLayout()); // initialise the mainAttributes panel with a GridBagLayout
@@ -147,8 +148,7 @@ public abstract class PersonInputForm extends JDialog implements DialogWithButto
 	/**
 	 * Sets up the Submit and Cancel buttons
 	 */
-	@Override
-	public void setUpButtons() {
+	private void setUpButtons() {
 		
 		buttons = new JPanel(); // initialise the panel to hold the buttons
 		JButton submitButton = new JButton("Submit"); // create the submit button

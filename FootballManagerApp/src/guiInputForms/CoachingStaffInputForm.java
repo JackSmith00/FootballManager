@@ -87,7 +87,7 @@ public class CoachingStaffInputForm extends PersonWithFormationPreferenceInputFo
 	}
 	
 	@Override
-	public void setUpComponents() {
+	protected void setUpComponents() {
 				
 		super.setUpComponents(); // set up all inherited components
 		

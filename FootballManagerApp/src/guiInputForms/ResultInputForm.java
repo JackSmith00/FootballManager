@@ -82,7 +82,7 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		setVisible(true);
 	}
 	
-	private void setUpComponents(League league) {
+	protected void setUpComponents(League league) {
 		GridBagLayout layout = new GridBagLayout();
 		layout.columnWidths = new int[] {300, 50, 300};
 		layout.rowWeights = new double[] {25, 25, 25, 175, 15, 15, 100, 25, 100, 25, 100};

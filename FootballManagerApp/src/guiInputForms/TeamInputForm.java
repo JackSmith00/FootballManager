@@ -10,7 +10,6 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
-import interfaces.DialogWithButtons;
 import leagueComponents.Stadium;
 import leagueComponents.Team;
 
@@ -28,7 +27,7 @@ import java.awt.event.ActionListener;
  * @author Jack
  *
  */
-public class TeamInputForm extends JDialog implements DialogWithButtons, ActionListener {
+public class TeamInputForm extends JDialog implements ActionListener {
 	
 	protected JPanel form, buttons; // holds all components and buttons in the form
 	// labels for the input fields
@@ -68,8 +67,10 @@ public class TeamInputForm extends JDialog implements DialogWithButtons, ActionL
 		setVisible(true); // make dialog visible
 	}
 	
-	@Override
-	public void setUpComponents() {
+	/**
+	 * Sets up all components for the input dialog
+	 */
+	protected void setUpComponents() {
 		form = new JPanel(new GridBagLayout()); // initialise panel with GridBagLayout
 		GridBagConstraints constraints = new GridBagConstraints(); // to position the components in the GridBagLayout
 		
@@ -128,8 +129,7 @@ public class TeamInputForm extends JDialog implements DialogWithButtons, ActionL
 	/**
 	 * Sets up the Submit and Cancel buttons
 	 */
-	@Override
-	public void setUpButtons() {
+	private void setUpButtons() {
 		buttons = new JPanel(); // initialise the panel to hold the buttons
 		JButton submitButton = new JButton("Submit"); // create the submit button
 		submitButton.addActionListener(this); // make the button be listened to by this class
