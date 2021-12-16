@@ -11,6 +11,9 @@ import events.Result;
  */
 public interface HasResults {
 	
+	/**
+	 * @return a linked list if all results stored by the object
+	 */
 	public LinkedList<Result> getResults();
 
 }
