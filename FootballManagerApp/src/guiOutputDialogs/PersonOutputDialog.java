@@ -113,22 +113,58 @@ public abstract class PersonOutputDialog extends JDialog implements ActionListen
 		buttons.add(deleteButton);
 	}
 	
+	/**
+	 * Changes the text of all output labels
+	 * to match the attributes of the given
+	 * Person
+	 * 
+	 * @param person the person whose attributes to display
+	 */
 	public void setAllLabelText(Person person) {
 		setTitle(person.getName());
 		name.setText(person.getName());
 		employmentStatus.setText(person.getEmploymentStatus().toString());
 		
-		NumberFormat moneyFormatter = NumberFormat.getCurrencyInstance(); // https://stackoverflow.com/questions/2379221/java-currency-number-format
+		/*
+		 * The code below was researched at the following resource:
+		 * 
+		 * daiscog, 2015. Java Currency Number format. [Online] 
+		 * Available at: https://stackoverflow.com/questions/2379221/java-currency-number-format
+		 * [Accessed 7 December 2021].
+		 * 
+		 * The resource was used to find how to format an int into a currency
+		 * format. The code has been adapted to suit this specific application
+		 * and is not a direct copy
+		 */
+		NumberFormat moneyFormatter = NumberFormat.getCurrencyInstance();
 		moneyFormatter.setMaximumFractionDigits(0);
 		
 		payPerYear.setText(moneyFormatter.format(person.getPayPerYear()));
 	}
 	
+	/**
+	 * Sets up a JOption pane to get input
+	 * from the user as to which team to
+	 * transfer this Person to
+	 * 
+	 * @param personType the specific type of the Person to display in the output question
+	 * @return the team the Person should be moved to
+	 */
 	public Team teamToTransferTo(String personType) {
 		FootballManagerGUI appGui = (FootballManagerGUI) getOwner();
 		Team [] teams = new Team[appGui.getCurrentLeague().getTeams().size()];
 		appGui.getCurrentLeague().getTeams().toArray(teams);
-		JComboBox<Team> teamSelector = new JComboBox<Team>(teams); // https://www.youtube.com/watch?v=iXFplYFuqFE
+		/*
+		 * The code below is influenced by the following:
+		 * 
+		 * Knowledge to Share, 2019. How to add Jcombobox in JOptionPane Confirm Dialog Box java swing. [Online] 
+		 * Available at: https://www.youtube.com/watch?v=iXFplYFuqFE
+		 * [Accessed 7 December 2021].
+		 * 
+		 * The code was not copied verbatim, it was used to find out how a JComboBox can
+		 * be displayed in a JOptionPane, saving time creating a custom JDialog for this
+		 */
+		JComboBox<Team> teamSelector = new JComboBox<Team>(teams);
 		
 		JPanel messagePanel = new JPanel();
 		messagePanel.add(new JLabel("Which team should the referee be moved to?"));
@@ -142,6 +178,12 @@ public abstract class PersonOutputDialog extends JDialog implements ActionListen
 		}
 	}
 	
+	/**
+	 * Creates a confirmation option pane to give the
+	 * user a chance to cancel the deletion of the Person
+	 * @param personType the type of Person to be deleted which will be displayed in the output question 
+	 * @return a boolean value of whether the Person should be deleted or not
+	 */
 	public boolean shouldDeleteThisPerson(String personType) {
 		int input = JOptionPane.showConfirmDialog(getOwner(), "Are you sure you want to delete this " + personType + "?\nThis cannot be undone.", "Delete " + personType, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 		if(input == JOptionPane.YES_OPTION) {
@@ -151,18 +193,32 @@ public abstract class PersonOutputDialog extends JDialog implements ActionListen
 		}
 	}
 	
+	/**
+	 * @return the person represented by the output dialog
+	 */
 	public Person getPerson() {
 		return person;
 	}
 	
+	/**
+	 * @return the frame that owns this dialog
+	 */
 	public JFrame getOwner() {
 		return owner;
 	}
 	
+	/**
+	 * @return the padding on the LeftPaddedLabels in this dialog
+	 */
 	public int getPadding() {
 		return padding;
 	}
 	
+	/**
+	 * Allows the padding of the LeftPaddedLabels to be altered
+	 * 
+	 * @param padding the new value of the padding for the LeftPaddedLabels
+	 */
 	public void setPadding(int padding) {
 		this.padding = padding;
 	}

@@ -72,14 +72,26 @@ public abstract class Person implements Serializable {
 		this.team = team;
 	}
 	
+	/**
+	 * Allows the Persons name to be changed
+	 * @param name the new name of the Person
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Allows the Persons employment status to be changed
+	 * @param employmentStatus the new employment status of the Person
+	 */
 	public void setEmploymentStatus(EmploymentStatus employmentStatus) {
 		this.employmentStatus = employmentStatus;
 	}
 
+	/**
+	 * Allows the Persons pay per year to be changed
+	 * @param payPerYear the new pay per year of the Person
+	 */
 	public void setPayPerYear(int payPerYear) {
 		this.payPerYear = payPerYear;
 	}

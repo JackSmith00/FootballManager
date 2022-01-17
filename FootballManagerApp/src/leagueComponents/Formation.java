@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * A class to represent a football formation, with given number of defenders,
  * midfielders and strikers
+ * 
  * @author Jack
  *
  */

@@ -48,19 +48,23 @@ public class League implements Serializable, Saveable, Reader, StatisticsCalcula
 	
 	// Methods
 	/**
-	 * Adds a team to the ArrayList of teams in the league
+	 * Adds a team to the TreeSet of teams in the league
 	 * @param team : The team to be added to the league
 	 */
 	public void addTeam(Team team) {
 		teams.add(team);
 	}
 	
+	/**
+	 * Removes a team from the TreeSet of teams in the league
+	 * @param team : The team to be added to the league
+	 */
 	public void removeTeam(Team team) {
 		teams.remove(team);
 	}
 	
 	/**
-	 * Adds a result to the ArrayList of results in the league
+	 * Adds a result to the LinkedList of results in the league
 	 * @param team : The result to be added to the league
 	 */
 	public void addResult(Result result) {

@@ -33,7 +33,6 @@ public class Player extends PersonWithFormationPreference {
 	/**
 	 * When a player scores a goal, increase their goalsScored value by 1
 	 */
-	
 	public void addGoal() {
 		goalsScored += 1;
 	}

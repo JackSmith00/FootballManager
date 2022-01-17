@@ -11,11 +11,27 @@ import guiInputForms.PlayerInputForm;
 import leagueComponents.Player;
 import leagueComponents.Team;
 
+/**
+ * Dialog for displaying information
+ * on a Player.
+ * 
+ * The output appears as a JDialog.
+ * 
+ * @author Jack
+ *
+ */
 public class PlayerOutputDialog extends PersonWithFormationPreferenceOutputDialog {
 	
-	private LeftPaddedLabel position = new LeftPaddedLabel("", getPadding());
-	private LeftPaddedLabel goalsScored, assistsMade, cardsGiven;
+	private LeftPaddedLabel position = new LeftPaddedLabel("", getPadding()); // label to display the Player's position
+	private LeftPaddedLabel goalsScored, assistsMade, cardsGiven; // labels to display the Players goals, assists and cards
 
+	/**
+	 * Creates an output dialog containing information
+	 * on the given Player
+	 * 
+	 * @param owner the parent frame of the Dialog
+	 * @param person the Player whose information to display
+	 */
 	public PlayerOutputDialog(JFrame owner, Player person) {
 		super(owner, person, 310, 240);
 		setUpComponents();
@@ -94,8 +110,15 @@ public class PlayerOutputDialog extends PersonWithFormationPreferenceOutputDialo
 		}
 	}
 	
+	/**
+	 * Sets text of all outputs related to a Player.
+	 * 
+	 * The statistic labels are not altered by this method
+	 * as these should not be set manually.
+	 * 
+	 * @param person the Player to show the attributes of
+	 */
 	public void setAllLabelText(Player person) {
-		// TODO Auto-generated method stub
 		super.setAllLabelText(person);
 		position.setText(person.getPosition().getPositionTitle());
 		

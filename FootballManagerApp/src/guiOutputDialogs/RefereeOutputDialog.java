@@ -7,8 +7,24 @@ import guiInputForms.RefereeInputForm;
 import leagueComponents.Referee;
 import leagueComponents.Team;
 
+/**
+ * Dialog for displaying information
+ * on a Referee.
+ * 
+ * The output appears as a JDialog.
+ * 
+ * @author Jack
+ *
+ */
 public class RefereeOutputDialog extends PersonOutputDialog {
 
+	/**
+	 * Creates an output dialog containing information
+	 * on the given Referee
+	 * 
+	 * @param owner the parent frame of the Dialog
+	 * @param person the Referee whose information to display
+	 */
 	public RefereeOutputDialog(FootballManagerGUI owner, Referee person) {
 		super(owner, person, 310, 140);
 		setUpComponents();

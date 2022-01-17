@@ -36,6 +36,9 @@ public class CoachingStaffMember extends PersonWithFormationPreference {
 		return role;
 	}
 	
+	/**
+	 * @param role the new role value for the CoachingStaffMember
+	 */
 	public void setRole(String role) {
 		this.role = role;
 	}

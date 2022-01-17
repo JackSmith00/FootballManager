@@ -2,7 +2,6 @@ package testing;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Date;
 
 import enums.EmploymentStatus;
@@ -12,12 +11,32 @@ import events.Result;
 import events.TwoPlayerGameEvent;
 import leagueComponents.*;
 
+/**
+ * A class used to provide a demo league for testing purposes,
+ * making sure that all components save correctly and saving newly
+ * implemented attributes for classes that have been altered
+ * 
+ * @author Jack
+ *
+ */
 public class saveTester {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		Formation form1 = new Formation(4, 4, 2); // https://www.myactivesg.com/sports/football/training-methods/tactics/understanding-football-formations
+	/**
+	 * Main entry point for execution
+	 * @param args any arguments passed in before executing the application
+	 */
+	public static void main(String[] args) {		
+		/*
+		 * The following formations where researched using the following resource:
+		 * 
+		 * Weiyang, L., n.d. Understanding football formations. [Online] 
+		 * Available at: https://www.myactivesg.com/sports/football/training-methods/tactics/understanding-football-formations
+		 * [Accessed 28 November 2021].
+		 * 
+		 * This was used to find existing formations in football to populate the
+		 * FormationManager of the application, no code was taken from the resource
+		 */
+		Formation form1 = new Formation(4, 4, 2);
 		Formation form2 = new Formation(4, 3, 3);
 		Formation form3 = new Formation(4, 5, 1);
 		
@@ -26,7 +45,17 @@ public class saveTester {
 		FormationManager.add(form2);
 		FormationManager.add(form3);
 		
-		Position position1 = new Position("Goalkeeper", "GK"); // https://sambasoccerschools.com/football-positions-uk-guide/
+		/*
+		 * The following positions where researched using the following resource:
+		 * 
+		 * Samba Soccer Schools, 2021. Football Positions UK Guide 2021. [Online] 
+		 * Available at: https://sambasoccerschools.com/football-positions-uk-guide/
+		 * [Accessed 28 November 2021].
+		 * 
+		 * This was used to find existing positions in football to populate the
+		 * PositionManager of the application, no code was taken from the resource
+		 */
+		Position position1 = new Position("Goalkeeper", "GK");
 		Position position2 = new Position("Central Midielder", "CM");
 		Position position3 = new Position("Striker", "ST");
 		

@@ -50,41 +50,46 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 		p.setTeam(this); // set players team to this team
 	}
 	
+	/**
+	 * Allows a player to be removed from the team
+	 * @param p : The player to remove from the team
+	 */
 	public void removePlayer(Player p) {
 		players.remove(p);
 	}
 	
 	/**
 	 * Allows a member of coaching staff to be added to the team
-	 * @param p : The coaching staff member to add to the team
+	 * @param cs : The coaching staff member to add to the team
 	 */
 	public void addCoachingStaffMember(CoachingStaffMember cs) {
 		coachingStaff.add(cs); // add player to the team players list
 		cs.setTeam(this); // set players team to this team
 	}
 	
+	/**
+	 * Allows a member of coaching staff to be removed from the team
+	 * @param cs : The coaching staff member to removed from the team
+	 */
 	public void removeCoachingStaffMember(CoachingStaffMember cs) {
 		coachingStaff.remove(cs);
 	}
 	
 	/**
 	 * Allows a referee to be added to the team
-	 * @param p : The referee to add to the team
+	 * @param r : The referee to add to the team
 	 */
 	public void addReferee(Referee r) {
 		referees.add(r); // add player to the team players list
 		r.setTeam(this); // set players team to this team
 	}
 	
+	/**
+	 * Allows a referee to be removed from the team
+	 * @param r : The referee to removed from the team
+	 */
 	public void removeReferee(Referee r) {
 		referees.remove(r);
-	}
-	
-	/**
-	 * Updates the league position value of the team
-	 */
-	public void updateLeaguePosition() {
-		// unimplemented
 	}
 	
 	/**
@@ -108,20 +113,41 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 		}
 	}
 	
+	/**
+	 * Called when a game is won to increase the number
+	 * of games won by 1 and to add 3 points to the team
+	 */
 	private void addWin() {
 		gamesWon++;
 		points += 3;
 	}
 	
+	/**
+	 * Called when a game is drew to increase the number
+	 * of games drew by 1 and to add 1 point to the team
+	 */
 	private void addDraw() {
 		gamesDrew++;
 		points += 1;
 	}
 	
+	/**
+	 * Called when a game is lost to increase the number
+	 * of games lost by 1
+	 */
 	private void addLoss() {
 		gamesLost++;
 	}
 	
+	/**
+	 * Used to add any goals scored by the opposing team
+	 * to this teams conceded record.
+	 * 
+	 * Also will increase the number of clean sheets if
+	 * no goals are conceded.
+	 * 
+	 * @param numberConceded the number of goals scored by the opposing team
+	 */
 	private void addGoalsConceded(int numberConceded) {
 		if(numberConceded > 0) {
 			goalsConceded += numberConceded;
@@ -133,55 +159,64 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 	// Getters
 	
 	/**
-	 * @return The team name
+	 * @return the team name
 	 */
 	public String getTeamName() {
 		return teamName;
 	}
 
 	/**
-	 * @return The home stadium of the team
+	 * @return the home stadium of the team
 	 */
 	public Stadium getHomeGround() {
 		return homeGround;
 	}
 
 	/**
-	 * @return All results associated with this team
+	 * @return all results associated with this team
 	 */
 	public LinkedList<Result> getResults() {
 		return results;
 	}
 
 	/**
-	 * @return Number of games won by the team
+	 * @return the number of games won by the team
 	 */
 	public int getGamesWon() {
 		return gamesWon;
 	}
 
 	/**
-	 * @return Number of games lost by the team
+	 * @return the number of games lost by the team
 	 */
 	public int getGamesLost() {
 		return gamesLost;
 	}
 
 	/**
-	 * @return Number of games drew by the team
+	 * @return the number of games drew by the team
 	 */
 	public int getGamesDrew() {
 		return gamesDrew;
 	}
 	
+	/**
+	 * @return the number of points earned by the team
+	 */
 	public int getPoints() {
 		return points;
 	}
 	
+	/**
+	 * @return the number of goals conceded by the team
+	 */
 	public int getGoalsConceded() {
 		return goalsConceded;
 	}
 	
+	/**
+	 * @return the number of games where the team did not concede any goals
+	 */
 	public int getCleanSheets() {
 		return cleanSheets;
 	}
@@ -226,6 +261,10 @@ public class Team implements Serializable, StatisticsCalculator, HasResults, Com
 	
 	// Setters
 	
+	/**
+	 * Allows the league position of the team to be updated
+	 * @param leaguePosition the new position of the team in the league
+	 */
 	public void setLeaguePosition(int leaguePosition) {
 		this.leaguePosition = leaguePosition;
 	}

@@ -9,11 +9,26 @@ import guiInputForms.CoachingStaffInputForm;
 import leagueComponents.CoachingStaffMember;
 import leagueComponents.Team;
 
-
+/**
+ * Dialog for displaying information
+ * on a CoachingStaffMember.
+ * 
+ * The output appears as a JDialog.
+ * 
+ * @author Jack
+ *
+ */
 public class CoachingStaffMemberOutputDialog extends PersonWithFormationPreferenceOutputDialog {
 	
-	private LeftPaddedLabel role = new LeftPaddedLabel("", getPadding());
+	private LeftPaddedLabel role = new LeftPaddedLabel("", getPadding()); // label to display the coach's role
 
+	/**
+	 * Creates an output dialog containing information
+	 * on the given CoachingStaffMember
+	 * 
+	 * @param owner the parent frame of the Dialog
+	 * @param person the CoachingStaffMember whose information to display
+	 */
 	public CoachingStaffMemberOutputDialog(FootballManagerGUI owner, CoachingStaffMember person) {
 		super(owner, person, 310, 190);
 		setUpComponents();
@@ -79,8 +94,12 @@ public class CoachingStaffMemberOutputDialog extends PersonWithFormationPreferen
 		}
 	}
 	
+	/**
+	 * Sets text of all outputs related to a CoachingStaffMember
+	 * 
+	 * @param person the CoachingStaffMember to show the attributes of
+	 */
 	public void setAllLabelText(CoachingStaffMember person) {
-		// TODO Auto-generated method stub
 		super.setAllLabelText(person);
 		role.setText(person.getRole());
 	}

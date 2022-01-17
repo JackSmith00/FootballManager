@@ -32,8 +32,17 @@ import leagueComponents.League;
 import leagueComponents.Player;
 import leagueComponents.Team;
 
+/**
+ * An input form for creating a new Result.
+ * The input form appears as a JDialog.
+ * 
+ * @author Jack
+ *
+ */
 public class ResultInputForm extends JDialog implements ActionListener {
 
+	// Attributes
+	
 	protected JPanel form;
 	protected JPanel buttons;
 
@@ -67,28 +76,39 @@ public class ResultInputForm extends JDialog implements ActionListener {
 	
 	private Result newResult;
 	
+	/**
+	 * Creates an input form to create a new
+	 * Result, that is linked to the given frame.
+	 * 
+	 * @param owner the parent frame of the Dialog
+	 * @param league the league to create the result for
+	 */
 	public ResultInputForm(JFrame owner, League league) {
 		super(owner, "Add Result", true);
 		
-		setUpComponents(league);
-		setUpButtons();
+		setUpComponents(league); // set up components for dialog
+		setUpButtons(); // set up submit and cancel buttons
 		
-		getContentPane().add(form);
-		getContentPane().add(buttons, BorderLayout.SOUTH);
+		getContentPane().add(form); // add components to content pane
+		getContentPane().add(buttons, BorderLayout.SOUTH); // add buttons to content pane
 	
-		setBounds(0, 0, 750, 780);
-		//setResizable(false);
-		setLocationRelativeTo(null);
-		setVisible(true);
+		setBounds(0, 0, 750, 780); // set size
+		setLocationRelativeTo(null); // centre in the screen
+		setVisible(true); // make visible
 	}
 	
+	/**
+	 * Sets up all components for the input dialog
+	 */
 	protected void setUpComponents(League league) {
+		// initialise the layout to use for input components
 		GridBagLayout layout = new GridBagLayout();
 		layout.columnWidths = new int[] {300, 50, 300};
 		layout.rowWeights = new double[] {25, 25, 25, 175, 15, 15, 100, 25, 100, 25, 100};
-		form = new JPanel(layout);
+		form = new JPanel(layout); // assign layout to form
 		GridBagConstraints constraints = new GridBagConstraints();
 		
+		// create labels for each input field
 		JLabel homeTeamLabel = new JLabel("Home Team");
 		JLabel scoreLabel = new JLabel("Score");
 		JLabel scoreDash = new JLabel("-");
@@ -100,6 +120,8 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		JLabel goalsLabel = new JLabel("Goals");
 		JLabel substitutionsLabel = new JLabel("Substitutions");
 		JLabel cardsLabel = new JLabel("Cards");
+		
+		// initialize input fields
 		
 		Team[] teamsInLeague = new Team[league.getTeams().size()];
 		league.getTeams().toArray(teamsInLeague);
@@ -125,7 +147,7 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		JScrollPane awayPlayerScrollPane = new JScrollPane(awayPlayersInput);
 		
 		datePlayedInput = new JSpinner(new SpinnerDateModel());
-		datePlayedInput.setEditor(new JSpinner.DateEditor(datePlayedInput, "dd/MM/yy")); // https://docs.oracle.com/javase/tutorial/uiswing/components/spinner.html
+		datePlayedInput.setEditor(new JSpinner.DateEditor(datePlayedInput, "dd/MM/yy"));
 		
 		goalsTable = new UneditableTableWithRowObjectReturn(null, new String[] {"Scored by", "Assisted by", "Game Minute"}, null);
 		updateEventTable(goalsTable);
@@ -141,6 +163,8 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		updateEventTable(cardsTable);
 		setUpCardInput();
 		JScrollPane cardScrollPane = new JScrollPane(cardsTable);
+		
+		// add set up components and their labels to the input form
 		
 		form.add(homeTeamLabel, constraints);
 		
@@ -224,8 +248,13 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		form.add(cardScrollPane, constraints);
 	}
 	
+	/**
+	 * Sets up the Submit and Cancel buttons
+	 */
 	private void setUpButtons() {
-		buttons = new JPanel();
+		buttons = new JPanel(); // create a panel to hold the buttons
+		
+		// initialise buttons
 		
 		submitButton = new JButton("Submit");
 		submitButton.addActionListener(this);
@@ -233,32 +262,49 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(this);
 		
+		// add buttons to the button pane
+		
 		buttons.add(submitButton);
 		buttons.add(cancelButton);
 		
 	}
 	
+	/**
+	 * Updates the players shown in the player table when the
+	 * selected team chenges
+	 * @param teamSelector the JComboBox for either the home or away team relevant to this player table
+	 */
 	private void updatePlayerTable(JComboBox<Team> teamSelector) {
+		// create variables to hold table data
 		Team selectedTeam = (Team) teamSelector.getSelectedItem();
 		Player[] allTeamPlayers = new Player[selectedTeam.getPlayers().size()];
 		selectedTeam.getPlayers().toArray(allTeamPlayers);
 		Object[][] data = new Object[allTeamPlayers.length][2];
+		// loop through each player 
 		for(int i = 0; i < allTeamPlayers.length; i++) {
+			// add player name and play status to table data
 			data[i][0] = allTeamPlayers[i].getName();
 			data[i][1] = true;
 		}
-		if(teamSelector == homeTeamInput) {
+		if(teamSelector == homeTeamInput) { // for the home team
 			homePlayersInput.setData(data, allTeamPlayers);
-		} else {
+		} else { // for the away team
 			awayPlayersInput.setData(data, allTeamPlayers);
 		}
 	}
 	
+	/**
+	 * Updates the events shown in the event table as
+	 * events are added, updated or deleted
+	 * @param table the event table to update the display for
+	 */
 	private void updateEventTable(UneditableTableWithRowObjectReturn table) {
+		// create variables to hold table data
 		ArrayList associatedArray;
 		short columns;
+		// set amount of columns and associated table depending on the given table
 		if(table.equals(goalsTable)) {
-			columns = 3;
+			columns = 3; 
 			associatedArray = goals;
 		} else if(table == substitutionsTable) {
 			columns = 3;
@@ -291,6 +337,13 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		table.revalidate();
 	}
 
+	/**
+	 * Finds all players from a given team that
+	 * played during the match
+	 * 
+	 * @param table the table containing player participation in the game
+	 * @return an array of all Players who were present for the specified team
+	 */
 	public Player[] playersWhoPlayedFor(PlayerSelectTable table) {
 		ArrayList<Player> outputBuilder = new ArrayList<Player>();
 		for(int i = 0; i < table.getRowCount(); i++) {
@@ -305,6 +358,12 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		return output;
 	}
 	
+	/**
+	 * Finds all players from both teams that
+	 * took part in the match
+	 * 
+	 * @return an array of all Players who appeared in the game
+	 */
 	private Player[] getAllPlayers() {
 		Player[] homePlayers = playersWhoPlayedFor(homePlayersInput);
 		Player[] awayPlayers = playersWhoPlayedFor(awayPlayersInput);
@@ -321,6 +380,10 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		return allPlayers;
 	}
 	
+	/**
+	 * Updates which players can be selected for goal scoring
+	 * based on which teams are involved and which players were present
+	 */
 	private void updateGoalScorerInput() {
 		Player[] allPlayers = getAllPlayers();
 		if(goalScorerInput == null) {			
@@ -336,6 +399,11 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		updateGoalAssisterInput();
 	}
 	
+	/**
+	 * Updates which players can be selected for goal scoring
+	 * based on which players were present and which team
+	 * the goal scorer plays for
+	 */
 	private void updateGoalAssisterInput() {
 		Team homeTeam = (Team) homeTeamInput.getSelectedItem();
 		Team goalScorerTeam = ((Player) goalScorerInput.getSelectedItem()).getTeam();
@@ -360,6 +428,10 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Adds a goal event to the event table for goals
+	 * @param goal the goal event to add to the goal table
+	 */
 	private void addGoal(TwoPlayerGameEvent goal) {
 		goals.add(goal);
 		/*
@@ -373,6 +445,10 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		Collections.sort(goals); // https://howtodoinjava.com/java/sort/collections-sort/
 	}
 
+	/**
+	 * Deletes a goal event from the event table for goals
+	 * @param goal the goal event to delete from the goal table
+	 */
 	private void deleteGoal(TwoPlayerGameEvent goal) {
 		goals.remove(goal);
 		if(goal.getPlayer().getTeam() == homeTeamInput.getSelectedItem()) { // if goal was scored by home team player
@@ -382,6 +458,12 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Changes one goal event for another
+	 * 
+	 * @param oldGoalData the current goal event
+	 * @param newGoalData the new goal event to replace the old one
+	 */
 	private void updateGoal(TwoPlayerGameEvent oldGoalData, TwoPlayerGameEvent newGoalData) {
 		int index = goals.indexOf(oldGoalData);
 		goals.remove(index);
@@ -400,6 +482,10 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		Collections.sort(goals);
 	}
 	
+	/**
+	 * Updates which players can be selected for substitutions
+	 * based on which teams are involved and which players were present
+	 */
 	private void updateSubbedOnInput() {
 		Player[] allPlayers = getAllPlayers();
 		if(subbedOnInput == null) {
@@ -415,6 +501,11 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		updateSubbedOffInput();
 	}
 	
+	/**
+	 * Updates which players can be selected for substitutions
+	 * based on which players were present and which team
+	 * the subbed on player plays for
+	 */
 	private void updateSubbedOffInput() {
 		Team homeTeam = (Team) homeTeamInput.getSelectedItem();
 		Team subbedOnTeam = ((Player) subbedOnInput.getSelectedItem()).getTeam();
@@ -439,22 +530,40 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		}
 	}
 
+	/**
+	 * Adds a substitution event to the event table for substitutions
+	 * @param substitution the substitution event to add to the substitution table
+	 */
 	private void addSubstitution(TwoPlayerGameEvent substitution) {
 		substitutions.add(substitution);
 		Collections.sort(substitutions);
 	}
 
+	/**
+	 * Deletes a substitution event from the event table for substitutions
+	 * @param substitution the substitution event to delete from the substitution table
+	 */
 	private void deleteSubstitution(TwoPlayerGameEvent substitution) {
 		substitutions.remove(substitution);
 	}
 
+	/**
+	 * Changes one substitution event for another
+	 * 
+	 * @param oldSubstitutionData the current substitution event
+	 * @param newSubstitutionData the new substitution event to replace the old one
+	 */
 	private void updateSubstitution(TwoPlayerGameEvent oldSubstitutionData, TwoPlayerGameEvent newSubstitutionData) {
 		int index = substitutions.indexOf(oldSubstitutionData);
 		substitutions.remove(index);
 		substitutions.add(index, newSubstitutionData);
 		Collections.sort(substitutions);
 	}
-		
+	
+	/**
+	 * Updates which players can be selected for cards
+	 * based on which teams are involved and which players were present
+	 */
 	private void updatePlayerCardedInput() {
 		Player[] allPlayers = getAllPlayers();
 		if(playerCardedInput == null) {
@@ -467,17 +576,29 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Adds a card event to the event table for cards
+	 * @param card the card event to add to the card table
+	 */
 	private void addCard(GameEvent card) {
 		cards.add(card);
 		Collections.sort(cards);
 	}
 
-	
+	/**
+	 * Deletes a card event from the event table for cards
+	 * @param card the card event to delete from the card table
+	 */
 	private void deleteCard(GameEvent card) {
 		cards.remove(card);
 	}
 	
-	
+	/**
+	 * Changes one card event for another
+	 * 
+	 * @param oldCardData the current card event
+	 * @param newCardData the new card event to replace the old one
+	 */
 	private void updateCard(GameEvent oldCardData, GameEvent newCardData) {
 		int index = cards.indexOf(oldCardData);
 		cards.remove(index);
@@ -485,6 +606,9 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		Collections.sort(cards);
 	}
 
+	/**
+	 * Sets up input components to create, delete and modify a goal event
+	 */
 	private void setUpGoalInput() {
 		goalInput = new JPanel(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -531,6 +655,9 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		goalInput.add(goalTime, constraints);
 	}
 	
+	/**
+	 * Sets up input components to create, delete and modify a substitution event
+	 */
 	private void setUpSubstitutionInput() {
 		substitutionInput = new JPanel(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -577,6 +704,9 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		substitutionInput.add(substitutionTime, constraints);
 	}
 	
+	/**
+	 * Sets up input components to create, delete and modify a card event
+	 */
 	private void setUpCardInput() {
 		cardInput = new JPanel(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -616,10 +746,18 @@ public class ResultInputForm extends JDialog implements ActionListener {
 		cardInput.add(cardTime, constraints);
 	}
 	
+	/**
+	 * @return the new Result created by the input form
+	 */
 	public Result getNewResult() {
 		return newResult;
 	}
 	
+	/**
+	 * Exports all events from the input form into one array, rather than
+	 * having to export different types of events separately
+	 * @return an array containing all events that took place in the game
+	 */
 	private GameEvent[] packedEvents() {
 		ArrayList<GameEvent> outputBuilder = new ArrayList<GameEvent>(goals.size() + substitutions.size() + cards.size());
 		outputBuilder.addAll(goals);

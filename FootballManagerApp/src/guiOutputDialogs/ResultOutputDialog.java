@@ -11,8 +11,6 @@ import enums.EventType;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.awt.GridBagConstraints;
 
 import events.GameEvent;
@@ -21,12 +19,28 @@ import events.TwoPlayerGameEvent;
 import gui.UneditableTableWithRowObjectReturn;
 import leagueComponents.Player;
 
+/**
+ * Dialog for displaying information
+ * on a game Result.
+ * 
+ * The output appears as a JDialog.
+ * 
+ * @author Jack
+ *
+ */
 public class ResultOutputDialog extends JDialog {
 	
 	protected JPanel frame;
 	
 	private Result result;
 	
+	/**
+	 * Creates an output dialog containing information
+	 * on the given Result
+	 * 
+	 * @param owner the parent frame of the Dialog
+	 * @param result the Result to display information on
+	 */
 	public ResultOutputDialog(JFrame owner, Result result) {
 		super(owner, result.getHomeTeam().getTeamName() + " v " + result.getAwayTeam().getTeamName());
 		this.result = result;
@@ -39,6 +53,9 @@ public class ResultOutputDialog extends JDialog {
 		setVisible(true);
 	}
 	
+	/**
+	 * Sets up all components for the output dialog
+	 */
 	protected void setUpComponents() {
 		frame = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
@@ -126,6 +143,12 @@ public class ResultOutputDialog extends JDialog {
 		frame.add(eventsTableScrollPane, constraints);
 	}
 	
+	/**
+	 * Extracts the relevant data from the players to
+	 * be displayed in the player table
+	 * @param players the players whose information will be displayed
+	 * @return the data for the table to display
+	 */
 	private Object[][] generatePlayerTableContents(Player[] players) {
 		Object[][] data = new Object[players.length][2];
 		for(int i = 0; i < players.length; i++) {
@@ -135,6 +158,12 @@ public class ResultOutputDialog extends JDialog {
 		return data;
 	}
 	
+	/**
+	 * Extracts the relevant data from the events to
+	 * be displayed in the events table
+	 * @param events the events whose information will be displayed
+	 * @return the data for the table to display
+	 */
 	private Object[][] generateEventsTableContents(GameEvent[] events){
 		Object[][] data = new Object[events.length][3];
 		for(int i = 0; i < events.length; i++) {
